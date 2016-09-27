@@ -1,12 +1,12 @@
 
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
-	
+
 	// Establish bidirectional references between scene and graph
 	this.scene = scene;
 	scene.graph=this;
-		
-	// File reading 
+
+	// File reading
 	this.reader = new CGFXMLreader();
 
 	/*
@@ -14,28 +14,28 @@ function MySceneGraph(filename, scene) {
 	 * After the file is read, the reader calls onXMLReady on this object.
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
-	 
-	this.reader.open('scenes/'+filename, this);  
+
+	this.reader.open('scenes/'+filename, this);
 }
 
 /*
  * Callback to be executed after successful reading
  */
-MySceneGraph.prototype.onXMLReady=function() 
+MySceneGraph.prototype.onXMLReady=function()
 {
 	console.log("XML Loading finished.");
 	var rootElement = this.reader.xmlDoc.documentElement;
-	
+
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseGlobalsExample(rootElement);
+	var error = this.parserIllumination(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);
 		return;
-	}	
+	}
 
 	this.loadedOk=true;
-	
+
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
 	this.scene.onGraphLoaded();
 };
@@ -46,7 +46,7 @@ MySceneGraph.prototype.onXMLReady=function()
  * Example of method that parses elements of one block and stores information in a specific data structure
  */
 MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
-	
+
 	var elems =  rootElement.getElementsByTagName('globals');
 	if (elems == null) {
 		return "globals element is missing.";
@@ -70,7 +70,7 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 	if (tempList == null  || tempList.length==0) {
 		return "list element is missing.";
 	}
-	
+
 	this.list=[];
 	// iterate over every element
 	var nnodes=tempList[0].children.length;
@@ -84,14 +84,66 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 	};
 
 };
-	
+
+MySceneGraph.prototype.parserPrimitives= function(rootElement) {
+		var primitives = rootElement.getElementsByTagName('primitives');
+
+		if (primitives == null || primitives.length == 0) {
+			return "primitives are missing";
+		}
+
+		var nnodes = var primitives[0].childen.length;
+		if(nnodes <= 0)
+		{
+			return "wrong number of basic objects";
+		}
+		
+
+
+
+
+  /** TODO */
+};
+
+MySceneGraph.prototype.parserIllumination = function(rootElement){
+	var ilumi = rootElement.getElementsByTagName('illumination');
+
+
+	if(ilumi == null || ilumi.length ==0){
+		return "'illumination' is missing";
+	}
+
+	var doublesided = ilumi[0].getAttribute("doublesided");
+	var local  = ilumi[0].getAttribute("local");
+// TODO o que fazer ao doublesided e local ???
+
+	var nnodes=ilumi[0].children.length;
+
+ if(nnodes != 2 ) {
+		 return "'illumination' wrong number of children ";
+	 }
+
+
+for(var i = 0; i < nnodes; i ++)
+{
+  var child = ilumi[0].children[i];
+	if(child.nodeName === "ambient"){
+	this.scene.setAmbient(child.getAttribute("r"),child.getAttribute("g"),child.getAttribute("b"),child.getAttribute("a"));
+	// TODO FALTA TESTAR ISTO PRECISO Objectos
+	}
+	else if(child.nodeName === "background"){
+	this.background = child.getAttribute("r") + child.getAttribute("g") + child.getAttribute("b") + child.getAttribute("a");
+	}
+}
+
+
+};
+
 /*
  * Callback to be executed on any read error
  */
- 
+
 MySceneGraph.prototype.onXMLError=function (message) {
-	console.error("XML Loading Error: "+message);	
+	console.error("XML Loading Error: "+message);
 	this.loadedOk=false;
 };
-
-
