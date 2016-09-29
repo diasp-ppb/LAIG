@@ -6,6 +6,11 @@
               <to x="0.5" y="0.8" z="1" />
           </perspective>
 
+          <perspective id="dois" near="0.5" far="1.0" angle="22.2">
+              <from x="0.4" y="0.7" z="0.9" />
+              <to x="0.5" y="0.8" z="1" />
+          </perspective>
+
   </views>
 
 

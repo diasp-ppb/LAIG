@@ -17,8 +17,8 @@ function MySceneGraph(filename, scene) {
     this.reader.open('scenes/' + filename, this);
 
     /* Stored scene perpectives*/
-    this.perspectives = new Array();
-    this.defaultPerspective; // TODO
+    this.perspectives = [];
+
 }
 
 /*
@@ -30,7 +30,7 @@ MySceneGraph.prototype.onXMLReady = function() {
 
     // Here should go the calls for different functions to parse the various blocks
     var error = this.parserIllumination(rootElement);
-		error = this.parserViews(rootElement); //TODO
+    error = this.parserViews(rootElement); //TODO
     if (error != null) {
         this.onXMLError(error);
         return;
@@ -118,45 +118,34 @@ MySceneGraph.prototype.parserViews = function(rootElement) {
     for (var i = 0; i < nnodes; i++) {
         var child = views[0].children[i];
         if (child.nodeName === "perspective") {
-            var perspective = { } ;
+            var perspective = {
+                id: child.getAttribute("id"),
+                near: child.getAttribute("near"),
+                far: child.getAttribute("far"),
+                angle: child.getAttribute("angle"),
+                from: {},
+                to: {}
+            };
 
-            perspective.id = child.getAttribute("id");
-            perspective.near = child.getAttribute("near");
-            perspective.far = child.getAttribute("far");
-            perspective.angle = child.getAttribute("angle");
-						perspective.from = {};
-						perspective.to = {};
+            var childNodes = child.children.length;
+            if (childNodes < 2)
+                return "wrong number of perspective " + perspective.id + "children";
 
+            var childSon;
+            for (var k = 0; k < childNodes; k++) {
+                childSon = child.children[k];
+                if (childSon.nodeName !== "from" && childSon.nodeName !== "to") {
+                  return "invalid perspective " + perspective.id + " son ";}
 
-						var childNodes = child.children.length;
-						if(childNodes < 2)
-						 	return "wrong number of perspective " + perspective.id + "children";
-
-						for(var k = 0 ; k < childNodes; k++)
-						{
-							var childSon = child.children[k];
-							if(childSon.nodeName === "from"){
-							perspective.from.x = childSon.getAttribute("x");
-							perspective.from.y = childSon.getAttribute("y");
-							perspective.from.z = childSon.getAttribute("z");
-						}
-						 else if(childSon.nodeName === "to"){
-							perspective.to.x = childSon.getAttribute("x");
- 							perspective.to.y = childSon.getAttribute("y");
- 							perspective.to.z = childSon.getAttribute("z");
-						 }
-						 else {
-						 	return "invalid perspective " + perspective.id + " son ";
-						 }
-
-
-//TODO TESTAR FROM AND TO FROM PRESPECTIVE
-//TODO STORE perspective;
-						}
-
-				}
+                    perspective[childSon.nodeName] = {
+                        x: childSon.getAttribute("x"),
+                        y: childSon.getAttribute("y"),
+                        z: childSon.getAttribute("z")
+                    };
+                  }
+        }
+        this.perspectives.push(perspective);
     }
-
 };
 
 
@@ -178,7 +167,6 @@ MySceneGraph.prototype.parserIllumination = function(rootElement) {
         return "'illumination' wrong number of children ";
     }
 
-
     for (var i = 0; i < nnodes; i++) {
         var child = ilumi[0].children[i];
         if (child.nodeName === "ambient") {
@@ -190,6 +178,16 @@ MySceneGraph.prototype.parserIllumination = function(rootElement) {
     }
 };
 
+MySceneGraph.prototype.parserLights = fuction(rootElement) {
+  var lights = rootElement.getElementsByTagName('lights');
+
+  if (lights == null ||  lights.length == 0) {
+      return "'lights' is missing";
+  }
+
+  var nnodes=
+
+}
 
 /*
  * Callback to be executed on any read error
