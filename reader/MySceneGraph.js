@@ -1,271 +1,291 @@
 function MySceneGraph(filename, scene) {
-    this.loadedOk = null;
+  this.loadedOk = null;
 
-    // Establish bidirectional references between scene and graph
-    this.scene = scene;
-    scene.graph = this;
+  // Establish bidirectional references between scene and graph
+  this.scene = scene;
+  scene.graph = this;
 
-    // File reading
-    this.reader = new CGFXMLreader();
+  // File reading
+  this.reader = new CGFXMLreader();
 
-    /*
-     * Read the contents of the xml file, and refer to this class for loading and error handlers.
-     * After the file is read, the reader calls onXMLReady on this object.
-     * If any error occurs, the reader calls onXMLError on this object, with an error message
-     */
+  /*
+  * Read the contents of the xml file, and refer to this class for loading and error handlers.
+  * After the file is read, the reader calls onXMLReady on this object.
+  * If any error occurs, the reader calls onXMLError on this object, with an error message
+  */
 
-    this.reader.open('scenes/' + filename, this);
+  this.reader.open('scenes/' + filename, this);
 
-    /* Storage for scene perpectives*/
-    this.perspectives = [];
-    /* Storage for scene lights*/
-    this.lights = {
-        omnis: [],
-        spots: []
-    };
-    /* Storage for textures information*/
-    this.textures = [];
-    /* Storage for materials*/
-    this.materials = [];
+  /* Storage for scene perpectives*/
+  this.perspectives = [];
+  /* Storage for scene lights*/
+  this.lights = {
+    omnis: [],
+    spots: []
+  };
+  /* Storage for textures information*/
+  this.textures = [];
+  /* Storage for materials*/
+  this.materials = [];
 }
 
 /*
- * Callback to be executed after successful reading
- */
+* Callback to be executed after successful reading
+*/
 MySceneGraph.prototype.onXMLReady = function() {
-    console.log("XML Loading finished.");
-    var rootElement = this.reader.xmlDoc.documentElement;
+  console.log("XML Loading finished.");
+  var rootElement = this.reader.xmlDoc.documentElement;
 
-    // Here should go the calls for different functions to parse the various blocks
-    var error = this.parserIllumination(rootElement);
-    error = this.parserViews(rootElement); //TODO
-    error = this.parserLights(rootElement);
-    error = this.parserTextures(rootElement);
-    error = this.parserMaterials(rootElement);
-    if (error != null) {
-        this.onXMLError(error);
-        return;
-    }
+  // Here should go the calls for different functions to parse the various blocks
+  var error = this.parserIllumination(rootElement);
+  error = this.parserSceneTag(rootElement);
+  error = this.parserViews(rootElement); //TODO
+  error = this.parserLights(rootElement);
+  error = this.parserTextures(rootElement);
+  error = this.parserMaterials(rootElement);
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
 
-    this.loadedOk = true;
+  this.loadedOk = true;
 
-    // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-    this.scene.onGraphLoaded();
+  // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
+  this.scene.onGraphLoaded();
 };
 
+MySceneGraph.prototype.parserSceneTag= function(rootElement) {
+  var elems = rootElement.getElementsByTagName('scene');
+  if (elems == null)
+  {
+    return "scene element is missing";
+  }
 
+  if (elems.length != 1)
+  {
+    return "either zero or more than one 'scene' element found";
+  }
+
+  var scene = elems[0];
+  //read attr 'root' within 'scene' tag
+  this.sceneXML_root = this.reader.getString(scene, 'root');
+  //read attr 'axis_length' within 'scene' tag
+  this.sceneXML_axis_length = this.reader.getFloat(scene, 'axis_length');
+
+  console.log("Scene attr read from file:\nroot: " + this.sceneXML_root + "\naxix_length: " + this.sceneXML_axis_length + "\n");
+};
 
 /*
- * Example of method that parses elements of one block and stores information in a specific data structure
- */
+* Example of method that parses elements of one block and stores information in a specific data structure
+*/
 MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
 
-    var elems = rootElement.getElementsByTagName('globals');
-    if (elems == null) {
-        return "globals element is missing.";
-    }
+  var elems = rootElement.getElementsByTagName('globals');
+  if (elems == null) {
+    return "globals element is missing.";
+  }
 
-    if (elems.length != 1) {
-        return "either zero or more than one 'globals' element found.";
-    }
+  if (elems.length != 1) {
+    return "either zero or more than one 'globals' element found.";
+  }
 
-    // various examples of different types of access
-    var globals = elems[0];
-    this.background = this.reader.getRGBA(globals, 'background');
-    this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill", "line", "point"]);
-    this.cullface = this.reader.getItem(globals, 'cullface', ["back", "front", "none", "frontandback"]);
-    this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw", "cw"]);
+  // various examples of different types of access
+  var globals = elems[0];
+  this.background = this.reader.getRGBA(globals, 'background');
+  this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill", "line", "point"]);
+  this.cullface = this.reader.getItem(globals, 'cullface', ["back", "front", "none", "frontandback"]);
+  this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw", "cw"]);
 
-    console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
+  console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
 
-    var tempList = rootElement.getElementsByTagName('list');
+  var tempList = rootElement.getElementsByTagName('list');
 
-    if (tempList == null || tempList.length == 0) {
-        return "list element is missing.";
-    }
+  if (tempList == null || tempList.length == 0) {
+    return "list element is missing.";
+  }
 
-    this.list = [];
-    // iterate over every element
-    var nnodes = tempList[0].children.length;
-    for (var i = 0; i < nnodes; i++) {
-        var e = tempList[0].children[i];
+  this.list = [];
+  // iterate over every element
+  var nnodes = tempList[0].children.length;
+  for (var i = 0; i < nnodes; i++) {
+    var e = tempList[0].children[i];
 
-        // process each element and store its information
-        this.list[e.id] = e.attributes.getNamedItem("coords").value;
-        console.log("Read list item id " + e.id + " with value " + this.list[e.id]);
-    };
+    // process each element and store its information
+    this.list[e.id] = e.attributes.getNamedItem("coords").value;
+    console.log("Read list item id " + e.id + " with value " + this.list[e.id]);
+  };
 
 };
 
 
 MySceneGraph.prototype.parserViews = function(rootElement) {
-    var views = rootElement.getElementsByTagName('views');
+  var views = rootElement.getElementsByTagName('views');
 
-    if (views == null || views.length == 0) {
-        return "'views' is missing";
-    }
+  if (views == null || views.length == 0) {
+    return "'views' is missing";
+  }
 
-    var defaultPersp = views[0].getAttribute("default"); // TODO NOT STORED
+  var defaultPersp = views[0].getAttribute("default"); // TODO NOT STORED
 
-    var nnodes = views[0].children.length;
+  var nnodes = views[0].children.length;
 
-    if (nnodes <= 0) {
-        return 'no perspectives on file';
-    }
-    var child;
-    for (var i = 0; i < nnodes; i++) {
-        child = views[0].children[i];
-        if (child.nodeName === "perspective") {
-            var perspective = {
-                id: this.reader.getString(child, "id", 1),
-                near: this.reader.getFloat(child, "near", 1),
-                far: this.reader.getFloat(child, "far", 1),
-                angle: this.reader.getFloat(child, "angle", 1),
-                from:  [],
-                to:  []
-            };
-            var childNodes = child.children.length;
-            if (childNodes < 2)
-                return "wrong number of perspective " + perspective.id + "children";
+  if (nnodes <= 0) {
+    return 'no perspectives on file';
+  }
+  var child;
+  for (var i = 0; i < nnodes; i++) {
+    child = views[0].children[i];
+    if (child.nodeName === "perspective") {
+      var perspective = {
+        id: this.reader.getString(child, "id", 1),
+        near: this.reader.getFloat(child, "near", 1),
+        far: this.reader.getFloat(child, "far", 1),
+        angle: this.reader.getFloat(child, "angle", 1),
+        from:  [],
+        to:  []
+      };
+      var childNodes = child.children.length;
+      if (childNodes < 2)
+      return "wrong number of perspective " + perspective.id + "children";
 
-            var childSon;
-            for (var k = 0; k < childNodes; k++) {
-                childSon = child.children[k];
-                if (childSon.nodeName !== "from" && childSon.nodeName !== "to") {
-                    return "invalid perspective " + perspective.id + " son ";
-                }
-                perspective[childSon.nodeName] = {
-                    x: this.reader.getFloat(childSon, "x", 1),
-                    y: this.reader.getFloat(childSon, "y", 1),
-                    z: this.reader.getFloat(childSon, "z", 1),
-                }
-            }
+      var childSon;
+      for (var k = 0; k < childNodes; k++) {
+        childSon = child.children[k];
+        if (childSon.nodeName !== "from" && childSon.nodeName !== "to") {
+          return "invalid perspective " + perspective.id + " son ";
         }
-        this.perspectives.push(perspective);
+        perspective[childSon.nodeName] = {
+          x: this.reader.getFloat(childSon, "x", 1),
+          y: this.reader.getFloat(childSon, "y", 1),
+          z: this.reader.getFloat(childSon, "z", 1),
+        }
+      }
     }
+    this.perspectives.push(perspective);
+  }
 };
 
 
 MySceneGraph.prototype.parserIllumination = function(rootElement) {
-    var ilumi = rootElement.getElementsByTagName('illumination');
+  var ilumi = rootElement.getElementsByTagName('illumination');
 
 
-    if (ilumi == null || ilumi.length == 0) {
-        return "'illumination' is missing";
+  if (ilumi == null || ilumi.length == 0) {
+    return "'illumination' is missing";
+  }
+
+  var doublesided = ilumi[0].getAttribute("doublesided");
+  var local = ilumi[0].getAttribute("local");
+  // TODO o que fazer ao doublesided e local ???
+
+  var nnodes = ilumi[0].children.length;
+
+  if (nnodes != 2) {
+    return "'illumination' wrong number of children ";
+  }
+  var child;
+  for (var i = 0; i < nnodes; i++) {
+    child = ilumi[0].children[i];
+    if (child.nodeName === "ambient") {
+      this.scene.setAmbient(this.reader.getFloat(child, "r", 1), this.reader.getFloat(child, "g", 1), this.reader.getFloat(child, "b", 1), this.reader.getFloat(child, "a", 1));
+      // TODO FALTA TESTAR ISTO PRECISO Objectos
+    } else if (child.nodeName === "background") {
+      this.background = this.reader.getFloat(child, "r", 1) + "" +
+      this.reader.getFloat(child, "g", 1) + "" +
+      this.reader.getFloat(child, "b", 1) + "" +
+      this.reader.getFloat(child, "a", 1);
     }
 
-    var doublesided = ilumi[0].getAttribute("doublesided");
-    var local = ilumi[0].getAttribute("local");
-    // TODO o que fazer ao doublesided e local ???
-
-    var nnodes = ilumi[0].children.length;
-
-    if (nnodes != 2) {
-        return "'illumination' wrong number of children ";
-    }
-    var child;
-    for (var i = 0; i < nnodes; i++) {
-        child = ilumi[0].children[i];
-        if (child.nodeName === "ambient") {
-            this.scene.setAmbient(this.reader.getFloat(child, "r", 1), this.reader.getFloat(child, "g", 1), this.reader.getFloat(child, "b", 1), this.reader.getFloat(child, "a", 1));
-            // TODO FALTA TESTAR ISTO PRECISO Objectos
-        } else if (child.nodeName === "background") {
-            this.background = this.reader.getFloat(child, "r", 1) + "" +
-                this.reader.getFloat(child, "g", 1) + "" +
-                this.reader.getFloat(child, "b", 1) + "" +
-                this.reader.getFloat(child, "a", 1);
-        }
-
-    }
+  }
 };
 
 MySceneGraph.prototype.parserLights = function(rootElement) {
-    var lights = rootElement.getElementsByTagName('lights');
+  var lights = rootElement.getElementsByTagName('lights');
 
-    if (lights == null || lights.length == 0) {
-        return "'lights' is missing";
-    }
+  if (lights == null || lights.length == 0) {
+    return "'lights' is missing";
+  }
 
-    var nnodes = lights[0].children.length;
-    if (nnodes < 1) {
-        return "wrong number of lights children";
-    }
+  var nnodes = lights[0].children.length;
+  if (nnodes < 1) {
+    return "wrong number of lights children";
+  }
 
-    var child;
-    for (var i = 0; i < nnodes; i++) {
-        child = lights[0].children[i];
-        if (child.nodeName === "omni") {
-            var nodesSon = child.children.length;
-            var omni = {
-                id: this.reader.getString(child, "id", 1),
-                enabled: this.reader.getBoolean(child, "enabled", 1),
-                location:  [],
-                ambient:  [],
-                diffuse: [],
-                specular: []
-            };
+  var child;
+  for (var i = 0; i < nnodes; i++) {
+    child = lights[0].children[i];
+    if (child.nodeName === "omni") {
+      var nodesSon = child.children.length;
+      var omni = {
+        id: this.reader.getString(child, "id", 1),
+        enabled: this.reader.getBoolean(child, "enabled", 1),
+        location:  [],
+        ambient:  [],
+        diffuse: [],
+        specular: []
+      };
 
-            var childSon;
-            for (var k = 0; k < nodesSon; k++) {
-                childSon = child.children[k];
+      var childSon;
+      for (var k = 0; k < nodesSon; k++) {
+        childSon = child.children[k];
 
-                if (childSon.nodeName === "location") {
-                    omni.location = {
-                        x: this.reader.getFloat(childSon, "x", 1),
-                        y: this.reader.getFloat(childSon, "y", 1),
-                        z: this.reader.getFloat(childSon, "z", 1),
-                        w: this.reader.getFloat(childSon, "w", 1)
-                    }
-                } else if (childSon.nodeName === "ambient" || childSon.nodeName === "diffuse" ||
-                    childSon.nodeName === "specular") {
-                    omni[childSon.nodeName] = {
-                        r: this.reader.getFloat(childSon, "r", 1),
-                        g: this.reader.getFloat(childSon, "g", 1),
-                        b: this.reader.getFloat(childSon, "b", 1),
-                        a: this.reader.getFloat(childSon, "a", 1)
-                    }
-                }
-            }
-            this.lights.omnis.push(omni);
-        } else if (child.nodeName === "spot") {
-            var spot = {
-                id: this.reader.getString(child, "id", 1),
-                enabled: this.reader.getBoolean(child, "enabled", 1),
-                angle: this.reader.getFloat(child, "angle", 1),
-                exponent: this.reader.getFloat(child, "exponent", 1),
-                target: [],
-                location: [],
-                ambient:  [],
-                diffuse:  [],
-                specular: []
-            };
-
-
-            var childSon;
-            for (var k = 0; k < nodesSon; k++) {
-                childSon = child.children[k];
-                if (childSon.nodeName === "target" || childSon.nodeName === "location") {
-                    spot[childSon.nodeName] = {
-                        x: this.reader.getFloat(childSon, "x", 1),
-                        y: this.reader.getFloat(childSon, "y", 1),
-                        z: this.reader.getFloat(childSon, "z", 1),
-
-
-                    };
-                } else {
-                    spot[childSon.nodeName] = {
-                        r: this.reader.getFloat(childSon, "r", 1),
-                        g: this.reader.getFloat(childSon, "g", 1),
-                        b: this.reader.getFloat(childSon, "b", 1),
-                        a: this.reader.getFloat(childSon, "a", 1)
-                    }
-
-
-                }
-            }
-            this.lights.spots.push(spot);
+        if (childSon.nodeName === "location") {
+          omni.location = {
+            x: this.reader.getFloat(childSon, "x", 1),
+            y: this.reader.getFloat(childSon, "y", 1),
+            z: this.reader.getFloat(childSon, "z", 1),
+            w: this.reader.getFloat(childSon, "w", 1)
+          }
+        } else if (childSon.nodeName === "ambient" || childSon.nodeName === "diffuse" ||
+        childSon.nodeName === "specular") {
+          omni[childSon.nodeName] = {
+            r: this.reader.getFloat(childSon, "r", 1),
+            g: this.reader.getFloat(childSon, "g", 1),
+            b: this.reader.getFloat(childSon, "b", 1),
+            a: this.reader.getFloat(childSon, "a", 1)
+          }
         }
+      }
+      this.lights.omnis.push(omni);
+    } else if (child.nodeName === "spot") {
+      var spot = {
+        id: this.reader.getString(child, "id", 1),
+        enabled: this.reader.getBoolean(child, "enabled", 1),
+        angle: this.reader.getFloat(child, "angle", 1),
+        exponent: this.reader.getFloat(child, "exponent", 1),
+        target: [],
+        location: [],
+        ambient:  [],
+        diffuse:  [],
+        specular: []
+      };
+
+
+      var childSon;
+      for (var k = 0; k < nodesSon; k++) {
+        childSon = child.children[k];
+        if (childSon.nodeName === "target" || childSon.nodeName === "location") {
+          spot[childSon.nodeName] = {
+            x: this.reader.getFloat(childSon, "x", 1),
+            y: this.reader.getFloat(childSon, "y", 1),
+            z: this.reader.getFloat(childSon, "z", 1),
+
+
+          };
+        } else {
+          spot[childSon.nodeName] = {
+            r: this.reader.getFloat(childSon, "r", 1),
+            g: this.reader.getFloat(childSon, "g", 1),
+            b: this.reader.getFloat(childSon, "b", 1),
+            a: this.reader.getFloat(childSon, "a", 1)
+          }
+
+
+        }
+      }
+      this.lights.spots.push(spot);
     }
+  }
 
 };
 
@@ -273,11 +293,11 @@ MySceneGraph.prototype.parserTextures = function(rootElement) {
   var textures = rootElement.getElementsByTagName('textures');
 
   if (textures == null || textures.length == 0) {
-      return "'textures' are missing";
+    return "'textures' are missing";
   }
   var nnodes = textures[0].children.length;
   if (nnodes < 1) {
-      return "no textures";
+    return "no textures";
   }
 
   var child;
@@ -300,11 +320,11 @@ MySceneGraph.prototype.parserMaterials = function(rootElement) {
   var materials = rootElement.getElementsByTagName('textures');
 
   if (materials == null || materials.length == 0) {
-      return "'textures' are missing";
+    return "'textures' are missing";
   }
   var nnodes = materials[0].children.length;
   if (nnodes < 1) {
-      return "no materials";
+    return "no materials";
   }
 
   var child;
@@ -328,14 +348,14 @@ MySceneGraph.prototype.parserMaterials = function(rootElement) {
       }
       else {
         material[childSon.nodeName] = {
-        r: this.reader.getFloat(childSon, "r", 1),
-        g: this.reader.getFloat(childSon, "g", 1),
-        b: this.reader.getFloat(childSon, "b", 1),
-        a: this.reader.getFloat(childSon, "a", 1)
+          r: this.reader.getFloat(childSon, "r", 1),
+          g: this.reader.getFloat(childSon, "g", 1),
+          b: this.reader.getFloat(childSon, "b", 1),
+          a: this.reader.getFloat(childSon, "a", 1)
         }
       }
     }
-this.materials.push(material);
+    this.materials.push(material);
   }
 }
 
@@ -344,26 +364,26 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
   var transformations = rootElement.getElementsByTagName('textures');
 
   if (transformations == null || transformations.length == 0) {
-      return "'textures' are missing";
+    return "'textures' are missing";
   }
   var nnodes = transformations[0].children.length;
   if (nnodes < 1) {
-      return "no transformations";
+    return "no transformations";
   }
 
   var child;
 
   for(var i = 0; i < nnodes; i++)
   {
-    
+
   }
 
 }
 /*
- * Callback to be executed on any read error
- */
+* Callback to be executed on any read error
+*/
 
 MySceneGraph.prototype.onXMLError = function(message) {
-    console.error("XML Loading Error: " + message);
-    this.loadedOk = false;
+  console.error("XML Loading Error: " + message);
+  this.loadedOk = false;
 };
