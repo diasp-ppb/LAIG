@@ -19,6 +19,8 @@ function MySceneGraph(filename, scene) {
 
   /* Storage for scene tag */
   this.xmlScene = null;
+  /* Storage for views tag */
+  this.views = null;
   /* Storage for scene perpectives*/
   this.perspectives = [];
   /* Storage for scene lights*/
@@ -139,6 +141,8 @@ MySceneGraph.prototype.parserViews = function(rootElement) {
   }
 
   var defaultPersp = views[0].getAttribute("default"); // TODO NOT STORED
+  //create Views object (storing the default perspective)
+  this.views = new xmlViews(defaultPersp);
 
   var nnodes = views[0].children.length;
 
