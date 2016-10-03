@@ -27,6 +27,8 @@ function MySceneGraph(filename, scene) {
   this.textures = [];
   /* Storage for materials*/
   this.materials = [];
+  /* Storage for primitives */
+  this.primitives = [];
 }
 
 /*
@@ -44,6 +46,8 @@ MySceneGraph.prototype.onXMLReady = function() {
   error = this.parserTextures(rootElement);
   error = this.parserMaterials(rootElement);
   error = this.parserTransformations(rootElement);
+  error = this.parserPrimitives(rootElement);
+  console.log("primitives:\nid: " + this.primitives[0].id + "\nx1 " + this.primitives[0].x1 + "\nx2: " + this.primitives[0].x2 + "\ny1: " + this.primitives[0].y1 + "\ny2: " + this.primitives[0].y2);
   if (error != null) {
     this.onXMLError(error);
     return;
@@ -403,11 +407,11 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
 
         if(childSon.nodeName === "translate"){
           var translate = {
+
            x: this.reader.getFloat(childSon,"x",1),
            y: this.reader.getFloat(childSon,"y",1),
            z: this.reader.getFloat(childSon,"z",1)
          };
-         console.log(translate.x);
           transformation.transforms.push(translate);
         }
         else if(childSon.nodeName === "rotate"){
@@ -436,8 +440,71 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
     }
 console.log(transformation.transforms.length);
   }
-
 };
+
+MySceneGraph.prototype.parserPrimitives= function(rootElement) {
+  var elems = rootElement.getElementsByTagName('primitives');
+  if (elems == null)
+  {
+    return "'primitives' element is missing";
+  }
+
+  if (elems.length != 1)
+  {
+    return "either zero or more than one 'primitives' element found";
+  }
+  //'primitives' tag
+  var primitives = elems[0];
+
+  //how many 'primitive' tags there are
+  var nPrim = primitives.children.length;
+  if (nPrim <= 0) {
+    return "no 'primitive' tags found";
+  }
+  for (var i = 0; i < nPrim; i++){
+    //'primitive' tag
+    var prim = primitives.children[i];
+    //extract id
+    var primId = this.reader.getString(prim, 'id');
+    //how many primitive types there are (can only be one!)
+    var nChildPrim = prim.children.length;
+    if (nPrim != 1)
+    {
+      return "either zero or more than one primitive types found (rectangle, triangle, cylinder, sphere, torus )";
+    }
+    //primitive type (rectangle, triangle, cylinder, sphere, torus )
+    var primType = prim.children[0];
+    //find out what type of primitive it is (rectangle, triangle, cylinder, sphere, torus )
+    if (primType.nodeName === "rectangle")
+    {
+      var x1 = this.reader.getFloat(primType, 'x1');
+      var x2 = this.reader.getFloat(primType, 'x2');
+      var y1 = this.reader.getFloat(primType, 'y1');
+      var y2 = this.reader.getFloat(primType, 'y2');
+      this.primitives.push(new xmlRectangle(primId, x1, x2, y1, y2));
+    }
+    else if (primType.nodeName === "triangle")
+    {
+      //TODO
+    }
+    else  if (primType.nodeName === "cylinder")
+    {
+      //TODO
+    }
+    else  if (primType.nodeName === "sphere")
+    {
+      //TODO
+    }
+    else   if (primType.nodeName === "torus")
+    {
+      //TODO
+    }
+    else {
+      return "invalid primitive type";
+    }
+  }
+};
+
 /*
 * Callback to be executed on any read error
 */

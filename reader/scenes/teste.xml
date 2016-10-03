@@ -1,5 +1,4 @@
 <dsx>
-
     <!-- deve definir-se um objeto para raiz do grafo , assim -->
     <!-- como o comprimento dos tres eixos (cilindros) -->
     <scene root="teste123" axis_length="10"/>
@@ -90,5 +89,4 @@
         <rectangle x1="0" y1="1" x2="1" y2="2"/>
 
     </primitives>
-
 </dsx>
