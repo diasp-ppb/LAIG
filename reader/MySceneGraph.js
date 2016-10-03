@@ -358,14 +358,16 @@ MySceneGraph.prototype.parserMaterials = function(rootElement) {
     }
     this.materials.push(material);
   }
-}
+};
 
 
 MySceneGraph.prototype.parserTransformations = function(rootElement) {
-  var transformations = rootElement.getElementsByTagName('textures');
+  var transformations = rootElement.getElementsByTagName('transformations');
+
+
 
   if (transformations == null || transformations.length == 0) {
-    return "'textures' are missing";
+    return "'transformations' are missing";
   }
   var nnodes = transformations[0].children.length;
   if (nnodes < 1) {
@@ -377,7 +379,7 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
   for(var i = 0; i < nnodes; i++)
   {
     child = transformations[0].children[i];
-    if(child.nodeName === "transformations"){
+    if(child.nodeName === "transformation"){
       var nSon = child.children.length;
 
       console.log("nSon " + nSon);
@@ -401,20 +403,21 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
            y: this.reader.getFloat(childSon,"y",1),
            z: this.reader.getFloat(childSon,"z",1)
           }
-          transform.push(translate);
+          transformation.transforms.push(translate);
         }
         else if(childSon.nodeName === "rotate"){
           var  rotate = {
             axis:this.reader.getString(childSon,"axis",1),
             angle: this.reader.getFloat(childSon,"angle",1)
           };
+          transformation.transforms.push(rotate);
         }
       }
 
     }
   }
 
-}
+};
 /*
 * Callback to be executed on any read error
 */
