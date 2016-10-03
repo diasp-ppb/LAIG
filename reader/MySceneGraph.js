@@ -56,6 +56,9 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.loadedOk = true;
 
 
+  //CONFIGURATION
+  this.setAxis();
+
 
   // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
   this.scene.onGraphLoaded();
@@ -515,5 +518,5 @@ MySceneGraph.prototype.onXMLError = function(message) {
 };
 
 MySceneGraph.prototype.setAxis = function(){
-  this.scene.axis = new CGFaxis(this.scene,this.reader.getFloat(scene, 'axis_length'));
+  this.scene.axis = new CGFaxis(this.scene,this.sceneXML_axis_length);
 };
