@@ -51,6 +51,8 @@ MySceneGraph.prototype.onXMLReady = function() {
 
   this.loadedOk = true;
 
+
+
   // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
   this.scene.onGraphLoaded();
 };
@@ -72,7 +74,6 @@ MySceneGraph.prototype.parserSceneTag= function(rootElement) {
   this.sceneXML_root = this.reader.getString(scene, 'root');
   //read attr 'axis_length' within 'scene' tag
   this.sceneXML_axis_length = this.reader.getFloat(scene, 'axis_length');
-
   console.log("Scene attr read from file:\nroot: " + this.sceneXML_root + "\naxix_length: " + this.sceneXML_axis_length + "\n");
 };
 
@@ -191,6 +192,7 @@ MySceneGraph.prototype.parserIllumination = function(rootElement) {
       this.scene.setAmbient(this.reader.getFloat(child, "r", 1), this.reader.getFloat(child, "g", 1), this.reader.getFloat(child, "b", 1), this.reader.getFloat(child, "a", 1));
       // TODO FALTA TESTAR ISTO PRECISO Objectos
     } else if (child.nodeName === "background") {
+      //Set background color
       this.background = this.reader.getFloat(child, "r", 1) + "" +
       this.reader.getFloat(child, "g", 1) + "" +
       this.reader.getFloat(child, "b", 1) + "" +
@@ -443,4 +445,8 @@ console.log(transformation.transforms.length);
 MySceneGraph.prototype.onXMLError = function(message) {
   console.error("XML Loading Error: " + message);
   this.loadedOk = false;
+};
+
+MySceneGraph.prototype.setAxis(){
+  this.scene.axis = new CGFaxis(this.scene,this.reader.getFloat(scene, 'axis_length'));
 };
