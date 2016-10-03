@@ -43,6 +43,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   error = this.parserLights(rootElement);
   error = this.parserTextures(rootElement);
   error = this.parserMaterials(rootElement);
+  error = this.parserTransformations(rootElement);
   if (error != null) {
     this.onXMLError(error);
     return;
@@ -357,14 +358,16 @@ MySceneGraph.prototype.parserMaterials = function(rootElement) {
     }
     this.materials.push(material);
   }
-}
+};
 
 
 MySceneGraph.prototype.parserTransformations = function(rootElement) {
-  var transformations = rootElement.getElementsByTagName('textures');
+  var transformations = rootElement.getElementsByTagName('transformations');
+
+
 
   if (transformations == null || transformations.length == 0) {
-    return "'textures' are missing";
+    return "'transformations' are missing";
   }
   var nnodes = transformations[0].children.length;
   if (nnodes < 1) {
@@ -375,10 +378,46 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
 
   for(var i = 0; i < nnodes; i++)
   {
+    child = transformations[0].children[i];
+    if(child.nodeName === "transformation"){
+      var nSon = child.children.length;
 
+      console.log("nSon " + nSon);
+
+      if(nSon < 1){
+        return "Wrong number of transformations in " + transformation.id;
+      }
+
+      var transformation = {
+        id : this.reader.getString(child,"id",1),
+        transforms:[],
+      };
+
+      var childSon;
+      for(var k = 0; k < nSon; k++){
+        childSon = child.children[k];
+
+        if(childSon.nodeName === "translate"){
+          var translate = {
+           x: this.reader.getFloat(childSon,"x",1),
+           y: this.reader.getFloat(childSon,"y",1),
+           z: this.reader.getFloat(childSon,"z",1)
+          }
+          transformation.transforms.push(translate);
+        }
+        else if(childSon.nodeName === "rotate"){
+          var  rotate = {
+            axis:this.reader.getString(childSon,"axis",1),
+            angle: this.reader.getFloat(childSon,"angle",1)
+          };
+          transformation.transforms.push(rotate);
+        }
+      }
+
+    }
   }
 
-}
+};
 /*
 * Callback to be executed on any read error
 */
