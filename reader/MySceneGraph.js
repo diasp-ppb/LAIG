@@ -514,6 +514,6 @@ MySceneGraph.prototype.onXMLError = function(message) {
   this.loadedOk = false;
 };
 
-MySceneGraph.prototype.setAxis(){
+MySceneGraph.prototype.setAxis = function(){
   this.scene.axis = new CGFaxis(this.scene,this.reader.getFloat(scene, 'axis_length'));
 };
