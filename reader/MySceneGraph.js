@@ -21,8 +21,6 @@ function MySceneGraph(filename, scene) {
   this.xmlScene = null;
   /* Storage for views tag */
   this.views = null;
-  /* Storage for scene perpectives*/
-  this.perspectives = [];
   /* Storage for scene lights*/
   this.lights = {
     omnis: [],
@@ -46,13 +44,12 @@ MySceneGraph.prototype.onXMLReady = function() {
   // Here should go the calls for different functions to parse the various blocks
   var error = this.parserIllumination(rootElement);
   error = this.parserSceneTag(rootElement);
-  error = this.parserViews(rootElement); //TODO
+  error = this.parserViews(rootElement);
   error = this.parserLights(rootElement);
   error = this.parserTextures(rootElement);
   error = this.parserMaterials(rootElement);
   error = this.parserTransformations(rootElement);
   error = this.parserPrimitives(rootElement);
-  console.log("primitives:\nid: " + this.primitives[0].id + "\nx1 " + this.primitives[0].x1 + "\nx2: " + this.primitives[0].x2 + "\ny1: " + this.primitives[0].y1 + "\ny2: " + this.primitives[0].y2);
   if (error != null) {
     this.onXMLError(error);
     return;
@@ -86,8 +83,7 @@ MySceneGraph.prototype.parserSceneTag= function(rootElement) {
   var root = this.reader.getString(scene, 'root');
   //read attr 'axis_length' within 'scene' tag
   var axis_length = this.reader.getFloat(scene, 'axis_length');
-  this.xmlScene = new xmlScene(root, axis_length)
-  console.log("Scene attr read from file:\nroot: " + this.xmlScene.root + "\naxix_length: " + this.xmlScene.axis_length + "\n");
+  this.xmlScene = new xmlScene(root, axis_length);
 };
 
 /*
@@ -135,17 +131,13 @@ MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
 
 MySceneGraph.prototype.parserViews = function(rootElement) {
   var views = rootElement.getElementsByTagName('views');
-
   if (views == null || views.length == 0) {
     return "'views' is missing";
   }
-
-  var defaultPersp = views[0].getAttribute("default"); // TODO NOT STORED
+  var defaultPersp = views[0].getAttribute("default");
   //create Views object (storing the default perspective)
   this.views = new xmlViews(defaultPersp);
-
   var nnodes = views[0].children.length;
-
   if (nnodes <= 0) {
     return 'no perspectives on file';
   }
@@ -153,32 +145,37 @@ MySceneGraph.prototype.parserViews = function(rootElement) {
   for (var i = 0; i < nnodes; i++) {
     child = views[0].children[i];
     if (child.nodeName === "perspective") {
-      var perspective = {
-        id: this.reader.getString(child, "id", 1),
-        near: this.reader.getFloat(child, "near", 1),
-        far: this.reader.getFloat(child, "far", 1),
-        angle: this.reader.getFloat(child, "angle", 1),
-        from:  [],
-        to:  []
-      };
+      var id = this.reader.getString(child, "id", 1);
+      var near = this.reader.getFloat(child, "near", 1);
+      var far = this.reader.getFloat(child, "far", 1);
+      var angle = this.reader.getFloat(child, "angle", 1);
+      var arrayFrom =  [];
+      var arrayTo =  [];
       var childNodes = child.children.length;
-      if (childNodes < 2)
-      return "wrong number of perspective " + perspective.id + "children";
-
+      if (childNodes < 2) {
+        return "wrong number of perspective " + perspective.id + "children";
+      }
       var childSon;
-      for (var k = 0; k < childNodes; k++) {
+      for (var k = 0; k < childNodes; k++)
+      {
         childSon = child.children[k];
-        if (childSon.nodeName !== "from" && childSon.nodeName !== "to") {
+        if (childSon.nodeName === "from") {
+            arrayFrom = [this.reader.getFloat(childSon, "x", 1),
+            this.reader.getFloat(childSon, "y", 1),
+            this.reader.getFloat(childSon, "z", 1)];
+        }
+        else if (childSon.nodeName === "to") {
+          arrayTo = [this.reader.getFloat(childSon, "x", 1),
+          this.reader.getFloat(childSon, "y", 1),
+          this.reader.getFloat(childSon, "z", 1)];
+        }
+        else {
           return "invalid perspective " + perspective.id + " son ";
         }
-        perspective[childSon.nodeName] = {
-          x: this.reader.getFloat(childSon, "x", 1),
-          y: this.reader.getFloat(childSon, "y", 1),
-          z: this.reader.getFloat(childSon, "z", 1),
-        }
       }
+      var perspective = new xmlPerspective(id, near, far, angle, arrayFrom, arrayTo);
+      this.views.perspectives.push(perspective);
     }
-    this.perspectives.push(perspective);
   }
 };
 

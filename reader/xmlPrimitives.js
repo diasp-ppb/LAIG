@@ -1,5 +1,10 @@
 /**
 * Class that represents a rectangle primitive
+* @param id ID of the rectangle
+* @param x1 coordinates
+* @param x2 coordinates
+* @param y1 coordinates
+* @param y2 coordinates
 */
 function xmlRectangle(id, x1, x2, y1, y2)
 {
