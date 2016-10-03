@@ -85,8 +85,8 @@
     </transformations>
 
     <primitives>
-
+      <primitive id="adeus">
         <rectangle x1="0" y1="1" x2="1" y2="2"/>
-
+      </primitive>
     </primitives>
 </dsx>
