@@ -16,6 +16,9 @@ function MySceneGraph(filename, scene) {
 
   this.reader.open('scenes/' + filename, this);
 
+
+  /* Storage for scene tag */
+  this.xmlScene = null;
   /* Storage for scene perpectives*/
   this.perspectives = [];
   /* Storage for scene lights*/
@@ -78,10 +81,11 @@ MySceneGraph.prototype.parserSceneTag= function(rootElement) {
 
   var scene = elems[0];
   //read attr 'root' within 'scene' tag
-  this.sceneXML_root = this.reader.getString(scene, 'root');
+  var root = this.reader.getString(scene, 'root');
   //read attr 'axis_length' within 'scene' tag
-  this.sceneXML_axis_length = this.reader.getFloat(scene, 'axis_length');
-  console.log("Scene attr read from file:\nroot: " + this.sceneXML_root + "\naxix_length: " + this.sceneXML_axis_length + "\n");
+  var axis_length = this.reader.getFloat(scene, 'axis_length');
+  this.xmlScene = new xmlScene(root, axis_length)
+  console.log("Scene attr read from file:\nroot: " + this.xmlScene.root + "\naxix_length: " + this.xmlScene.axis_length + "\n");
 };
 
 /*
@@ -411,10 +415,10 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
         if(childSon.nodeName === "translate"){
           var translate = {
 
-           x: this.reader.getFloat(childSon,"x",1),
-           y: this.reader.getFloat(childSon,"y",1),
-           z: this.reader.getFloat(childSon,"z",1)
-         };
+            x: this.reader.getFloat(childSon,"x",1),
+            y: this.reader.getFloat(childSon,"y",1),
+            z: this.reader.getFloat(childSon,"z",1)
+          };
           transformation.transforms.push(translate);
         }
         else if(childSon.nodeName === "rotate"){
@@ -427,9 +431,9 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
         }
         else if(childSon.nodeName === "scale"){
           var scale = {
-           x: this.reader.getFloat(childSon,"x",1),
-           y: this.reader.getFloat(childSon,"y",1),
-           z: this.reader.getFloat(childSon,"z",1)
+            x: this.reader.getFloat(childSon,"x",1),
+            y: this.reader.getFloat(childSon,"y",1),
+            z: this.reader.getFloat(childSon,"z",1)
           }
           console.log(scale.x);
           transformation.transforms.push(scale);
@@ -441,7 +445,7 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
       }
 
     }
-console.log(transformation.transforms.length);
+    console.log(transformation.transforms.length);
   }
 };
 
