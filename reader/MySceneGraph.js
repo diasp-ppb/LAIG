@@ -523,5 +523,5 @@ MySceneGraph.prototype.onXMLError = function(message) {
 };
 
 MySceneGraph.prototype.setAxis = function(){
-  this.scene.axis = new CGFaxis(this.scene,this.sceneXML_axis_length);
+  this.scene.axis = new CGFaxis(this.scene,this.xmlScene.axis_length);
 };
