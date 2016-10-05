@@ -18,7 +18,7 @@ function MySceneGraph(filename, scene) {
 
 
   /* Storage for scene tag */
-  this.xmlScene = null;
+  this.xmlSceneTag = null;
   /* Storage for views tag */
   this.views = null;
   /* Storage for scene lights*/
@@ -83,7 +83,7 @@ MySceneGraph.prototype.parserSceneTag= function(rootElement) {
   var root = this.reader.getString(scene, 'root');
   //read attr 'axis_length' within 'scene' tag
   var axis_length = this.reader.getFloat(scene, 'axis_length');
-  this.xmlScene = new xmlScene(root, axis_length);
+  this.xmlSceneTag = new xmlSceneTag(root, axis_length);
 };
 
 /*
@@ -523,5 +523,5 @@ MySceneGraph.prototype.onXMLError = function(message) {
 };
 
 MySceneGraph.prototype.setAxis = function(){
-  this.scene.axis = new CGFaxis(this.scene,this.xmlScene.axis_length);
+  this.scene.axis = new CGFaxis(this.scene,this.xmlSceneTag.axis_length);
 };
