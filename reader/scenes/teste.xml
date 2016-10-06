@@ -4,14 +4,14 @@
     <scene root="teste123" axis_length="12"/>
 
     <views default="um">
-        <perspective id="um" near="0.3" far="0.9" angle="22.2">
-            <from x="0.4" y="0.7" z="0.9"/>
-            <to x="0.5" y="0.8" z="1"/>
+        <perspective id="um" near="0.4" far="500" angle="0.1">
+            <from x="15" y="15" z="15"/>
+            <to x="0" y="0" z="0"/>
         </perspective>
 
-        <perspective id="dois" near="0.5" far="1.0" angle="22.2">
-            <from x="0.4" y="0.7" z="0.9"/>
-            <to x="0.5" y="0.8" z="1"/>
+        <perspective id="dois" near="0.4" far="500" angle="0.9">
+            <from x="10" y="0" z="10"/>
+            <to x="0" y="0" z="0"/>
         </perspective>
 
     </views>
