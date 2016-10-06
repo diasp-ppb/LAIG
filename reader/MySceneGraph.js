@@ -57,11 +57,6 @@ MySceneGraph.prototype.onXMLReady = function() {
 
   this.loadedOk = true;
 
-
-  //CONFIGURATION
-  this.setAxis();
-
-
   // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
   this.scene.onGraphLoaded();
 };
@@ -204,11 +199,11 @@ MySceneGraph.prototype.parserIllumination = function(rootElement) {
       this.scene.setAmbient(this.reader.getFloat(child, "r", 1), this.reader.getFloat(child, "g", 1), this.reader.getFloat(child, "b", 1), this.reader.getFloat(child, "a", 1));
       // TODO FALTA TESTAR ISTO PRECISO Objectos
     } else if (child.nodeName === "background") {
-      //Set background color
-      this.background = this.reader.getFloat(child, "r", 1) + "" +
-      this.reader.getFloat(child, "g", 1) + "" +
-      this.reader.getFloat(child, "b", 1) + "" +
-      this.reader.getFloat(child, "a", 1);
+
+      this.background = [this.reader.getFloat(child, "r", 1),
+      this.reader.getFloat(child, "g", 1) ,
+      this.reader.getFloat(child, "b", 1) ,
+      this.reader.getFloat(child, "a", 1)];
     }
 
   }
@@ -520,8 +515,4 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
 MySceneGraph.prototype.onXMLError = function(message) {
   console.error("XML Loading Error: " + message);
   this.loadedOk = false;
-};
-
-MySceneGraph.prototype.setAxis = function(){
-  this.scene.axis = new CGFaxis(this.scene,this.xmlSceneTag.axis_length);
 };
