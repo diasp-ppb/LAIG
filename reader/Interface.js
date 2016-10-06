@@ -31,9 +31,6 @@ return true;
 Interface.prototype.processKeyDown = function(event) {
 
   if(event.keyCode == 86 || event.keyCode == 118){ // V or v
-    console.log("V pressed");
-    console.log(" perps " + this.scene.graph.views.perspectives.length);
-  console.log(  this.scene.graph.views.currePerspective);
     this.scene.setNextCamera();
   }
 }
