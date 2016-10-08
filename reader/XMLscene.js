@@ -43,12 +43,13 @@ XMLscene.prototype.setDefaultAppearance = function() {
 // Handler called when the graph is finally loaded.
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function() {
-    this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
+    this.gl.clearColor(this.graph.illumination.background[0], this.graph.illumination.background[1], this.graph.illumination.background[2], this.graph.illumination.background[3]);
     this.lights[0].setVisible(true);
     this.lights[0].enable();
 
     this.setDefaultAxis();
     this.setDefaultCamera();
+    this.setDefaultIllumination();
 };
 
 XMLscene.prototype.display = function() {
@@ -100,3 +101,7 @@ XMLscene.prototype.setNextCamera = function() {
 XMLscene.prototype.setDefaultCamera = function(){
   this.setCamera(this.graph.views.getDefaultCamera());
 }
+
+XMLscene.prototype.setDefaultIllumination = function() {
+  this.setAmbient(this.graph.illumination.ambient[0], this.graph.illumination.ambient[1], this.graph.illumination.ambient[2], this.graph.illumination.ambient[3]);
+};

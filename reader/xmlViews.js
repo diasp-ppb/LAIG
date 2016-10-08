@@ -8,6 +8,21 @@ function xmlViews(attrDefault)
   this.perspectives = [];
   this.currePerspective = 0;//TODO need to be set to defaault
 };
+
+/**
+* Outputs every attr to the console
+*/
+xmlViews.prototype.consoleDebug = function(){
+  console.log("--- START VIEWS DEBUGGING ---");
+  console.log("Default: " + this.default);
+  console.log("Current Perspective: " + this.currePerspective);
+  console.log("Perspectives[" + this.perspectives.length + "]:");
+  for(var i = 0; i < this.perspectives.length; i++){
+    this.perspectives[i].consoleDebug();
+  }
+  console.log("--- FINISH VIEWS DEBUGGING ---");
+};
+
 /**
 * @return next perspective defined in dsx file
 */
@@ -19,6 +34,7 @@ xmlViews.prototype.getNextPerspective = function(){
   this.currePerspective =0;
   return this.perspectives[this.currePerspective];;
 }
+
 xmlViews.prototype.getDefaultCamera = function(){
   var length = this.perspectives.length;
 

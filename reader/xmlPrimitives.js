@@ -14,3 +14,16 @@ function xmlRectangle(id, x1, x2, y1, y2)
   this.y1 = y1;
   this.y2 = y2;
 };
+
+/**
+* Outputs every attr to the console
+*/
+xmlRectangle.prototype.consoleDebug = function(){
+  console.log("--- START RECTANGLE DEBUGGING ---");
+  console.log("Id: " + this.id);
+  console.log("x1: " + this.x1);
+  console.log("y1: " + this.y1);
+  console.log("x2: " + this.x2);
+  console.log("y2: " + this.y2);
+  console.log("--- FINISH RECTANGLE DEBUGGING ---");
+};

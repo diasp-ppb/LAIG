@@ -8,3 +8,13 @@ function xmlSceneTag(root, axis_length)
   this.root = root;
   this.axis_length = axis_length;
 };
+
+/**
+* Outputs every attr to the console
+*/
+xmlSceneTag.prototype.consoleDebug = function(){
+  console.log("--- START SCENETAG DEBUGGING ---");
+  console.log("Root: " + this.root);
+  console.log("Axis Length: " + this.axis_length);
+  console.log("--- FINISH SCENETAG DEBUGGING ---");
+};
