@@ -30,7 +30,7 @@ function MySceneGraph(filename, scene) {
   /* Storage for materials*/
   this.materials = [];
   /* Storage for primitives */
-  this.primitives = [];
+  this.primitives = null;
 }
 
 /*
@@ -55,9 +55,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.views.consoleDebug();
   this.illumination.consoleDebug();
   this.lights.consoleDebug();
-  for(var i = 0; i < this.primitives.length; i++){
-    this.primitives[i].consoleDebug();
-  }
+  this.primitives.consoleDebug();
 
   //Error call
   if (error != null) {
@@ -476,6 +474,8 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
   if (nPrim <= 0) {
     return "no 'primitive' tags found";
   }
+  //declare arrays for all primitive types
+  var arrayRect = [];
   for (var i = 0; i < nPrim; i++){
     //'primitive' tag
     var prim = primitives.children[i];
@@ -496,21 +496,22 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
       var x2 = this.reader.getFloat(primType, 'x2');
       var y1 = this.reader.getFloat(primType, 'y1');
       var y2 = this.reader.getFloat(primType, 'y2');
-      this.primitives.push(new xmlRectangle(primId, x1, x2, y1, y2));
+      var Rect = new xmlRectangle(primId, x1, x2, y1, y2);
+      arrayRect.push(Rect);
     }
     else if (primType.nodeName === "triangle")
     {
       //TODO
     }
-    else  if (primType.nodeName === "cylinder")
+    else if (primType.nodeName === "cylinder")
     {
       //TODO
     }
-    else  if (primType.nodeName === "sphere")
+    else if (primType.nodeName === "sphere")
     {
       //TODO
     }
-    else   if (primType.nodeName === "torus")
+    else if (primType.nodeName === "torus")
     {
       //TODO
     }
@@ -518,6 +519,8 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
       return "invalid primitive type";
     }
   }
+  //store all the primitives present in the dsx
+  this.primitives = new xmlPrimitives(arrayRect);
 };
 
 /*
