@@ -24,10 +24,7 @@ function MySceneGraph(filename, scene) {
   /* Storage for illumination */
   this.illumination = null;
   /* Storage for scene lights*/
-  this.lights = {
-    omnis: [],
-    spots: []
-  };
+  this.lights = null;
   /* Storage for textures information*/
   this.textures = [];
   /* Storage for materials*/
@@ -57,6 +54,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.xmlSceneTag.consoleDebug();
   this.views.consoleDebug();
   this.illumination.consoleDebug();
+  this.lights.consoleDebug();
   for(var i = 0; i < this.primitives.length; i++){
     this.primitives[i].consoleDebug();
   }
@@ -228,92 +226,96 @@ MySceneGraph.prototype.parserIllumination = function(rootElement) {
 
 MySceneGraph.prototype.parserLights = function(rootElement) {
   var lights = rootElement.getElementsByTagName('lights');
-
   if (lights == null || lights.length == 0) {
     return "'lights' is missing";
   }
-
   var nnodes = lights[0].children.length;
   if (nnodes < 1) {
     return "wrong number of lights children";
   }
-
   var child;
+  var arrayOmni =[];
+  var arraySpot = [];
   for (var i = 0; i < nnodes; i++) {
     child = lights[0].children[i];
     if (child.nodeName === "omni") {
       var nodesSon = child.children.length;
-      var omni = {
-        id: this.reader.getString(child, "id", 1),
-        enabled: this.reader.getBoolean(child, "enabled", 1),
-        location:  [],
-        ambient:  [],
-        diffuse: [],
-        specular: []
-      };
-
+      var id = this.reader.getString(child, "id", 1);
+      var enabled = this.reader.getBoolean(child, "enabled", 1);
       var childSon;
       for (var k = 0; k < nodesSon; k++) {
         childSon = child.children[k];
-
         if (childSon.nodeName === "location") {
-          omni.location = {
-            x: this.reader.getFloat(childSon, "x", 1),
-            y: this.reader.getFloat(childSon, "y", 1),
-            z: this.reader.getFloat(childSon, "z", 1),
-            w: this.reader.getFloat(childSon, "w", 1)
-          }
-        } else if (childSon.nodeName === "ambient" || childSon.nodeName === "diffuse" ||
-        childSon.nodeName === "specular") {
-          omni[childSon.nodeName] = {
-            r: this.reader.getFloat(childSon, "r", 1),
-            g: this.reader.getFloat(childSon, "g", 1),
-            b: this.reader.getFloat(childSon, "b", 1),
-            a: this.reader.getFloat(childSon, "a", 1)
-          }
+          var location = [this.reader.getFloat(childSon, "x", 1),
+          this.reader.getFloat(childSon, "y", 1),
+          this.reader.getFloat(childSon, "z", 1),
+          this.reader.getFloat(childSon, "w", 1)];
+        }
+        else if (childSon.nodeName === "ambient") {
+          var ambient = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
+        }
+        else if (childSon.nodeName === "diffuse") {
+          var diffuse = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
+        }
+        else if (childSon.nodeName === "specular") {
+          var specular = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
         }
       }
-      this.lights.omnis.push(omni);
-    } else if (child.nodeName === "spot") {
-      var spot = {
-        id: this.reader.getString(child, "id", 1),
-        enabled: this.reader.getBoolean(child, "enabled", 1),
-        angle: this.reader.getFloat(child, "angle", 1),
-        exponent: this.reader.getFloat(child, "exponent", 1),
-        target: [],
-        location: [],
-        ambient:  [],
-        diffuse:  [],
-        specular: []
-      };
-
-
+      var omni = new xmlLightOmni(id, enabled, location, ambient, diffuse, specular);
+      arrayOmni.push(omni);
+    }
+    else if (child.nodeName === "spot") {
+      var nodesSon = child.children.length;
+      var id = this.reader.getString(child, "id", 1);
+      var enabled = this.reader.getBoolean(child, "enabled", 1);
+      var angle = this.reader.getFloat(child, "angle", 1);
+      var exponent = this.reader.getFloat(child, "exponent", 1);
       var childSon;
       for (var k = 0; k < nodesSon; k++) {
         childSon = child.children[k];
-        if (childSon.nodeName === "target" || childSon.nodeName === "location") {
-          spot[childSon.nodeName] = {
-            x: this.reader.getFloat(childSon, "x", 1),
-            y: this.reader.getFloat(childSon, "y", 1),
-            z: this.reader.getFloat(childSon, "z", 1),
-
-
-          };
-        } else {
-          spot[childSon.nodeName] = {
-            r: this.reader.getFloat(childSon, "r", 1),
-            g: this.reader.getFloat(childSon, "g", 1),
-            b: this.reader.getFloat(childSon, "b", 1),
-            a: this.reader.getFloat(childSon, "a", 1)
-          }
-
-
+        if (childSon.nodeName === "target") {
+          var target = [this.reader.getFloat(childSon, "x", 1),
+          this.reader.getFloat(childSon, "y", 1),
+          this.reader.getFloat(childSon, "z", 1)];
+        }
+        else if (childSon.nodeName === "location") {
+          var location = [this.reader.getFloat(childSon, "x", 1),
+          this.reader.getFloat(childSon, "y", 1),
+          this.reader.getFloat(childSon, "z", 1)];
+        }
+        else if (childSon.nodeName === "ambient") {
+          var ambient = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
+        }
+        else if (childSon.nodeName === "diffuse") {
+          var diffuse = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
+        }
+        else if (childSon.nodeName === "specular") {
+          var specular = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
         }
       }
-      this.lights.spots.push(spot);
+      var spot = new xmlLightSpot(id, enabled, angle, exponent, target, location, ambient, diffuse, specular);
+      arraySpot.push(spot);
     }
   }
-
+  this.lights = new xmlLights(arrayOmni, arraySpot);
 };
 
 MySceneGraph.prototype.parserTextures = function(rootElement) {
