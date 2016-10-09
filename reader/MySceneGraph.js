@@ -204,8 +204,7 @@ MySceneGraph.prototype.parserIllumination = function(rootElement) {
   for (var i = 0; i < nnodes; i++) {
     child = ilumi[0].children[i];
     if (child.nodeName === "ambient") {
-      /*this.scene.setAmbient(this.reader.getFloat(child, "r", 1), this.reader.getFloat(child, "g", 1), this.reader.getFloat(child, "b", 1), this.reader.getFloat(child, "a", 1));*/
-      var arrayAmbient = [this.reader.getFloat(child, "r", 1),
+        var arrayAmbient = [this.reader.getFloat(child, "r", 1),
       this.reader.getFloat(child, "g", 1),
       this.reader.getFloat(child, "b", 1),
       this.reader.getFloat(child, "a", 1)];
