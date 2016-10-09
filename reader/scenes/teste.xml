@@ -79,7 +79,9 @@
             <!-- instrucoes a usar sem limite nem ordem -->
             <!-- deve existir pelo menos uma transformacao -->
             <translate x="0.5" y="0.6" z="0.7"/>
+            <translate x="0.1" y="0.2" z="0.3"/>
             <rotate axis="x" angle="50"/>
+            <rotate axis="z" angle="70"/>
             <scale x="1" y="2" z="3"/>
         </transformation>
         <transformation id="dois">

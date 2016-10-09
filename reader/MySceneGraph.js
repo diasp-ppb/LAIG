@@ -419,6 +419,9 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
         return "Wrong number of transformations in " + transformation.id;
       }
       var id = this.reader.getString(child,"id",1);
+      var arrayTranslates = [];
+      var arrayRotates = [];
+      var arrayScales = [];
       var childSon;
       for(var k = 0; k < nSon; k++){
         childSon = child.children[k];
@@ -426,21 +429,24 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
           var translate = [this.reader.getFloat(childSon,"x",1),
           this.reader.getFloat(childSon,"y",1),
           this.reader.getFloat(childSon,"z",1)];
+          arrayTranslates.push(translate);
         }
         else if(childSon.nodeName === "rotate"){
           var rotate = [this.reader.getItem(childSon,"axis",["x","y","z"],1),
           this.reader.getFloat(childSon,"angle",1)];
+          arrayRotates.push(rotate);
         }
         else if(childSon.nodeName === "scale"){
           var scale = [this.reader.getFloat(childSon,"x",1),
           this.reader.getFloat(childSon,"y",1),
           this.reader.getFloat(childSon,"z",1)];
+          arrayScales.push(scale);
         }
         else {
           return "invalid transformation -> use translate,rotate,scale"
         }
       }
-      var transformation = new xmlTrans(id, translate, rotate, scale);
+      var transformation = new xmlTransf(id, arrayTranslates, arrayRotates, arrayScales);
       arrayTransformations.push(transformation);
     }
   }

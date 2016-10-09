@@ -22,39 +22,77 @@ xmlTransformations.prototype.consoleDebug = function(){
 /**
 * Class that represents a single transformation
 * @param id ID of the transformation
-* @param arrayTranslate
-* @param arrayRotate
-* @param arrayScale
+* @param arrayTranslates (bi-demensional array! array of translates, and each translate is an array itself)
+* @param arrayRotates (bi-demensional array! array of rotates, and each rotate is an array itself)
+* @param arrayScales (bi-demensional array! array of scales, and each scale is an array itself)
 */
-function xmlTrans(id, arrayTranslate, arrayRotate, arrayScale)
+function xmlTransf(id, arrayTranslates, arrayRotates, arrayScales)
 {
   this.id = id;
-  this.translate = arrayTranslate.slice(0);
-  this.rotate = arrayRotate.slice(0);
-  this.scale = arrayScale.slice(0);
+  this.translates = arrayTranslates.slice(0);
+  this.rotates = arrayRotates.slice(0);
+  this.scales = arrayScales.slice(0);
 };
 
 /**
 * Outputs every attr to the console
 */
-xmlTrans.prototype.consoleDebug = function(){
-  console.log("--- START TRANS DEBUGGING ---");
+xmlTransf.prototype.consoleDebug = function(){
+  console.log("--- START TRANSF DEBUGGING ---");
   console.log("Id: " + this.id);
+  console.log("Translates[" + this.translates.length + "]:");
+  console.log("--- START TRANSLATES DEBUGGING ---");
+  for(var i = 0; i < this.translates.length; i++){
+    this.translateConsoleDebug(this.translates[i]);
+  }
+  console.log("--- FINISH TRANSLATES DEBUGGING ---");
+  console.log("Rotates[" + this.rotates.length + "]:");
+  console.log("--- START ROTATES DEBUGGING ---");
+  for(var i = 0; i < this.rotates.length; i++){
+    this.rotateConsoleDebug(this.rotates[i]);
+  }
+  console.log("--- FINISH ROTATES DEBUGGING ---");
+  console.log("Scales[" + this.scales.length + "]:");
+  console.log("--- START SCALES DEBUGGING ---");
+  for(var i = 0; i < this.scales.length; i++){
+    this.scaleConsoleDebug(this.scales[i]);
+  }
+  console.log("--- FINISH SCALES DEBUGGING ---");
+  console.log("--- FINISH TRANSF DEBUGGING ---");
+};
+
+/**
+* Outputs every element of translate to the console
+*/
+xmlTransf.prototype.translateConsoleDebug = function(translate){
   var ss; //string variable that helps avoiding the console.log newline
-  ss = "Translate[" + this.translate.length + "]:";
-  for(var i = 0; i < this.translate.length; i++){
-    ss += " " + this.translate[i];
+  ss = "Translate[" + translate.length + "]:";
+  for(var i = 0; i < translate.length; i++){
+    ss += " " + translate[i];
   }
   console.log(ss);
-  ss = "Rotate[" + this.rotate.length + "]:";
-  for(var i = 0; i < this.rotate.length; i++){
-    ss += " " + this.rotate[i];
+};
+
+/**
+* Outputs every element of rotate to the console
+*/
+xmlTransf.prototype.rotateConsoleDebug = function(rotate){
+  var ss; //string variable that helps avoiding the console.log newline
+  ss = "Rotate[" + rotate.length + "]:";
+  for(var i = 0; i < rotate.length; i++){
+    ss += " " + rotate[i];
   }
   console.log(ss);
-  ss = "Scale[" + this.scale.length + "]:";
-  for(var i = 0; i < this.scale.length; i++){
-    ss += " " + this.scale[i];
+};
+
+/**
+* Outputs every element of scale to the console
+*/
+xmlTransf.prototype.scaleConsoleDebug = function(scale){
+  var ss; //string variable that helps avoiding the console.log newline
+  ss = "Scale[" + scale.length + "]:";
+  for(var i = 0; i < scale.length; i++){
+    ss += " " + scale[i];
   }
   console.log(ss);
-  console.log("--- FINISH TRANS DEBUGGING ---");
 };
