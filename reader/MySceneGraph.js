@@ -25,8 +25,8 @@ function MySceneGraph(filename, scene) {
   this.illumination = null;
   /* Storage for scene lights*/
   this.lights = null;
-  /* Storage for textures information*/
-  this.textures = [];
+  /* Storage for textures*/
+  this.textures = null;
   /* Storage for materials*/
   this.materials = [];
   /* Storage for primitives */
@@ -56,6 +56,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.illumination.consoleDebug();
   this.lights.consoleDebug();
   this.primitives.consoleDebug();
+  this.textures.consoleDebug();
 
   //Error call
   if (error != null) {
@@ -204,7 +205,7 @@ MySceneGraph.prototype.parserIllumination = function(rootElement) {
   for (var i = 0; i < nnodes; i++) {
     child = ilumi[0].children[i];
     if (child.nodeName === "ambient") {
-        var arrayAmbient = [this.reader.getFloat(child, "r", 1),
+      var arrayAmbient = [this.reader.getFloat(child, "r", 1),
       this.reader.getFloat(child, "g", 1),
       this.reader.getFloat(child, "b", 1),
       this.reader.getFloat(child, "a", 1)];
@@ -317,7 +318,6 @@ MySceneGraph.prototype.parserLights = function(rootElement) {
 
 MySceneGraph.prototype.parserTextures = function(rootElement) {
   var textures = rootElement.getElementsByTagName('textures');
-
   if (textures == null || textures.length == 0) {
     return "'textures' are missing";
   }
@@ -325,21 +325,20 @@ MySceneGraph.prototype.parserTextures = function(rootElement) {
   if (nnodes < 1) {
     return "no textures";
   }
-
   var child;
-
+  var arrayTextures = [];
   for(var i = 0; i < nnodes; i++)
   {
     child = textures[0].children[i];
-
-    var texture = {
-      id: this.reader.getString(child, "id", 1),
-      file: this.reader.getString(child, "file", 1),
-      length_s:  this.reader.getFloat(child, "length_s", 1),
-      length_t:  this.reader.getFloat(child, "length_t", 1),
-    }
-    this.textures.push(texture);
+    var id = this.reader.getString(child, "id", 1);
+    var file = this.reader.getString(child, "file", 1);
+    var length_s = this.reader.getFloat(child, "length_s", 1);
+    var length_t = this.reader.getFloat(child, "length_t", 1);
+    var texture = new xmlText(id, file, length_s, length_t);
+    arrayTextures.push(texture);
   }
+  //Once all textures are fully parsed
+  this.textures = new xmlTextures(arrayTextures);
 }
 
 MySceneGraph.prototype.parserMaterials = function(rootElement) {

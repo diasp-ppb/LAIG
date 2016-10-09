@@ -1,5 +1,5 @@
 /**
-* Class that represents lights tag in xml (it's basically a struct with 5 arrays)
+* Class that represents primitives tag in xml (it's basically a struct with 5 arrays)
 * @param arrayRect array containing rectangles
 */
 function xmlPrimitives(arrayRect)
