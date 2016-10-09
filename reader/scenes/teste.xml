@@ -82,6 +82,13 @@
             <rotate axis="x" angle="50"/>
             <scale x="1" y="2" z="3"/>
         </transformation>
+        <transformation id="dois">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="0.8" y="0.9" z="1"/>
+            <rotate axis="y" angle="30"/>
+            <scale x="4" y="5" z="6"/>
+        </transformation>
     </transformations>
 
     <primitives>
