@@ -16,19 +16,21 @@ function MySceneGraph(filename, scene) {
 
   this.reader.open('scenes/' + filename, this);
 
-  /* Storage for scene perpectives*/
-  this.perspectives = [];
+
+  /* Storage for scene tag */
+  this.xmlSceneTag = null;
+  /* Storage for views tag */
+  this.views = null;
+  /* Storage for illumination */
+  this.illumination = null;
   /* Storage for scene lights*/
-  this.lights = {
-    omnis: [],
-    spots: []
-  };
+  this.lights = null;
   /* Storage for textures information*/
   this.textures = [];
   /* Storage for materials*/
   this.materials = [];
   /* Storage for primitives */
-  this.primitives = [];
+  this.primitives = null;
 }
 
 /*
@@ -41,13 +43,21 @@ MySceneGraph.prototype.onXMLReady = function() {
   // Here should go the calls for different functions to parse the various blocks
   var error = this.parserIllumination(rootElement);
   error = this.parserSceneTag(rootElement);
-  error = this.parserViews(rootElement); //TODO
+  error = this.parserViews(rootElement);
   error = this.parserLights(rootElement);
   error = this.parserTextures(rootElement);
   error = this.parserMaterials(rootElement);
   error = this.parserTransformations(rootElement);
   error = this.parserPrimitives(rootElement);
-  console.log("primitives:\nid: " + this.primitives[0].id + "\nx1 " + this.primitives[0].x1 + "\nx2: " + this.primitives[0].x2 + "\ny1: " + this.primitives[0].y1 + "\ny2: " + this.primitives[0].y2);
+
+  //Debugging calls!
+  this.xmlSceneTag.consoleDebug();
+  this.views.consoleDebug();
+  this.illumination.consoleDebug();
+  this.lights.consoleDebug();
+  this.primitives.consoleDebug();
+
+  //Error call
   if (error != null) {
     this.onXMLError(error);
     return;
@@ -73,11 +83,10 @@ MySceneGraph.prototype.parserSceneTag= function(rootElement) {
 
   var scene = elems[0];
   //read attr 'root' within 'scene' tag
-  this.sceneXML_root = this.reader.getString(scene, 'root');
+  var root = this.reader.getString(scene, 'root');
   //read attr 'axis_length' within 'scene' tag
-  this.sceneXML_axis_length = this.reader.getFloat(scene, 'axis_length');
-
-  console.log("Scene attr read from file:\nroot: " + this.sceneXML_root + "\naxix_length: " + this.sceneXML_axis_length + "\n");
+  var axis_length = this.reader.getFloat(scene, 'axis_length');
+  this.xmlSceneTag = new xmlSceneTag(root, axis_length);
 };
 
 /*
@@ -125,15 +134,13 @@ MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
 
 MySceneGraph.prototype.parserViews = function(rootElement) {
   var views = rootElement.getElementsByTagName('views');
-
   if (views == null || views.length == 0) {
     return "'views' is missing";
   }
-
-  var defaultPersp = views[0].getAttribute("default"); // TODO NOT STORED
-
+  var defaultPersp = views[0].getAttribute("default");
+  //create Views object (storing the default perspective)
+  this.views = new xmlViews(defaultPersp);
   var nnodes = views[0].children.length;
-
   if (nnodes <= 0) {
     return 'no perspectives on file';
   }
@@ -141,32 +148,37 @@ MySceneGraph.prototype.parserViews = function(rootElement) {
   for (var i = 0; i < nnodes; i++) {
     child = views[0].children[i];
     if (child.nodeName === "perspective") {
-      var perspective = {
-        id: this.reader.getString(child, "id", 1),
-        near: this.reader.getFloat(child, "near", 1),
-        far: this.reader.getFloat(child, "far", 1),
-        angle: this.reader.getFloat(child, "angle", 1),
-        from:  [],
-        to:  []
-      };
+      var id = this.reader.getString(child, "id", 1);
+      var near = this.reader.getFloat(child, "near", 1);
+      var far = this.reader.getFloat(child, "far", 1);
+      var angle = this.reader.getFloat(child, "angle", 1);
+      var arrayFrom =  [];
+      var arrayTo =  [];
       var childNodes = child.children.length;
-      if (childNodes < 2)
-      return "wrong number of perspective " + perspective.id + "children";
-
+      if (childNodes < 2) {
+        return "wrong number of perspective " + perspective.id + "children";
+      }
       var childSon;
-      for (var k = 0; k < childNodes; k++) {
+      for (var k = 0; k < childNodes; k++)
+      {
         childSon = child.children[k];
-        if (childSon.nodeName !== "from" && childSon.nodeName !== "to") {
+        if (childSon.nodeName === "from") {
+          arrayFrom = [this.reader.getFloat(childSon, "x", 1),
+          this.reader.getFloat(childSon, "y", 1),
+          this.reader.getFloat(childSon, "z", 1)];
+        }
+        else if (childSon.nodeName === "to") {
+          arrayTo = [this.reader.getFloat(childSon, "x", 1),
+          this.reader.getFloat(childSon, "y", 1),
+          this.reader.getFloat(childSon, "z", 1)];
+        }
+        else {
           return "invalid perspective " + perspective.id + " son ";
         }
-        perspective[childSon.nodeName] = {
-          x: this.reader.getFloat(childSon, "x", 1),
-          y: this.reader.getFloat(childSon, "y", 1),
-          z: this.reader.getFloat(childSon, "z", 1),
-        }
       }
+      var perspective = new xmlPerspective(id, near, far, angle, arrayFrom, arrayTo);
+      this.views.perspectives.push(perspective);
     }
-    this.perspectives.push(perspective);
   }
 };
 
@@ -192,106 +204,116 @@ MySceneGraph.prototype.parserIllumination = function(rootElement) {
   for (var i = 0; i < nnodes; i++) {
     child = ilumi[0].children[i];
     if (child.nodeName === "ambient") {
-      this.scene.setAmbient(this.reader.getFloat(child, "r", 1), this.reader.getFloat(child, "g", 1), this.reader.getFloat(child, "b", 1), this.reader.getFloat(child, "a", 1));
+      /*this.scene.setAmbient(this.reader.getFloat(child, "r", 1), this.reader.getFloat(child, "g", 1), this.reader.getFloat(child, "b", 1), this.reader.getFloat(child, "a", 1));*/
+      var arrayAmbient = [this.reader.getFloat(child, "r", 1),
+      this.reader.getFloat(child, "g", 1),
+      this.reader.getFloat(child, "b", 1),
+      this.reader.getFloat(child, "a", 1)];
       // TODO FALTA TESTAR ISTO PRECISO Objectos
     } else if (child.nodeName === "background") {
-      this.background = this.reader.getFloat(child, "r", 1) + "" +
-      this.reader.getFloat(child, "g", 1) + "" +
-      this.reader.getFloat(child, "b", 1) + "" +
-      this.reader.getFloat(child, "a", 1);
+
+      var arrayBackground = [this.reader.getFloat(child, "r", 1),
+      this.reader.getFloat(child, "g", 1) ,
+      this.reader.getFloat(child, "b", 1) ,
+      this.reader.getFloat(child, "a", 1)];
     }
 
   }
+  this.illumination = new xmlIllumination(doublesided, local, arrayAmbient, arrayBackground);
 };
 
 MySceneGraph.prototype.parserLights = function(rootElement) {
   var lights = rootElement.getElementsByTagName('lights');
-
   if (lights == null || lights.length == 0) {
     return "'lights' is missing";
   }
-
   var nnodes = lights[0].children.length;
   if (nnodes < 1) {
     return "wrong number of lights children";
   }
-
   var child;
+  var arrayOmni =[];
+  var arraySpot = [];
   for (var i = 0; i < nnodes; i++) {
     child = lights[0].children[i];
     if (child.nodeName === "omni") {
       var nodesSon = child.children.length;
-      var omni = {
-        id: this.reader.getString(child, "id", 1),
-        enabled: this.reader.getBoolean(child, "enabled", 1),
-        location:  [],
-        ambient:  [],
-        diffuse: [],
-        specular: []
-      };
-
+      var id = this.reader.getString(child, "id", 1);
+      var enabled = this.reader.getBoolean(child, "enabled", 1);
       var childSon;
       for (var k = 0; k < nodesSon; k++) {
         childSon = child.children[k];
-
         if (childSon.nodeName === "location") {
-          omni.location = {
-            x: this.reader.getFloat(childSon, "x", 1),
-            y: this.reader.getFloat(childSon, "y", 1),
-            z: this.reader.getFloat(childSon, "z", 1),
-            w: this.reader.getFloat(childSon, "w", 1)
-          }
-        } else if (childSon.nodeName === "ambient" || childSon.nodeName === "diffuse" ||
-        childSon.nodeName === "specular") {
-          omni[childSon.nodeName] = {
-            r: this.reader.getFloat(childSon, "r", 1),
-            g: this.reader.getFloat(childSon, "g", 1),
-            b: this.reader.getFloat(childSon, "b", 1),
-            a: this.reader.getFloat(childSon, "a", 1)
-          }
+          var location = [this.reader.getFloat(childSon, "x", 1),
+          this.reader.getFloat(childSon, "y", 1),
+          this.reader.getFloat(childSon, "z", 1),
+          this.reader.getFloat(childSon, "w", 1)];
+        }
+        else if (childSon.nodeName === "ambient") {
+          var ambient = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
+        }
+        else if (childSon.nodeName === "diffuse") {
+          var diffuse = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
+        }
+        else if (childSon.nodeName === "specular") {
+          var specular = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
         }
       }
-      this.lights.omnis.push(omni);
-    } else if (child.nodeName === "spot") {
-      var spot = {
-        id: this.reader.getString(child, "id", 1),
-        enabled: this.reader.getBoolean(child, "enabled", 1),
-        angle: this.reader.getFloat(child, "angle", 1),
-        exponent: this.reader.getFloat(child, "exponent", 1),
-        target: [],
-        location: [],
-        ambient:  [],
-        diffuse:  [],
-        specular: []
-      };
-
-
+      var omni = new xmlLightOmni(id, enabled, location, ambient, diffuse, specular);
+      arrayOmni.push(omni);
+    }
+    else if (child.nodeName === "spot") {
+      var nodesSon = child.children.length;
+      var id = this.reader.getString(child, "id", 1);
+      var enabled = this.reader.getBoolean(child, "enabled", 1);
+      var angle = this.reader.getFloat(child, "angle", 1);
+      var exponent = this.reader.getFloat(child, "exponent", 1);
       var childSon;
       for (var k = 0; k < nodesSon; k++) {
         childSon = child.children[k];
-        if (childSon.nodeName === "target" || childSon.nodeName === "location") {
-          spot[childSon.nodeName] = {
-            x: this.reader.getFloat(childSon, "x", 1),
-            y: this.reader.getFloat(childSon, "y", 1),
-            z: this.reader.getFloat(childSon, "z", 1),
-
-
-          };
-        } else {
-          spot[childSon.nodeName] = {
-            r: this.reader.getFloat(childSon, "r", 1),
-            g: this.reader.getFloat(childSon, "g", 1),
-            b: this.reader.getFloat(childSon, "b", 1),
-            a: this.reader.getFloat(childSon, "a", 1)
-          }
-
-
+        if (childSon.nodeName === "target") {
+          var target = [this.reader.getFloat(childSon, "x", 1),
+          this.reader.getFloat(childSon, "y", 1),
+          this.reader.getFloat(childSon, "z", 1)];
+        }
+        else if (childSon.nodeName === "location") {
+          var location = [this.reader.getFloat(childSon, "x", 1),
+          this.reader.getFloat(childSon, "y", 1),
+          this.reader.getFloat(childSon, "z", 1)];
+        }
+        else if (childSon.nodeName === "ambient") {
+          var ambient = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
+        }
+        else if (childSon.nodeName === "diffuse") {
+          var diffuse = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
+        }
+        else if (childSon.nodeName === "specular") {
+          var specular = [this.reader.getFloat(childSon, "r", 1),
+          this.reader.getFloat(childSon, "g", 1),
+          this.reader.getFloat(childSon, "b", 1),
+          this.reader.getFloat(childSon, "a", 1)];
         }
       }
-      this.lights.spots.push(spot);
+      var spot = new xmlLightSpot(id, enabled, angle, exponent, target, location, ambient, diffuse, specular);
+      arraySpot.push(spot);
     }
   }
-
+  this.lights = new xmlLights(arrayOmni, arraySpot);
 };
 
 MySceneGraph.prototype.parserTextures = function(rootElement) {
@@ -386,8 +408,6 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
     if(child.nodeName === "transformation"){
       var nSon = child.children.length;
 
-      console.log("nSon " + nSon);
-
       if(nSon < 1){
         return "Wrong number of transformations in " + transformation.id;
       }
@@ -403,19 +423,32 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
 
         if(childSon.nodeName === "translate"){
           var translate = {
+
             x: this.reader.getFloat(childSon,"x",1),
             y: this.reader.getFloat(childSon,"y",1),
             z: this.reader.getFloat(childSon,"z",1)
-          }
+          };
           transformation.transforms.push(translate);
         }
         else if(childSon.nodeName === "rotate"){
           var  rotate = {
-            axis:this.reader.getString(childSon,"axis",1),
+            axis:this.reader.getItem(childSon,"axis",["x","y","z"],1),
             angle: this.reader.getFloat(childSon,"angle",1)
           };
           transformation.transforms.push(rotate);
         }
+        else if(childSon.nodeName === "scale"){
+          var scale = {
+            x: this.reader.getFloat(childSon,"x",1),
+            y: this.reader.getFloat(childSon,"y",1),
+            z: this.reader.getFloat(childSon,"z",1)
+          }
+          transformation.transforms.push(scale);
+        }
+        else {
+          return "invalid transformation -> use translate,rotate,scale"
+        }
+
       }
 
     }
@@ -441,6 +474,8 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
   if (nPrim <= 0) {
     return "no 'primitive' tags found";
   }
+  //declare arrays for all primitive types
+  var arrayRect = [];
   for (var i = 0; i < nPrim; i++){
     //'primitive' tag
     var prim = primitives.children[i];
@@ -461,21 +496,22 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
       var x2 = this.reader.getFloat(primType, 'x2');
       var y1 = this.reader.getFloat(primType, 'y1');
       var y2 = this.reader.getFloat(primType, 'y2');
-      this.primitives.push(new xmlRectangle(primId, x1, x2, y1, y2));
+      var Rect = new xmlRectangle(primId, x1, x2, y1, y2);
+      arrayRect.push(Rect);
     }
     else if (primType.nodeName === "triangle")
     {
       //TODO
     }
-    else  if (primType.nodeName === "cylinder")
+    else if (primType.nodeName === "cylinder")
     {
       //TODO
     }
-    else  if (primType.nodeName === "sphere")
+    else if (primType.nodeName === "sphere")
     {
       //TODO
     }
-    else   if (primType.nodeName === "torus")
+    else if (primType.nodeName === "torus")
     {
       //TODO
     }
@@ -483,6 +519,8 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
       return "invalid primitive type";
     }
   }
+  //store all the primitives present in the dsx
+  this.primitives = new xmlPrimitives(arrayRect);
 };
 
 /*
