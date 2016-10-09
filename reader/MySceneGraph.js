@@ -28,7 +28,7 @@ function MySceneGraph(filename, scene) {
   /* Storage for textures*/
   this.textures = null;
   /* Storage for materials*/
-  this.materials = [];
+  this.materials = null;
   /* Storage for primitives */
   this.primitives = null;
 }
@@ -57,6 +57,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.lights.consoleDebug();
   this.primitives.consoleDebug();
   this.textures.consoleDebug();
+  this.materials.consoleDebug();
 
   //Error call
   if (error != null) {
@@ -132,7 +133,6 @@ MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
 
 };
 
-
 MySceneGraph.prototype.parserViews = function(rootElement) {
   var views = rootElement.getElementsByTagName('views');
   if (views == null || views.length == 0) {
@@ -182,7 +182,6 @@ MySceneGraph.prototype.parserViews = function(rootElement) {
     }
   }
 };
-
 
 MySceneGraph.prototype.parserIllumination = function(rootElement) {
   var ilumi = rootElement.getElementsByTagName('illumination');
@@ -342,48 +341,57 @@ MySceneGraph.prototype.parserTextures = function(rootElement) {
 }
 
 MySceneGraph.prototype.parserMaterials = function(rootElement) {
-  var materials = rootElement.getElementsByTagName('textures');
-
+  var materials = rootElement.getElementsByTagName('materials');
   if (materials == null || materials.length == 0) {
-    return "'textures' are missing";
+    return "'materials' are missing";
   }
   var nnodes = materials[0].children.length;
   if (nnodes < 1) {
     return "no materials";
   }
-
   var child;
-
-  for(var i = 0; i < nnodes; i++){
+  var arrayMaterials = [];
+  for(var i = 0; i < nnodes; i++)
+  {
     child = materials[0].children[i];
-    var material = {
-      id: this.reader.getString(child, "id", 1),
-      emission: [],
-      ambient: [],
-      diffuse: [],
-      specular: []
-    };
+    var id = this.reader.getString(child, "id", 1);
     var nodesSon = child.children.length;
-
     var childSon;
-    for(var k = 0; k < nodesSon; k++){
-      childSon=child[0].children[k];
-      if(childSon.nodeName ==="shininess"){
-        material.shininess = this.reader.getFloat(childSon, "value", 1);
+    for(var k = 0; k < nodesSon; k++) {
+      childSon = child.children[k];
+      if (childSon.nodeName === "emission"){
+        var emission = [this.reader.getFloat(childSon, "r", 1),
+        this.reader.getFloat(childSon, "g", 1),
+        this.reader.getFloat(childSon, "b", 1),
+        this.reader.getFloat(childSon, "a", 1)];
       }
-      else {
-        material[childSon.nodeName] = {
-          r: this.reader.getFloat(childSon, "r", 1),
-          g: this.reader.getFloat(childSon, "g", 1),
-          b: this.reader.getFloat(childSon, "b", 1),
-          a: this.reader.getFloat(childSon, "a", 1)
-        }
+      else if (childSon.nodeName === "ambient"){
+        var ambient = [this.reader.getFloat(childSon, "r", 1),
+        this.reader.getFloat(childSon, "g", 1),
+        this.reader.getFloat(childSon, "b", 1),
+        this.reader.getFloat(childSon, "a", 1)];
+      }
+      else if (childSon.nodeName === "diffuse"){
+        var diffuse = [this.reader.getFloat(childSon, "r", 1),
+        this.reader.getFloat(childSon, "g", 1),
+        this.reader.getFloat(childSon, "b", 1),
+        this.reader.getFloat(childSon, "a", 1)];
+      }
+      else if (childSon.nodeName === "specular"){
+        var specular = [this.reader.getFloat(childSon, "r", 1),
+        this.reader.getFloat(childSon, "g", 1),
+        this.reader.getFloat(childSon, "b", 1),
+        this.reader.getFloat(childSon, "a", 1)];
+      }
+      else if(childSon.nodeName === "shininess"){
+        var shininess = this.reader.getFloat(childSon, "value", 1);
       }
     }
-    this.materials.push(material);
+    var material = new xmlMat(id, emission, ambient, diffuse, specular, shininess);
+    arrayMaterials.push(material);
   }
+  this.materials = new xmlMaterials(arrayMaterials);
 };
-
 
 MySceneGraph.prototype.parserTransformations = function(rootElement) {
   var transformations = rootElement.getElementsByTagName('transformations');
@@ -524,7 +532,6 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
 /*
 * Callback to be executed on any read error
 */
-
 MySceneGraph.prototype.onXMLError = function(message) {
   console.error("XML Loading Error: " + message);
   this.loadedOk = false;
