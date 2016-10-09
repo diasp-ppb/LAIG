@@ -103,5 +103,8 @@ XMLscene.prototype.setDefaultCamera = function(){
 }
 
 XMLscene.prototype.setDefaultIllumination = function() {
-  this.setAmbient(this.graph.illumination.ambient[0], this.graph.illumination.ambient[1], this.graph.illumination.ambient[2], this.graph.illumination.ambient[3]);
+  
+  this.setGlobalAmbientLight(this.graph.illumination.ambient[0], this.graph.illumination.ambient[1], this.graph.illumination.ambient[2], this.graph.illumination.ambient[3]);
+  console.log("def");
+
 };
