@@ -17,19 +17,21 @@ function MySceneGraph(filename, scene) {
   this.reader.open('scenes/' + filename, this);
 
 
-  /* Storage for scene tag */
+  //Storage for scene tag
   this.xmlSceneTag = null;
-  /* Storage for views tag */
+  //Storage for views tag
   this.views = null;
-  /* Storage for illumination */
+  //Storage for illumination
   this.illumination = null;
-  /* Storage for scene lights*/
+  //Storage for scene lights
   this.lights = null;
-  /* Storage for textures*/
+  //Storage for textures
   this.textures = null;
-  /* Storage for materials*/
+  //Storage for materials
   this.materials = null;
-  /* Storage for primitives */
+  //Storage for transformations
+  this.transformations = null;
+  //Storage for primitives
   this.primitives = null;
 }
 
@@ -40,10 +42,13 @@ MySceneGraph.prototype.onXMLReady = function() {
   console.log("XML Loading finished.");
   var rootElement = this.reader.xmlDoc.documentElement;
 
+  //error control
+  var error;
+
   // Here should go the calls for different functions to parse the various blocks
-  var error = this.parserIllumination(rootElement);
   error = this.parserSceneTag(rootElement);
   error = this.parserViews(rootElement);
+  error = this.parserIllumination(rootElement);
   error = this.parserLights(rootElement);
   error = this.parserTextures(rootElement);
   error = this.parserMaterials(rootElement);
@@ -55,9 +60,10 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.views.consoleDebug();
   this.illumination.consoleDebug();
   this.lights.consoleDebug();
-  this.primitives.consoleDebug();
   this.textures.consoleDebug();
   this.materials.consoleDebug();
+  this.transformations.consoleDebug();
+  this.primitives.consoleDebug();
 
   //Error call
   if (error != null) {
@@ -395,9 +401,6 @@ MySceneGraph.prototype.parserMaterials = function(rootElement) {
 
 MySceneGraph.prototype.parserTransformations = function(rootElement) {
   var transformations = rootElement.getElementsByTagName('transformations');
-
-
-
   if (transformations == null || transformations.length == 0) {
     return "'transformations' are missing";
   }
@@ -405,60 +408,43 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
   if (nnodes < 1) {
     return "no transformations";
   }
-
   var child;
-
+  var arrayTransformations = [];
   for(var i = 0; i < nnodes; i++)
   {
     child = transformations[0].children[i];
     if(child.nodeName === "transformation"){
       var nSon = child.children.length;
-
       if(nSon < 1){
         return "Wrong number of transformations in " + transformation.id;
       }
-
-      var transformation = {
-        id : this.reader.getString(child,"id",1),
-        transforms:[],
-      };
-
+      var id = this.reader.getString(child,"id",1);
       var childSon;
       for(var k = 0; k < nSon; k++){
         childSon = child.children[k];
-
         if(childSon.nodeName === "translate"){
-          var translate = {
-
-            x: this.reader.getFloat(childSon,"x",1),
-            y: this.reader.getFloat(childSon,"y",1),
-            z: this.reader.getFloat(childSon,"z",1)
-          };
-          transformation.transforms.push(translate);
+          var translate = [this.reader.getFloat(childSon,"x",1),
+          this.reader.getFloat(childSon,"y",1),
+          this.reader.getFloat(childSon,"z",1)];
         }
         else if(childSon.nodeName === "rotate"){
-          var  rotate = {
-            axis:this.reader.getItem(childSon,"axis",["x","y","z"],1),
-            angle: this.reader.getFloat(childSon,"angle",1)
-          };
-          transformation.transforms.push(rotate);
+          var rotate = [this.reader.getItem(childSon,"axis",["x","y","z"],1),
+          this.reader.getFloat(childSon,"angle",1)];
         }
         else if(childSon.nodeName === "scale"){
-          var scale = {
-            x: this.reader.getFloat(childSon,"x",1),
-            y: this.reader.getFloat(childSon,"y",1),
-            z: this.reader.getFloat(childSon,"z",1)
-          }
-          transformation.transforms.push(scale);
+          var scale = [this.reader.getFloat(childSon,"x",1),
+          this.reader.getFloat(childSon,"y",1),
+          this.reader.getFloat(childSon,"z",1)];
         }
         else {
           return "invalid transformation -> use translate,rotate,scale"
         }
-
       }
-
+      var transformation = new xmlTrans(id, translate, rotate, scale);
+      arrayTransformations.push(transformation);
     }
   }
+  this.transformations = new xmlTransformations(arrayTransformations);
 };
 
 MySceneGraph.prototype.parserPrimitives= function(rootElement) {
