@@ -6,6 +6,7 @@
 function Interface() {
     //call CGFinterface constructor
     CGFinterface.call(this);
+    this.lights;
 };
 
 Interface.prototype = Object.create(CGFinterface.prototype);
@@ -14,15 +15,14 @@ Interface.prototype.constructor = Interface;
 
 Interface.prototype.init = function(application) {
     // call CGFinterface init
-    CGFinterface.prototype.init.call(this, application);
+  CGFinterface.prototype.init.call(this, application);
     // init GUI
-    this.gui = new dat.GUI();
+  this.gui = new dat.GUI();
 
 
-    // TEMPORARIO PARA TESTE
-     var lightsGroup=this.gui.addFolder("Lights");
+  this.lights = this.gui.addFolder("Lights");
 
-  //  lightsGroup.add(this.scene, 'light1');
+
 
 return true;
 };
@@ -35,8 +35,9 @@ Interface.prototype.processKeyDown = function(event) {
   }
 }
 
-Interface.prototype.addLightsGroup = function (ligthID){
-  	lightsGroup.open();
-    lightsGroup.add(this.scene, lifghtID);
-    lightsGroup.close();
+Interface.prototype.addLights = function (ligthID,i){
+
+console.log(ligthID);
+  this.lights.add(this.scene.lightsStatus,i).name(ligthID);
+
 }

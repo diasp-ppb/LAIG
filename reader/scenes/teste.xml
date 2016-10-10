@@ -34,30 +34,30 @@
             <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
         </omni>
 
-        <omni id="doisO" enabled="1">
-            <location x="1" y="15" z="1" w="0.0"/>
-            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
-            <diffuse r="0.1" g="0.1" b="0.1" a="1.0"/>
-            <specular r="0.1" g="0.1" b="0.1" a="0.1"/>
-        </omni>
+                <omni id="doisO" enabled="1">
+                    <location x="1" y="15" z="1" w="0.0"/>
+                    <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+                    <diffuse r="0.1" g="0.1" b="0.1" a="1.0"/>
+                    <specular r="0.1" g="0.1" b="0.1" a="0.1"/>
+                </omni>
 
-        <spot id="umS" enabled="1" angle="10" exponent="3">
-            <!-- atencao, "target" e' diferente de "direction" -->
-            <target x="0.0" y="0.0" z="0.0"/>
-            <location x="-5" y="4" z="-5"/>
-            <ambient r="0.1" g="0.1" b="0.1" a="0.1"/>
-            <diffuse r="0.1" g="0.1" b="0.1" a="0.1"/>
-            <specular r="0.1" g="0.1" b="0.1" a="0.1"/>
-        </spot>
+                <spot id="umS" enabled="1" angle="10" exponent="3">
+                    <!-- atencao, "target" e' diferente de "direction" -->
+                    <target x="0.0" y="0.0" z="0.0"/>
+                    <location x="-5" y="4" z="-5"/>
+                    <ambient r="0.1" g="0.1" b="0.1" a="0.1"/>
+                    <diffuse r="0.1" g="0.1" b="0.1" a="0.1"/>
+                    <specular r="0.1" g="0.1" b="0.1" a="0.1"/>
+                </spot>
 
-        <spot id="doisS" enabled="1" angle="10" exponent="3">
-            <!-- atencao, "target" e' diferente de "direction" -->
-            <target x="0.0" y="0.0" z="0.0"/>
-            <location x="5" y="4" z="2"/>
-            <ambient r="0.1" g="0.1" b="0.1" a="0.1"/>
-            <diffuse r="0.1" g="0.1" b="0.1" a="0.1"/>
-            <specular r="0.1" g="0.1" b="0.1" a="0.1"/>
-        </spot>
+                <spot id="doisS" enabled="1" angle="10" exponent="3">
+                    <!-- atencao, "target" e' diferente de "direction" -->
+                    <target x="0.0" y="0.0" z="0.0"/>
+                    <location x="5" y="4" z="2"/>
+                    <ambient r="0.1" g="0.1" b="0.1" a="0.1"/>
+                    <diffuse r="0.1" g="0.1" b="0.1" a="0.1"/>
+                    <specular r="0.1" g="0.1" b="0.1" a="0.1"/>
+                </spot>
 
 
 
