@@ -1,5 +1,6 @@
-function XMLscene() {
+function XMLscene(MyInterface) {
   CGFscene.call(this);
+  this.interface = MyInterface;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -23,6 +24,8 @@ XMLscene.prototype.init = function(application) {
     this.axis = new CGFaxis(this);
 
     this.lightCount = 0;
+
+    this.lightsStatus = [];
 
 };
 
@@ -83,6 +86,11 @@ XMLscene.prototype.display = function() {
     // This is one possible way to do it
     if (this.graph.loadedOk) {
         for(var i = 0;i < this.lightCount; i++){
+          if(this.lightsStatus[i])
+          this.lights[i].enable();
+          else {
+            this.lights[i].disable();
+          }
           this.lights[i].update();
         }
     };
@@ -118,10 +126,8 @@ XMLscene.prototype.setDefaultIllumination = function() {
 
   this.setGlobalAmbientLight(this.graph.illumination.ambient[0], this.graph.illumination.ambient[1], this.graph.illumination.ambient[2], this.graph.illumination.ambient[3]);
 
-
-
-
   var light;
+
   /* OMNIS CONFIG*/
   var nOmnis = this.graph.lights.omni.length;
   for(var i = 0; i < nOmnis; i++, this.lightCount++){
@@ -133,13 +139,20 @@ XMLscene.prototype.setDefaultIllumination = function() {
    this.lights[this.lightCount].setDiffuse(light.diffuse[0],light.diffuse[1],light.diffuse[2],light.diffuse[3]);
    this.lights[this.lightCount].setSpecular(light.specular[0],light.specular[1],light.specular[2],light.specular[3]);
    this.lights[this.lightCount].setSpotCutOff(360); // TODO QUAL é o default?? nao tem doc
-   if(light.enabled)
+
+
+   if(light.enabled){
     this.lights[this.lightCount].enable();
+    this.lightsStatus.push(true);
+  }
    else {
     this.lights[this.lightCount].disable();
+    this.lightsStatus.push(false);
   }
     this.lights[this.lightCount].setVisible(true);
+    this.interface.addLights(this.graph.lights.omni[i].id ,this.lightCount);
   }
+
 
 /* SPOTS CONFIG*/
   var nSpots = this.graph.lights.spot.length;
@@ -157,12 +170,20 @@ XMLscene.prototype.setDefaultIllumination = function() {
     this.lights[this.lightCount].setDiffuse(light.diffuse[0],light.diffuse[1],light.diffuse[2],light.diffuse[3]);
     this.lights[this.lightCount].setSpecular(light.specular[0],light.specular[1],light.specular[2],light.specular[3]);
 
-    if(light.enabled)
+    if(light.enabled){
      this.lights[this.lightCount].enable();
+      this.lightsStatus.push(true);
+    }
     else {
      this.lights[this.lightCount].disable();
+      this.lightsStatus.push(false);
+
    }
 
    this.lights[this.lightCount].setVisible(true);
+   this.interface.addLights(this.graph.lights.spot[i].id ,this.lightCount);
   }
+};
+XMLscene.prototype.drawPrimitives = function(){
+
 };
