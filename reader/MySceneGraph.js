@@ -474,14 +474,19 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
   }
   //declare arrays for all primitive types
   var arrayRect = [];
+  var arrayTri = [];
+  var arrayCyl = [];
+  var arraySph = [];
+  var arrayTor = [];
+  //start parsing each primitive
   for (var i = 0; i < nPrim; i++){
     //'primitive' tag
     var prim = primitives.children[i];
     //extract id
-    var primId = this.reader.getString(prim, 'id');
+    var primId = this.reader.getString(prim, 'id', 1);
     //how many primitive types there are (can only be one!)
     var nChildPrim = prim.children.length;
-    if (nPrim != 1)
+    if (nChildPrim != 1)
     {
       return "either zero or more than one primitive types found (rectangle, triangle, cylinder, sphere, torus )";
     }
@@ -490,35 +495,76 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
     //find out what type of primitive it is (rectangle, triangle, cylinder, sphere, torus )
     if (primType.nodeName === "rectangle")
     {
-      var x1 = this.reader.getFloat(primType, 'x1');
-      var x2 = this.reader.getFloat(primType, 'x2');
-      var y1 = this.reader.getFloat(primType, 'y1');
-      var y2 = this.reader.getFloat(primType, 'y2');
-      var Rect = new xmlRectangle(primId, x1, x2, y1, y2);
-      arrayRect.push(Rect);
+      //get 1st set of coordinates
+      var point1 = [this.reader.getFloat(primType, 'x1', 1),
+      this.reader.getFloat(primType, 'y1', 1)];
+      //get 2nd set of coordinates
+      var point2 = [this.reader.getFloat(primType, 'x2', 1),
+      this.reader.getFloat(primType, 'y2', 1)];
+      var rect = new xmlRectangle(primId, point1, point2);
+      arrayRect.push(rect);
     }
     else if (primType.nodeName === "triangle")
     {
-      //TODO
+      //get 1st set of coordinates
+      var point1 = [this.reader.getFloat(primType, 'x1', 1),
+      this.reader.getFloat(primType, 'y1', 1),
+      this.reader.getFloat(primType, 'z1', 1)];
+      //get 2nd set of coordinates
+      var point2 = [this.reader.getFloat(primType, 'x2', 1),
+      this.reader.getFloat(primType, 'y2', 1),
+      this.reader.getFloat(primType, 'z2', 1)];
+      //get 3rd set of coordinates
+      var point3 = [this.reader.getFloat(primType, 'x3', 1),
+      this.reader.getFloat(primType, 'y3', 1),
+      this.reader.getFloat(primType, 'z3', 1)];
+      //create triangle
+      var tri = new xmlTriangle(primId, point1, point2, point3);
+      //push triangle
+      arrayTri.push(tri);
     }
     else if (primType.nodeName === "cylinder")
     {
-      //TODO
+      //read attrs
+      var base = this.reader.getFloat(primType, 'base', 1);
+      var top = this.reader.getFloat(primType, 'top', 1);
+      var height = this.reader.getFloat(primType, 'height', 1);
+      var slices = this.reader.getInteger(primType, 'slices', 1);
+      var stacks = this.reader.getInteger(primType, 'stacks', 1);
+      //create cylinder
+      var cyl = new xmlCylinder(primId, base, top, height, slices, stacks);
+      //push cylinder
+      arrayCyl.push(cyl);
     }
     else if (primType.nodeName === "sphere")
     {
-      //TODO
+      //read attrs
+      var radius = this.reader.getFloat(primType, 'radius', 1);
+      var slices = this.reader.getInteger(primType, 'slices', 1);
+      var stacks = this.reader.getInteger(primType, 'stacks', 1);
+      //create sphere
+      var sph = new xmlSphere(primId, radius, slices, stacks);
+      //push sphere
+      arraySph.push(sph);
     }
     else if (primType.nodeName === "torus")
     {
-      //TODO
+      //read attrs
+      var inner = this.reader.getFloat(primType, 'inner', 1);
+      var outer = this.reader.getFloat(primType, 'outer', 1);
+      var slices = this.reader.getInteger(primType, 'slices', 1);
+      var loops = this.reader.getInteger(primType, 'loops', 1);
+      //create torus
+      var tor = new xmlTorus(primId, inner, outer, slices, loops);
+      //push sphere
+      arrayTor.push(tor);
     }
     else {
       return "invalid primitive type";
     }
   }
   //store all the primitives present in the dsx
-  this.primitives = new xmlPrimitives(arrayRect);
+  this.primitives = new xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor);
 };
 
 /*
