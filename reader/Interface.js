@@ -35,7 +35,7 @@ Interface.prototype.processKeyDown = function(event) {
   }
 }
 
-Interface.prototype.addLightsGroup(ligthID){
+Interface.prototype.addLightsGroup = function (ligthID){
   	lightsGroup.open();
     lightsGroup.add(this.scene, lifghtID);
     lightsGroup.close();
