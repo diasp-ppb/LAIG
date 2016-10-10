@@ -21,7 +21,7 @@ Interface.prototype.init = function(application) {
 
     // TEMPORARIO PARA TESTE
      var lightsGroup=this.gui.addFolder("Lights");
-  	lightsGroup.open();
+
   //  lightsGroup.add(this.scene, 'light1');
 
 return true;
@@ -33,4 +33,10 @@ Interface.prototype.processKeyDown = function(event) {
   if(event.keyCode == 86 || event.keyCode == 118){ // V or v
     this.scene.setNextCamera();
   }
+}
+
+Interface.prototype.addLightsGroup(ligthID){
+  	lightsGroup.open();
+    lightsGroup.add(this.scene, lifghtID);
+    lightsGroup.close();
 }
