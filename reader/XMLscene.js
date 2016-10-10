@@ -126,10 +126,8 @@ XMLscene.prototype.setDefaultIllumination = function() {
 
   this.setGlobalAmbientLight(this.graph.illumination.ambient[0], this.graph.illumination.ambient[1], this.graph.illumination.ambient[2], this.graph.illumination.ambient[3]);
 
-
-
-
   var light;
+
   /* OMNIS CONFIG*/
   var nOmnis = this.graph.lights.omni.length;
   for(var i = 0; i < nOmnis; i++, this.lightCount++){
@@ -152,7 +150,7 @@ XMLscene.prototype.setDefaultIllumination = function() {
     this.lightsStatus.push(false);
   }
     this.lights[this.lightCount].setVisible(true);
-    this.interface.addLights(this.graph.lights.spot[i].id ,this.lightCount);
+    this.interface.addLights(this.graph.lights.omni[i].id ,this.lightCount);
   }
 
 
@@ -185,4 +183,7 @@ XMLscene.prototype.setDefaultIllumination = function() {
    this.lights[this.lightCount].setVisible(true);
    this.interface.addLights(this.graph.lights.spot[i].id ,this.lightCount);
   }
+};
+XMLscene.prototype.drawPrimitives = function(){
+
 };
