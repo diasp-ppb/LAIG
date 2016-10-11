@@ -33,6 +33,8 @@ function MySceneGraph(filename, scene) {
   this.transformations = null;
   //Storage for primitives
   this.primitives = null;
+  //Storage for component
+  this.componentTest = null;
 }
 
 /*
@@ -54,16 +56,19 @@ MySceneGraph.prototype.onXMLReady = function() {
   error = this.parserMaterials(rootElement);
   error = this.parserTransformations(rootElement);
   error = this.parserPrimitives(rootElement);
+  error = this.parserComponents(rootElement);
 
   //Debugging calls!
-  this.xmlSceneTag.consoleDebug();
+  /*this.xmlSceneTag.consoleDebug();
   this.views.consoleDebug();
   this.illumination.consoleDebug();
   this.lights.consoleDebug();
   this.textures.consoleDebug();
   this.materials.consoleDebug();
   this.transformations.consoleDebug();
-  this.primitives.consoleDebug();
+  this.primitives.consoleDebug();/*/
+  //this.componentTest.consoleDebug();
+  this.componentTest.transformation.consoleDebug();
 
   //Error call
   if (error != null) {
@@ -565,6 +570,117 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
   }
   //store all the primitives present in the dsx
   this.primitives = new xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor);
+};
+
+MySceneGraph.prototype.parserComponents = function(rootElement) {
+  //get all elements that match with 'components'
+  var elems = rootElement.getElementsByTagName('components');
+  //in case there are no such elements
+  if (elems == null)
+  {
+    return "'components' element is missing";
+  }
+  //in case there are is more than 1 'components' tag
+  if (elems.length != 1)
+  {
+    return "either zero or more than one'components' element found";
+  }
+  //'components' tag
+  var components = elems[0];
+  //how many 'component' tags there are
+  var nComp = components.children.length;
+  //TODO can there be NO components at all?
+  //start parsing each component
+  for (var i = 0; i < nComp; i++)
+  {
+    //'component' tag
+    var comp = components.children[i];
+    //extract id
+    var compId = this.reader.getString(comp, 'id', 1);
+    //how many chidlren does each component have (there can only be 4!)
+    var nChildComp = comp.children.length;
+    if (nChildComp != 4)
+    {
+      return "there can only be 4 children tags within 'component': transformation, materials, texture and children"
+    }
+    //go through all children tags
+    for (var i = 0; i < nChildComp; i++)
+    {
+      //get child tag
+      var child = comp.children[i];
+      //if 'transformation' tag
+      if (child.nodeName === 'transformation')
+      {
+        //how many children does 'transformation' have
+        var nChildTrans = child.children.length;
+        //go through all children tags
+        for (var i = 0; i < nChildTrans; i++)
+        {
+          //get child tags
+          var childTrans = child.children[i];
+          //if 'transformationref' tag
+          if (childTrans.nodeName === 'transformationref')
+          {
+            //if there is more than 1 transformationref tag (including different tags)
+            if (nChildTrans != 1)
+            {
+              return "there can only be one 'transformationref'. There can be no other tags in the presence of this one"
+            }
+            //get id
+            var id = this.reader.getString(childTrans, 'id', 1);
+            //get xmlTransf object by id
+            var transf = this.transformations.findById(id);
+          }
+          //if it's an explicit transformations
+          else {
+            //if 'translate' tag
+            if (childTrans.nodeName === 'translate')
+            {
+              //TODO
+            }
+            //if 'rotate' tags
+            if (childTrans.nodeName === 'rotate')
+            {
+              //TODO
+            }
+            //if 'scale' tags
+            if (childTrans.nodeName === 'scale')
+            {
+              //TODO
+            }
+            //else it's error
+            else
+            {
+              return "Wrong tags withing 'transformation'"
+            }
+            //TODO create xmlTransf object
+          }
+        }
+      }
+      //if 'materials' tag
+      else if (child.nodeName === 'materials')
+      {
+        //TODO
+      }
+      //if 'texture' tag
+      else if (child.nodeName === 'texture')
+      {
+        //TODO
+      }
+      //if 'children' tag
+      else if (child.nodeName === 'children')
+      {
+        //TODO
+      }
+      //else error
+      else {
+        return "Wrong tags withing 'component'";
+      }
+    }
+    //TODO create xmlComp object
+    this.componentTest = new xmlComp(compId, transf, null, null, null);
+  }
+
 };
 
 /*

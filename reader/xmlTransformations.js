@@ -20,6 +20,25 @@ xmlTransformations.prototype.consoleDebug = function(){
 };
 
 /**
+* Scan transformations array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlTransformations.prototype.findById = function(id)
+{
+  //percorrer o array
+  for (var i = 0; i < this.transformations.length; i++)
+  {
+    //match id
+    if (this.transformations[i].id === id)
+    {
+      return this.transformations[i];
+    }
+  }
+  return false;
+}
+
+/**
 * Class that represents a single transformation
 * @param id ID of the transformation
 * @param arrayTranslates (bi-demensional array! array of translates, and each translate is an array itself)

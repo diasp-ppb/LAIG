@@ -122,4 +122,20 @@
             <torus inner="19" outer="20" slices="21" loops="22"/>
         </primitive>
     </primitives>
+
+    <components>
+        <component id="100">
+            <transformation>
+                <transformationref id="dois" />
+            </transformation>
+            <materials>
+                <material id="300" />
+            </materials>
+            <texture id="400" />
+            <children>
+                <componentref id="500" />
+                <primitiveref id="600" />
+            </children>
+        </component>
+    </components>
 </dsx>

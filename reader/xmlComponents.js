@@ -18,7 +18,7 @@ function xmlComp(id, transformation, materials, texture, children)
 /**
 * Outputs every attr to the console
 */
-xmlComponents.prototype.consoleDebug = function(){
+xmlComp.prototype.consoleDebug = function(){
   console.log("--- START COMPONENT DEBUGGING ---");
   //debug id
   console.log("Id: " + this.id);
@@ -34,7 +34,7 @@ xmlComponents.prototype.consoleDebug = function(){
   //debug children
   console.log("Children:");
   this.children.consoleDebug();
-  console.log("--- FINISH COMPONENT BUGGING ---");
+  console.log("--- FINISH COMPONENT DEBUGGING ---");
 };
 
 /**
@@ -49,13 +49,46 @@ function xmlCompChildren(childrenComp, childrenPrim)
 };
 
 /**
-* Class that represents components tag in xml (it's basically just an array, but it helps with debugging)
+* Outputs every attr to the console
+*/
+xmlCompChildren.prototype.consoleDebug = function(){
+  console.log("--- START COMP CHILDREN DEBUGGING ---");
+  //debug components
+  console.log("Components:");
+  this.components.consoleDebug();
+  //debug primitives
+  console.log("Primitives:");
+  this.primitives.consoleDebug();
+  console.log("--- FINISH COMP CHILDREN DEBUGGING ---");
+};
+
+/**
+* Class that represents an array of components
 * @param arrayComponents Array of objects of Class xmlComp
 */
 function xmlComponents(arrayComponents)
 {
   this.components = arrayComponents.slice(0);
 };
+
+/**
+* Scan components array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlComponents.prototype.findById = function(id)
+{
+  //percorrer o array
+  for (var i = 0; i < this.components.length; i++)
+  {
+    //match id
+    if (this.components[i].id === id)
+    {
+      return this.components[i];
+    }
+  }
+  return false;
+}
 
 /**
 * Outputs every attr to the console
@@ -66,5 +99,5 @@ xmlComponents.prototype.consoleDebug = function(){
   for(var i = 0; i < this.components.length; i++){
     this.components[i].consoleDebug();
   }
-  console.log("--- FINISH COMPONENTS BUGGING ---");
+  console.log("--- FINISH COMPONENTS DEBUGGING ---");
 };
