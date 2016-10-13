@@ -197,7 +197,7 @@ XMLscene.prototype.setDefaultIllumination = function() {
 XMLscene.prototype.createPrimitives = function(){
    var nprim = this.graph.primitives.rect.length;
 
-  
+
    var prim ;
    for(var i = 0; i < nprim ; i++)
    {
@@ -218,9 +218,14 @@ XMLscene.prototype.createPrimitives = function(){
    for (var i = 0; i < ncyl; i++){
 
      prim = this.graph.primitives.cyl[i];
-     this.primitives.push(new Cylinder(this,prim.slices,prim.stacks,prim.base,prim.top,prim.height));
+    // this.primitives.push(new Cylinder(this,prim.slices,prim.stacks,prim.base,prim.top,prim.height));
    }
 
+   var nsph = this.graph.primitives.sph.length;
+   for(var i = 0; i < nsph; i++){
+     prim = this.graph.primitives.sph[i];
+     this.primitives.push(new Sphere(this, prim.slices,prim.stacks,prim.radius));
+   }
 };
 XMLscene.prototype.drawPrimitives = function(){
   var nprim = this.primitives.length;

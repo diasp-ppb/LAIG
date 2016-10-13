@@ -122,7 +122,7 @@
                 <cylinder top="5" base="10" height="5" slices="15" stacks="13"/>
             </primitive>
             <primitive id="sph1">
-                <sphere radius="16" slices="17" stacks="18"/>
+                <sphere radius="5" slices="5" stacks="5"/>
             </primitive>
             <primitive id="tor1">
                 <torus inner="19" outer="20" slices="21" loops="22"/>
