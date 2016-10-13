@@ -27,6 +27,11 @@ XMLscene.prototype.init = function(application) {
 
     this.lightsStatus = [];
 
+    this.primitives = [];
+
+
+
+
 };
 
 XMLscene.prototype.initLights = function() {
@@ -57,6 +62,7 @@ XMLscene.prototype.onGraphLoaded = function() {
   this.setDefaultAxis();
   this.setDefaultCamera();
   this.setDefaultIllumination();
+  this.createPrimitives();
 };
 
 XMLscene.prototype.display = function() {
@@ -93,6 +99,8 @@ XMLscene.prototype.display = function() {
           }
           this.lights[i].update();
         }
+       this.drawPrimitives();
+
     };
 
 };
@@ -107,6 +115,7 @@ XMLscene.prototype.setCamera = function(perspective) {
         vec3.fromValues(perspective.from[0], perspective.from[1], perspective.from[2]),
         vec3.fromValues(perspective.to[0], perspective.to[1], perspective.to[2]));
         //TODO DUVIDA se é target ou se é o vector director
+        this.interface.setActiveCamera(this.camera);
 }
 XMLscene.prototype.setDefaultAxis = function() {
   this.axis = new CGFaxis(this, this.graph.xmlSceneTag.axis_length);
@@ -154,7 +163,7 @@ XMLscene.prototype.setDefaultIllumination = function() {
   }
 
 
-/* SPOTS CONFIG*/
+// SPOTS CONFIG
   var nSpots = this.graph.lights.spot.length;
 
   for(var i = 0; i < nSpots; i++, this.lightCount++){
@@ -184,6 +193,39 @@ XMLscene.prototype.setDefaultIllumination = function() {
    this.interface.addLights(this.graph.lights.spot[i].id ,this.lightCount);
   }
 };
-XMLscene.prototype.drawPrimitives = function(){
 
+XMLscene.prototype.createPrimitives = function(){
+   var nprim = this.graph.primitives.rect.length;
+
+  
+   var prim ;
+   for(var i = 0; i < nprim ; i++)
+   {
+     prim = this.graph.primitives.rect[i];
+    //this.primitives.push(new Rectangle(this,prim.point1,prim.point2));
+   }
+
+   var ntrig = this.graph.primitives.tri.length;
+
+   for (var i = 0; i < nprim; i++)
+   {
+     prim = this.graph.primitives.tri[i];
+  //   this.primitives.push(new Triangle(this,prim.point1,prim.point2,prim.point3));
+   }
+
+   var ncyl = this.graph.primitives.cyl.length;
+
+   for (var i = 0; i < ncyl; i++){
+
+     prim = this.graph.primitives.cyl[i];
+     this.primitives.push(new Cylinder(this,prim.slices,prim.stacks,prim.base,prim.top,prim.height));
+   }
+
+};
+XMLscene.prototype.drawPrimitives = function(){
+  var nprim = this.primitives.length;
+  for(var i = 0; i < nprim ; i++)
+  {
+    this.primitives[i].display();
+  }
 };
