@@ -221,7 +221,13 @@ XMLscene.prototype.createPrimitives = function() {
     var nsph = this.graph.primitives.sph.length;
     for (var i = 0; i < nsph; i++) {
         prim = this.graph.primitives.sph[i];
-        this.primitives.push(new Sphere(this, prim.slices, prim.stacks, prim.radius));
+      //  this.primitives.push(new Sphere(this, prim.slices, prim.stacks, prim.radius));
+    }
+    var ntor = this.graph.primitives.tor.length;
+
+    for(var i = 0; i < ntor; i++){
+      prim = this.graph.primitives.tor[i];
+      this.primitives.push(new Torus(this,prim.inner,prim.outer,prim.slices,prim.loops));
     }
 };
 XMLscene.prototype.drawPrimitives = function() {

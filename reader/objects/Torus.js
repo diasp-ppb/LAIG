@@ -53,8 +53,8 @@ for(var i = 0 ; i < this.stacks ; ++i){
  		for(var k = 0; k < this.slices ; ++k){
       var x = i * (this.slices + 1) + k;
       var y = (i + 1) * (this.slices + 1) + k;
- 			this.indices.push(x, y, (i + 1) * (this.slices + 1) + k + 1);
-			this.indices.push(x, y + 1, i * (this.slices + 1) + k + 1);
+ 			this.indices.push( (i + 1) * (this.slices + 1) + k + 1, y,x);
+			this.indices.push(i * (this.slices + 1) + k + 1, y + 1,x );
 		}
 	}
 

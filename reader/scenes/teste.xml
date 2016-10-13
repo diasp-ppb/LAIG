@@ -125,7 +125,7 @@
                 <sphere radius="5" slices="5" stacks="5"/>
             </primitive>
             <primitive id="tor1">
-                <torus inner="19" outer="20" slices="21" loops="22"/>
+                <torus inner="2" outer="3" slices="5" loops="5"/>
             </primitive>
         </primitives>
     </dsx>
