@@ -24,7 +24,7 @@ this.texCoords = [];
 
 
 var sigma = (2 * Math.PI)/ this.slices;
-var teta = Math.PI/ this.stacks;
+var teta = 2*Math.PI/ this.stacks;
 
 
 var tetaStack  = 0;
