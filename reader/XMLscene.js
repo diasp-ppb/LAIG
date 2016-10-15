@@ -68,6 +68,8 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.createPrimitives();
     this.createMaterials();
     this.loadTextures();
+    this.primitives[0].setTexturaRatio(1,1);
+    this.primitives[1].setTexturaRatio(0.3,0.3);
 };
 
 XMLscene.prototype.display = function() {

@@ -52,7 +52,7 @@ Rectangle.prototype.initBuffers = function() {
 
 Rectangle.prototype.setTexturaRatio = function(s,t){
   var ds= Math.abs((this.x2-this.x1)/s);
-  var dt= Math.abs((this.y2- this.y1)/t)
+  var dt= Math.abs((this.y2- this.y1)/t);
 
 
   this.texCoords = [
