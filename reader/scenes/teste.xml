@@ -61,8 +61,8 @@
 
     <textures>
 
-        <texture id="text1" file="SpiderPig.png" length_s="3.0" length_t="2.0"/>
-        <texture id="text2" file="PokemonEder.png" length_s="4.0" length_t="1.0"/>
+        <texture id="text1" file="textures/madeira.jpg" length_s="3.0" length_t="2.0"/>
+
 
     </textures>
 

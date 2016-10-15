@@ -50,4 +50,14 @@ Rectangle.prototype.initBuffers = function() {
     this.initGLBuffers();
 };
 
-/* falta texturas */
+Rectangle.prototype.setTexturaRatio = function(s,t){
+  var NmaxT= (this.x2-this.x1)/t;
+  var NmaxS= (this.y2-this.y1)/s;
+  this.texCoords = [
+      NmaxS, NmaxT,
+      this.minS, NmaxT,
+      NmaxS, this.minT,
+      this.minS, this.minT
+  ];
+  this.updateTexCoordsGLBuffers();
+};

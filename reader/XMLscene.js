@@ -13,6 +13,8 @@ XMLscene.prototype.init = function(application) {
 
     this.initLights();
 
+    this.enableTextures(true);
+
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
     this.gl.clearDepth(100.0);
@@ -64,6 +66,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultIllumination();
     this.createPrimitives();
     this.createMaterials();
+    this.materials[0].loadTexture(this.graph.textures.textures[0].file); //TODO
 };
 
 XMLscene.prototype.display = function() {
@@ -232,7 +235,12 @@ XMLscene.prototype.createPrimitives = function() {
 };
 XMLscene.prototype.drawPrimitives = function() {
     var nprim = this.primitives.length;
+
+    console.log(this.graph.textures.textures[0].file);
+
     for (var i = 0; i < nprim; i++) {
+
+
         this.materials[0].apply(); //TODO TEMPORARIO
 
         this.primitives[i].display();
