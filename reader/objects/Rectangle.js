@@ -51,13 +51,17 @@ Rectangle.prototype.initBuffers = function() {
 };
 
 Rectangle.prototype.setTexturaRatio = function(s,t){
-  var NmaxT= (this.x2-this.x1)/t;
-  var NmaxS= (this.y2-this.y1)/s;
+  var ds= Math.abs((this.x2-this.x1)/s);
+  var dt= Math.abs((this.y2- this.y1)/t)
+
+
   this.texCoords = [
-      NmaxS, NmaxT,
-      this.minS, NmaxT,
-      NmaxS, this.minT,
-      this.minS, this.minT
+    ds, dt,
+    this.minS, dt,
+    ds,this.minT,
+    this.minS,this.minT
   ];
+
+
   this.updateTexCoordsGLBuffers();
 };

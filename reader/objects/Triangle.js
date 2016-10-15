@@ -23,7 +23,7 @@
 
  	this.indices = [
  	0, 1, 2,
-  
+
  	];
 
 
@@ -56,4 +56,20 @@
 
  	this.primitiveType = this.scene.gl.TRIANGLES;
  	this.initGLBuffers();
+ };
+
+ Triangle.prototype.setTexturaRatio = function(s,t){
+   var ds= Math.abs((this.x2-this.x1)/s);
+   var dt= Math.abs((this.y2- this.y1)/t)
+
+
+   this.texCoords = [
+     ds, dt,
+     this.minS, dt,
+     ds,this.minT,
+     this.minS,this.minT
+   ];
+
+
+   this.updateTexCoordsGLBuffers();
  };

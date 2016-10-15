@@ -32,6 +32,7 @@ function xmlText(id, file, length_s, length_t)
   this.file = file;
   this.length_s = length_s;
   this.length_t = length_t;
+  this.texture;
 };
 
 /**
@@ -45,3 +46,7 @@ xmlText.prototype.consoleDebug = function(){
   console.log("Length_t: " + this.length_t);
   console.log("--- FINISH TEXT DEBUGGING ---");
 };
+
+xmlText.prototype.loadTexture = function(scene){
+  this.texture  = new  CGFtexture(scene,this.file);
+}

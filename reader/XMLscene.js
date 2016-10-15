@@ -33,6 +33,7 @@ XMLscene.prototype.init = function(application) {
 
     this.materials = [];
 
+    this.textures = [];
 
 };
 
@@ -66,7 +67,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultIllumination();
     this.createPrimitives();
     this.createMaterials();
-    this.materials[0].loadTexture(this.graph.textures.textures[0].file); //TODO
+    this.loadTextures();
 };
 
 XMLscene.prototype.display = function() {
@@ -135,7 +136,7 @@ XMLscene.prototype.setDefaultCamera = function() {
 
 XMLscene.prototype.setDefaultIllumination = function() {
 
-    //TODO FALTA tratar dos id's
+
 
     this.setGlobalAmbientLight(this.graph.illumination.ambient[0], this.graph.illumination.ambient[1], this.graph.illumination.ambient[2], this.graph.illumination.ambient[3]);
 
@@ -203,14 +204,16 @@ XMLscene.prototype.createPrimitives = function() {
     var prim;
     for (var i = 0; i < nprim; i++) {
         prim = this.graph.primitives.rect[i];
-        //this.primitives.push(new Rectangle(this,prim.point1,prim.point2));
+
+
+      //  this.primitives.push(new Rectangle(this,prim.point1,prim.point2);
     }
 
     var ntrig = this.graph.primitives.tri.length;
 
     for (var i = 0; i < nprim; i++) {
         prim = this.graph.primitives.tri[i];
-        //   this.primitives.push(new Triangle(this,prim.point1,prim.point2,prim.point3));
+        this.primitives.push(new Triangle(this,prim.point1,prim.point2,prim.point3));
     }
 
     var ncyl = this.graph.primitives.cyl.length;
@@ -230,19 +233,15 @@ XMLscene.prototype.createPrimitives = function() {
 
     for(var i = 0; i < ntor; i++){
       prim = this.graph.primitives.tor[i];
-      this.primitives.push(new Torus(this,prim.inner,prim.outer,prim.slices,prim.loops));
+      //this.primitives.push(new Torus(this,prim.inner,prim.outer,prim.slices,prim.loops));
     }
 };
 XMLscene.prototype.drawPrimitives = function() {
     var nprim = this.primitives.length;
-
-    console.log(this.graph.textures.textures[0].file);
-
     for (var i = 0; i < nprim; i++) {
 
-
+        this.materials[0].setTexture(this.graph.textures.textures[0].texture);
         this.materials[0].apply(); //TODO TEMPORARIO
-
         this.primitives[i].display();
     }
 };
@@ -260,6 +259,15 @@ XMLscene.prototype.createMaterials = function() {
         this.materials[i].setShininess(material.shininess);
         this.materials[i].setEmission(material.emission[0], material.emission[1], material.emission[2], material.emission[3]);
         this.materials[i].id = material.id;
-    }
 
+    }
 };
+
+XMLscene.prototype.loadTextures=function(){
+  var nText = this.graph.textures.textures.length;
+
+
+  for(var i = 0; i < nText; i++){
+    this.graph.textures.textures[i].loadTexture(this);
+  }
+}
