@@ -44,6 +44,101 @@ xmlPrimitives.prototype.consoleDebug = function(){
 };
 
 /**
+* Scan rect array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlPrimitives.prototype.findRectById = function(id)
+{
+  //percorrer o array
+  for (var i = 0; i < this.rect.length; i++)
+  {
+    //match id
+    if (this.rect[i].id === id)
+    {
+      return this.rect[i];
+    }
+  }
+  return false;
+}
+
+/**
+* Scan tri array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlPrimitives.prototype.findTriById = function(id)
+{
+  //percorrer o array
+  for (var i = 0; i < this.tri.length; i++)
+  {
+    //match id
+    if (this.tri[i].id === id)
+    {
+      return this.tri[i];
+    }
+  }
+  return false;
+}
+
+/**
+* Scan cyl array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlPrimitives.prototype.findCylById = function(id)
+{
+  //percorrer o array
+  for (var i = 0; i < this.cyl.length; i++)
+  {
+    //match id
+    if (this.cyl[i].id === id)
+    {
+      return this.cyl[i];
+    }
+  }
+  return false;
+}
+
+/**
+* Scan sph array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlPrimitives.prototype.findSphById = function(id)
+{
+  //percorrer o array
+  for (var i = 0; i < this.sph.length; i++)
+  {
+    //match id
+    if (this.sph[i].id === id)
+    {
+      return this.sph[i];
+    }
+  }
+  return false;
+}
+
+/**
+* Scan tor array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlPrimitives.prototype.findTorById = function(id)
+{
+  //percorrer o array
+  for (var i = 0; i < this.tor.length; i++)
+  {
+    //match id
+    if (this.tor[i].id === id)
+    {
+      return this.tor[i];
+    }
+  }
+  return false;
+}
+
+/**
 * Class that represents a rectangle primitive
 * @param id ID of the rectangle
 * @param poin1 Array of 2 coordinates x, y

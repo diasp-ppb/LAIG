@@ -20,6 +20,29 @@ xmlMaterials.prototype.consoleDebug = function(){
 };
 
 /**
+* Scan materials array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlMaterials.prototype.findById = function(id)
+{
+  if (id === 'inherit')
+  {
+    return new xmlMat('inherit', [], [], [], [], '');
+  }
+  //percorrer o array
+  for (var i = 0; i < this.materials.length; i++)
+  {
+    //match id
+    if (this.materials[i].id === id)
+    {
+      return this.materials[i];
+    }
+  }
+  return false;
+}
+
+/**
 * Class that represents a single material
 * @param id ID of the material
 * @param arrayEmission

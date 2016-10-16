@@ -20,6 +20,29 @@ xmlTextures.prototype.consoleDebug = function(){
 };
 
 /**
+* Scan textures array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlTextures.prototype.findById = function(id)
+{
+  if (id === 'inherit' || id === 'none')
+  {
+    return new xmlText(id, '', 0, 0);
+  }
+  //percorrer o array
+  for (var i = 0; i < this.textures.length; i++)
+  {
+    //match id
+    if (this.textures[i].id === id)
+    {
+      return this.textures[i];
+    }
+  }
+  return false;
+}
+
+/**
 * Class that represents a single texture
 * @param id ID of the texture
 * @param file

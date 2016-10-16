@@ -33,6 +33,8 @@ function MySceneGraph(filename, scene) {
   this.transformations = null;
   //Storage for primitives
   this.primitives = null;
+  //Storage for graph root (which is a component)
+  this.graphRoot = null;
 }
 
 /*
@@ -54,16 +56,18 @@ MySceneGraph.prototype.onXMLReady = function() {
   error = this.parserMaterials(rootElement);
   error = this.parserTransformations(rootElement);
   error = this.parserPrimitives(rootElement);
+  error = this.parserComponents(rootElement, null);
 
   //Debugging calls!
-  this.xmlSceneTag.consoleDebug();
+  /*this.xmlSceneTag.consoleDebug();
   this.views.consoleDebug();
   this.illumination.consoleDebug();
   this.lights.consoleDebug();
   this.textures.consoleDebug();
   this.materials.consoleDebug();
   this.transformations.consoleDebug();
-  this.primitives.consoleDebug();
+  this.primitives.consoleDebug();/*/
+  this.graphRoot.consoleDebug();
 
   //Error call
   if (error != null) {
@@ -565,6 +569,287 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
   }
   //store all the primitives present in the dsx
   this.primitives = new xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor);
+};
+
+/**
+* Parser Components
+* @param rootElement
+* @param arrayComponents null if it's the first call
+*/
+MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents) {
+  //get all elements that match with 'components'
+  var elems = rootElement.getElementsByTagName('components');
+  //in case there are no such elements
+  if (elems == null) {
+    return "'components' element is missing";
+  }
+  //in case there are is more than 1 'components' tag
+  if (elems.length != 1) {
+    return "either zero or more than one'components' element found";
+  }
+  //'components' tag
+  var components = elems[0];
+  //how many 'component' tags there are
+  var nComp = components.children.length;
+  if (nComp < 1) {
+    return 'There needs to be at least 1 component!';
+  }
+  //true if recursive call, false otherwise
+  var recursive
+  //check if arrayComponents is null
+  if (arrayComponents === null) {
+    arrayComponents = new xmlComponents([]);
+    //indicates this isn't a recursive call
+    recursive = false;
+  }
+  else {
+    //means this is a recursive call
+    recursive = true;
+  }
+  //start parsing each component
+  for (var k = 0; k < nComp; k++) {
+    //'component' tag
+    var comp = components.children[k];
+    //extract id
+    var compId = this.reader.getString(comp, 'id', 1);
+    //how many chidlren does each component have (there can only be 4!)
+    var nChildComp = comp.children.length;
+    if (nChildComp != 4) {
+      return "there can only be 4 children tags within 'component': transformation, materials, texture and children"
+    }
+    //go through all children tags
+    for (var j = 0; j < nChildComp; j++) {
+      //get child tag
+      var child = comp.children[j];
+      //xmlTransf object
+      var transformation;
+      //xmlMaterials object
+      var materials;
+      //xmlText object
+      var texture;
+      //if 'transformation' tag
+      if (child.nodeName === 'transformation') {
+        //only does something if it's not the recursive call
+        if (recursive === false) {
+          var arrayTranslates = [];
+          var arrayRotates = [];
+          var arrayScales = [];
+          var control = 1;
+          //how many children does 'transformation' have
+          var nChildTrans = child.children.length;
+          //go through all children tags
+          for (var i = 0; i < nChildTrans; i++)
+          {
+            //get child tags
+            var childTrans = child.children[i];
+            //if 'transformationref' tag
+            if (childTrans.nodeName === 'transformationref')
+            {
+              //if there is more than 1 transformationref tag (including different tags)
+              if (nChildTrans != 1)
+              {
+                return "there can only be one 'transformationref'. There can be no other tags in the presence of this one"
+              }
+              //get id
+              var id = this.reader.getString(childTrans, 'id', 1);
+              //get xmlTransf object by id
+              transformation = this.transformations.findById(id);
+              //set control
+              control = 1;
+            }
+            //if it's an explicit transformations
+            else {
+              //unset control
+              control = 0;
+              //if 'translate' tag
+              if (childTrans.nodeName === 'translate')
+              {
+                var translate = [this.reader.getFloat(childTrans,"x",1),
+                this.reader.getFloat(childTrans,"y",1),
+                this.reader.getFloat(childTrans,"z",1)];
+                arrayTranslates.push(translate);
+              }
+              //if 'rotate' tags
+              else if (childTrans.nodeName === 'rotate')
+              {
+                var rotate = [this.reader.getItem(childTrans,"axis",["x","y","z"],1),
+                this.reader.getFloat(childTrans,"angle",1)];
+                arrayRotates.push(rotate);
+              }
+              //if 'scale' tags
+              else if (childTrans.nodeName === 'scale')
+              {
+                var scale = [this.reader.getFloat(childTrans,"x",1),
+                this.reader.getFloat(childTrans,"y",1),
+                this.reader.getFloat(childTrans,"z",1)];
+                arrayScales.push(scale);
+              }
+              //else it's error
+              else
+              {
+                return "Wrong tags withing 'transformation'";
+              }
+            }
+          }
+          if (control != 1) {
+            var transformation = new xmlTransf(null, arrayTranslates, arrayRotates, arrayScales);
+          }
+        }
+      }
+      //if 'materials' tag
+      else if (child.nodeName === 'materials') {
+        //only does something if it's not the recursive call
+        if (recursive === false) {
+          var arrayMaterials = [];
+          //how many children does 'materials' have
+          var nChildMat = child.children.length;
+          //needs to be at least one
+          if (nChildMat < 1) {
+            return 'A component needs to have at least 1 material';
+          }
+          //go through all children tags
+          for (var i = 0; i < nChildMat; i++) {
+            //get child tags
+            var childMat = child.children[i];
+            //if 'material' tag
+            if (childMat.nodeName === 'material') {
+              //get id
+              var id = this.reader.getString(childMat, 'id', 1);
+              //get xmlMat object by id
+              var mat = this.materials.findById(id);
+              arrayMaterials.push(mat);
+            }
+          }
+          materials = new xmlMaterials(arrayMaterials);
+        }
+      }
+      //if 'texture' tag
+      else if (child.nodeName === 'texture') {
+        //only does something if it's not the recursive call
+        if (recursive === false) {
+          //get id
+          var id = this.reader.getString(child, 'id', 1);
+          //get xmlText
+          texture = this.textures.findById(id);
+        }
+      }
+      //if 'children' tag
+      else if (child.nodeName === 'children') {
+        //storage for children (starts out empty)
+        var xmlChildren = new xmlCompChildren(new xmlComponents([]), new xmlPrimitives([], [], [], [], []));
+        //how many children does 'children' have
+        var nChildChildren = child.children.length;
+        //needs to be at least one
+        if (nChildChildren < 1) {
+          return 'A component needs to have at least 1 child';
+        }
+        //go through all children tags
+        for (var i = 0; i < nChildChildren; i++)
+        {
+          //get child tags
+          var childChildren = child.children[i];
+          //if 'componentref' tag
+          if (childChildren.nodeName === 'componentref' && recursive === true){
+            //get id
+            var id = this.reader.getString(childChildren, 'id', 1);
+            //get xmlComp
+            var xmlComponent = arrayComponents.findById(id);
+            //check if false
+            if (xmlComponent === false)
+            {
+              return 'Wrong id for component children!';
+            }
+            else {
+              //get THIS component
+              var thisComp = arrayComponents.findById(compId);
+              //give THIS component his new son (yes, it's components.components)
+              thisComp.children.components.components.push(xmlComponent);
+            }
+          }
+          else if (childChildren.nodeName === 'componentref' && recursive === false) {
+            //do nothing, but this needs to be here or it will break
+          }
+          else if (childChildren.nodeName === 'primitiveref' && recursive === true) {
+            //do nothing, but this needs to be here or it will break
+          }
+          else if (childChildren.nodeName === 'primitiveref' && recursive === false) {
+            //get id
+            var id = this.reader.getString(childChildren, 'id', 1);
+            //get xmlPrim
+            var xmlPrim;
+            //scan rect
+            xmlPrim = this.primitives.findRectById(id);
+            //if xmlPrim is a rect
+            if (xmlPrim != false) {
+              xmlChildren.primitives.rect.push(xmlPrim);
+            }
+            else {
+              //scan tri
+              xmlPrim = this.primitives.findTriById(id);
+              //if xmlPrim is a tri
+              if (xmlPrim != false) {
+                xmlChildren.primitives.tri.push(xmlPrim);
+              }
+              else {
+                //scan cyl
+                xmlPrim = this.primitives.findCylById(id);
+                //if xmlPrim is a cyl
+                if (xmlPrim != false) {
+                  xmlChildren.primitives.cyl.push(xmlPrim);
+                }
+                else {
+                  //scan sph
+                  xmlPrim = this.primitives.findSphById(id);
+                  //if xmlPrim is a sph
+                  if (xmlPrim != false) {
+                    xmlChildren.primitives.sph.push(xmlPrim);
+                  }
+                  else {
+                    //scan tor
+                    xmlPrim = this.primitives.findTorById(id);
+                    //if xmlPrim is a tor
+                    if (xmlPrim != false) {
+                      xmlChildren.primitives.tor.push(xmlPrim);
+                    }
+                  }
+                }
+              }
+            }
+            if (xmlPrim === false) {
+              return 'wrong id for Component child primitive';
+            }
+            //at this point, all child primitives are already stored
+          }
+          else {
+            return 'wrong tags for Components children';
+          }
+        }
+      }
+      //else error
+      else {
+        return "Wrong tags withing 'component'";
+      }
+    }
+    //if this isnt the recursive call
+    if (recursive === false) {
+      //create xmlComp
+      var component = new xmlComp(compId, transformation, materials, texture, xmlChildren);
+      //store it in array (at this point, component still has no components-children)
+      arrayComponents.components.push(component);
+    }
+  }
+  if (recursive === false) {
+    //parse all components once again, in order to handle componentref. It ain't pretty, BUT IT WORKS!
+    this.parserComponents(rootElement, arrayComponents);
+  }
+  //once all components are loaded, let's find the root of the graph
+  //get root id
+  var rootId = this.xmlSceneTag.root;
+  //get root (xmlComp object)
+  this.graphRoot = arrayComponents.findById(rootId);
+  if (this.graphRoot === false) {
+    return 'Root id is wrong!';
+  }
 };
 
 /*
