@@ -608,9 +608,13 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
     {
       //get child tag
       var child = comp.children[i];
+      var transformation;
       //if 'transformation' tag
       if (child.nodeName === 'transformation')
       {
+        var arrayTranslates = [];
+        var arrayRotates = [];
+        var arrayScales = [];
         //how many children does 'transformation' have
         var nChildTrans = child.children.length;
         //go through all children tags
@@ -629,33 +633,41 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
             //get id
             var id = this.reader.getString(childTrans, 'id', 1);
             //get xmlTransf object by id
-            var transf = this.transformations.findById(id);
+            transformation = this.transformations.findById(id);
           }
           //if it's an explicit transformations
           else {
             //if 'translate' tag
             if (childTrans.nodeName === 'translate')
             {
-              //TODO
+              var translate = [this.reader.getFloat(childTrans,"x",1),
+              this.reader.getFloat(childTrans,"y",1),
+              this.reader.getFloat(childTrans,"z",1)];
+              arrayTranslates.push(translate);
             }
             //if 'rotate' tags
-            if (childTrans.nodeName === 'rotate')
+            else if (childTrans.nodeName === 'rotate')
             {
-              //TODO
+              var rotate = [this.reader.getItem(childTrans,"axis",["x","y","z"],1),
+              this.reader.getFloat(childTrans,"angle",1)];
+              arrayRotates.push(rotate);
             }
             //if 'scale' tags
-            if (childTrans.nodeName === 'scale')
+            else if (childTrans.nodeName === 'scale')
             {
-              //TODO
+              var scale = [this.reader.getFloat(childTrans,"x",1),
+              this.reader.getFloat(childTrans,"y",1),
+              this.reader.getFloat(childTrans,"z",1)];
+              arrayScales.push(scale);
             }
             //else it's error
             else
             {
               return "Wrong tags withing 'transformation'"
             }
-            //TODO create xmlTransf object
           }
         }
+        var transformation = new xmlTransf(null, arrayTranslates, arrayRotates, arrayScales);
       }
       //if 'materials' tag
       else if (child.nodeName === 'materials')
@@ -678,7 +690,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
       }
     }
     //TODO create xmlComp object
-    this.componentTest = new xmlComp(compId, transf, null, null, null);
+    this.componentTest = new xmlComp(compId, transformation, null, null, null);
   }
 
 };
