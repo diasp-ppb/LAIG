@@ -69,6 +69,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.primitives.consoleDebug();/*/
   //this.componentTest.consoleDebug();
   this.componentTest.transformation.consoleDebug();
+  this.componentTest.materials.consoleDebug();
 
   //Error call
   if (error != null) {
@@ -608,6 +609,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
     {
       //get child tag
       var child = comp.children[i];
+      //xmlTransf object
       var transformation;
       //if 'transformation' tag
       if (child.nodeName === 'transformation')
@@ -615,6 +617,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
         var arrayTranslates = [];
         var arrayRotates = [];
         var arrayScales = [];
+        var control = 1;
         //how many children does 'transformation' have
         var nChildTrans = child.children.length;
         //go through all children tags
@@ -634,9 +637,13 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
             var id = this.reader.getString(childTrans, 'id', 1);
             //get xmlTransf object by id
             transformation = this.transformations.findById(id);
+            //set control
+            control = 1;
           }
           //if it's an explicit transformations
           else {
+            //unset control
+            control = 0;
             //if 'translate' tag
             if (childTrans.nodeName === 'translate')
             {
@@ -667,12 +674,36 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
             }
           }
         }
-        var transformation = new xmlTransf(null, arrayTranslates, arrayRotates, arrayScales);
+        if (control != 1) {
+          var transformation = new xmlTransf(null, arrayTranslates, arrayRotates, arrayScales);
+        }
       }
       //if 'materials' tag
       else if (child.nodeName === 'materials')
       {
-        //TODO
+        var arrayMaterials = [];
+        //how many children does 'materials' have
+        var nChildMat = child.children.length;
+        //needs to be at least one
+        if (nChildMat < 1) {
+          return 'A component needs to have at least 1 material';
+        }
+        //go through all children tags
+        for (var i = 0; i < nChildMat; i++)
+        {
+          //get child tags
+          var childMat = child.children[i];
+          //if 'material' tag
+          if (childMat.nodeName === 'material')
+          {
+            //get id
+            var id = this.reader.getString(childMat, 'id', 1);
+            //get xmlMat object by id
+            material = this.materials.findById(id);
+            arrayMaterials.push(material);
+          }
+        }
+        var materials = new xmlMaterials(arrayMaterials);
       }
       //if 'texture' tag
       else if (child.nodeName === 'texture')

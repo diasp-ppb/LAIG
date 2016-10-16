@@ -132,7 +132,7 @@
                 <scale x="5" y="6" z="7" />
             </transformation>
             <materials>
-                <material id="300" />
+                <material id="material1" />
             </materials>
             <texture id="400" />
             <children>
