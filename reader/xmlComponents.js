@@ -24,16 +24,16 @@ xmlComp.prototype.consoleDebug = function(){
   console.log("Id: " + this.id);
   //debug transformation
   console.log("Transformation:");
-  this.transformation.consoleDebug();
+  if (this.transformation != null) this.transformation.consoleDebug();
   //debug materials
   console.log("Materials:");
-  this.materials.consoleDebug();
+  if (this.materials != null) this.materials.consoleDebug();
   //debug texture
   console.log("Texture:");
-  this.texture.consoleDebug();
+  if (this.texture != null) this.texture.consoleDebug();
   //debug children
   console.log("Children:");
-  this.children.consoleDebug();
+  if (this.children != null) this.children.consoleDebug();
   console.log("--- FINISH COMPONENT DEBUGGING ---");
 };
 
