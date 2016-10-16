@@ -125,20 +125,20 @@
 
     <components>
         <component id="100">
+          <materials>
+            <material id="material1" />
+          </materials>
             <transformation>
               <transformationref id="dois" />
-                <translate x="1" y="2" z="3" />
-                <rotate axis="x" angle="4" />
-                <scale x="5" y="6" z="7" />
             </transformation>
-            <materials>
-                <material id="material1" />
-            </materials>
-            <texture id="400" />
+
+            <texture id="inherit" />
+
             <children>
                 <componentref id="500" />
                 <primitiveref id="600" />
             </children>
+
         </component>
     </components>
 </dsx>

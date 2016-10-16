@@ -70,6 +70,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   //this.componentTest.consoleDebug();
   this.componentTest.transformation.consoleDebug();
   this.componentTest.materials.consoleDebug();
+  this.componentTest.texture.consoleDebug();
 
   //Error call
   if (error != null) {
@@ -605,15 +606,19 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
       return "there can only be 4 children tags within 'component': transformation, materials, texture and children"
     }
     //go through all children tags
-    for (var i = 0; i < nChildComp; i++)
+    for (var j = 0; j < nChildComp; j++)
     {
+      console.log(j);
       //get child tag
-      var child = comp.children[i];
+      var child = comp.children[j];
       //xmlTransf object
       var transformation;
+      //xmlMaterials object
+      var materials;
+      //xmlText object
+      var texture;
       //if 'transformation' tag
-      if (child.nodeName === 'transformation')
-      {
+      if (child.nodeName === 'transformation') {
         var arrayTranslates = [];
         var arrayRotates = [];
         var arrayScales = [];
@@ -670,7 +675,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
             //else it's error
             else
             {
-              return "Wrong tags withing 'transformation'"
+              return "Wrong tags withing 'transformation'";
             }
           }
         }
@@ -679,8 +684,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
         }
       }
       //if 'materials' tag
-      else if (child.nodeName === 'materials')
-      {
+      else if (child.nodeName === 'materials') {
         var arrayMaterials = [];
         //how many children does 'materials' have
         var nChildMat = child.children.length;
@@ -689,30 +693,29 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
           return 'A component needs to have at least 1 material';
         }
         //go through all children tags
-        for (var i = 0; i < nChildMat; i++)
-        {
+        for (var i = 0; i < nChildMat; i++) {
           //get child tags
           var childMat = child.children[i];
           //if 'material' tag
-          if (childMat.nodeName === 'material')
-          {
+          if (childMat.nodeName === 'material') {
             //get id
             var id = this.reader.getString(childMat, 'id', 1);
             //get xmlMat object by id
-            material = this.materials.findById(id);
-            arrayMaterials.push(material);
+            var mat = this.materials.findById(id);
+            arrayMaterials.push(mat);
           }
         }
-        var materials = new xmlMaterials(arrayMaterials);
+        materials = new xmlMaterials(arrayMaterials);
       }
       //if 'texture' tag
-      else if (child.nodeName === 'texture')
-      {
-        //TODO
+      else if (child.nodeName === 'texture') {
+        //get id
+        var id = this.reader.getString(child, 'id', 1);
+        //get xmlText
+        texture = this.textures.findById(id);
       }
       //if 'children' tag
-      else if (child.nodeName === 'children')
-      {
+      else if (child.nodeName === 'children') {
         //TODO
       }
       //else error
@@ -721,7 +724,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement) {
       }
     }
     //TODO create xmlComp object
-    this.componentTest = new xmlComp(compId, transformation, null, null, null);
+    this.componentTest = new xmlComp(compId, transformation, materials, texture, null);
   }
 
 };

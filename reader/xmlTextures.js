@@ -26,6 +26,10 @@ xmlTextures.prototype.consoleDebug = function(){
 */
 xmlTextures.prototype.findById = function(id)
 {
+  if (id === 'inherit' || id === 'none')
+  {
+    return new xmlText(id, '', 0, 0);
+  }
   //percorrer o array
   for (var i = 0; i < this.textures.length; i++)
   {

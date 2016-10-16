@@ -26,6 +26,10 @@ xmlMaterials.prototype.consoleDebug = function(){
 */
 xmlMaterials.prototype.findById = function(id)
 {
+  if (id === 'inherit')
+  {
+    return new xmlMat('inherit', [], [], [], [], '');
+  }
   //percorrer o array
   for (var i = 0; i < this.materials.length; i++)
   {
