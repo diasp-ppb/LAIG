@@ -84,9 +84,9 @@
 
 console.log(this.ptX,this.ptY);
   this.texCoords=[
-  this.ptX,1-this.ptY,
-  0,1,
-  this.bc,1
+  this.ptX,this.ptY,
+  0,0,
+  this.ab,0
   ];
 
 
@@ -97,11 +97,12 @@ console.log(this.ptX,this.ptY);
 
  Triangle.prototype.setTexturaRatio = function(s,t){
 
-   this.texCoords=[
-   this.ptX/s,(1-this.ptY)/t,
-   0,1,
-   this.bc/s,1
-   ];
+  
+     this.texCoords=[
+     this.ptX/s,this.ptY/t,
+     0,0,
+     this.ab/s,0
+     ];
 
 
    this.updateTexCoordsGLBuffers();
