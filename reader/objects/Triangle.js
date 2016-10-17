@@ -81,8 +81,6 @@
 
   this.ptX = this.ab-this.bc*Math.cos(this.beta);
   this.ptY = this.bc*Math.sin(this.beta);
-
-console.log(this.ptX,this.ptY);
   this.texCoords=[
   this.ptX,1-this.ptY,
   0,1,
