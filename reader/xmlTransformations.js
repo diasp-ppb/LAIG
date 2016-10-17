@@ -8,15 +8,14 @@ function xmlTransformations(arrayTransformations)
 };
 
 /**
-aplly transformation
+* Applies transformations
+* @param scene Scene
 */
 xmlTransformations.prototype.apply= function(scene){
   var n = this.transformations.length;
-
   for(var i = 0 ; i < n; i++){
     this.transformations[i].apply(scene);
   }
-
 };
 
 
@@ -62,6 +61,10 @@ function xmlTransf(id, arrayTransformations)
   this.transformations = arrayTransformations.slice(0);
 };
 
+/**
+* Applies transformations
+* @param scene Scene
+*/
 xmlTransf.prototype.apply= function(scene)
 {
   var n = this.transformations.length;
@@ -69,6 +72,7 @@ xmlTransf.prototype.apply= function(scene)
       this.transformations[i].apply(scene);
   }
 };
+
 /**
 * Outputs every attr to the console
 */
@@ -97,7 +101,10 @@ function xmlTransfOp(type, arrayOperation)
   }
 };
 
-
+/**
+* Applies transformations
+* @param scene Scene
+*/
 xmlTransfOp.prototype.apply = function(scene){
   if(this.type === 'translate')
   {
@@ -120,7 +127,6 @@ xmlTransfOp.prototype.apply = function(scene){
     {
       scene.scale(this.operation[0],this.operation[1],this.operation[2]);
     }
-
 };
 
 

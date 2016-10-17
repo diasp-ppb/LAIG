@@ -67,7 +67,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.materials.consoleDebug();
   this.transformations.consoleDebug();
   this.primitives.consoleDebug();/*/
-  this.graphRoot.consoleDebug();
+  //this.graphRoot.consoleDebug();
 
   //Error call
   if (error != null) {
@@ -868,8 +868,18 @@ MySceneGraph.prototype.onXMLError = function(message) {
   this.loadedOk = false;
 };
 
+/**
+* Display all components. Starts by root and does a depth search
+* @param scene Scene
+*/
 MySceneGraph.prototype.display = function(scene){
-
   this.graphRoot.display(scene);
+};
 
+/**
+* Change all objects to next material
+* @param scene Scene
+*/
+MySceneGraph.prototype.nextMaterial = function(scene) {
+  this.graphRoot.nextMaterial(scene);
 };

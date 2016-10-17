@@ -55,7 +55,8 @@ function xmlText(id, file, length_s, length_t)
   this.file = file;
   this.length_s = length_s;
   this.length_t = length_t;
-  this.texture;
+  //CGFTexture object. (Doen't start as null, cause reasons)
+  this.texture = 'empty';
 };
 
 /**
@@ -70,6 +71,23 @@ xmlText.prototype.consoleDebug = function(){
   console.log("--- FINISH TEXT DEBUGGING ---");
 };
 
-xmlText.prototype.loadTexture = function(scene){
-  this.texture  = new  CGFtexture(scene,this.file);
+/**
+* Loads the texture and returns the object
+* @param scene Scene
+*/
+xmlText.prototype.load = function(scene){
+  //TODO what's the use of S and T parameters??
+  //this makes sure the texture is only loaded once
+  if (this.texture === 'empty') {
+    //in case id is null or inherit
+    if (this.id === 'none') {
+      this.texture = null;
+    }
+    else if (this.id === 'inherit') {
+      this.texture = 'inherit';
+    }
+    else {
+      this.texture = new CGFtexture(scene,this.file);
+    }
+  }
 }

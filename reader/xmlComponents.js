@@ -15,25 +15,42 @@ function xmlComp(id, transformation, materials, texture, children)
   this.children = children;
 };
 
-
+/**
+* Draws this component to the screen
+* @param scene Scene
+*/
 xmlComp.prototype.display = function(scene){
+  //push matrix
   scene.pushMatrix();
-//apply transformation
+  //apply transformation
   this.transformation.apply(scene);
-  //apply textures
-  //apply materials
-  
-//desenhar primitivas
+  //load texture
+  this.texture.load(scene);
+  //apply material (and texture)
+  this.materials.apply(scene, this.texture.texture);
+  //desenhar primitivas
   this.children.primitives.display(scene);
-
-// aceder aos components
+  // aceder aos components
   this.children.components.display(scene);
-
+  //pop matrix
   scene.popMatrix();
-
-
-
 };
+
+/**
+* Change material
+* @param scene Scene
+*/
+xmlComp.prototype.nextMaterial = function(scene) {
+  //push matrix
+  scene.pushMatrix();
+  //change material
+  this.materials.nextMaterial(scene, this.texture.texture);
+  // aceder aos components
+  this.children.components.nextMaterial(scene);
+  //pop matrix
+  scene.popMatrix();
+};
+
 
 
 
@@ -103,6 +120,14 @@ xmlComponents.prototype.display = function(scene){
     this.components[i].display(scene);
   }
 };
+
+xmlComponents.prototype.nextMaterial = function(scene){
+  var n = this.components.length;
+  for(var i = 0; i < n; i++){
+    this.components[i].nextMaterial(scene);
+  }
+};
+
 /**
 * Scan components array to find match with parameter id and return it
 * @param id Id to match with

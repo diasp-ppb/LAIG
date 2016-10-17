@@ -1,12 +1,12 @@
 /**
- * Interface
- * @constructor
- */
+* Interface
+* @constructor
+*/
 
 function Interface() {
-    //call CGFinterface constructor
-    CGFinterface.call(this);
-    this.lights;
+  //call CGFinterface constructor
+  CGFinterface.call(this);
+  this.lights;
 };
 
 Interface.prototype = Object.create(CGFinterface.prototype);
@@ -14,9 +14,9 @@ Interface.prototype.constructor = Interface;
 
 
 Interface.prototype.init = function(application) {
-    // call CGFinterface init
+  // call CGFinterface init
   CGFinterface.prototype.init.call(this, application);
-    // init GUI
+  // init GUI
   this.gui = new dat.GUI();
 
 
@@ -24,20 +24,41 @@ Interface.prototype.init = function(application) {
 
 
 
-return true;
+  return true;
 };
 
 //Process KeyDown
 Interface.prototype.processKeyDown = function(event) {
+  switch (event.keyCode) {
+    case 86: { // V
+      this.scene.setNextCamera();
+    }
+    break;
 
-  if(event.keyCode == 86 || event.keyCode == 118){ // V or v
-    this.scene.setNextCamera();
+    case 118: { // v
+      this.scene.setNextCamera();
+    }
+    break;
+
+    case 77: { // M
+      this.scene.nextMaterial();
+    }
+    break;
+
+    case 109: { // m
+      this.scene.nextMaterial();
+    }
+    break;
+
+    default:
+    break;
+
   }
 }
 
 Interface.prototype.addLights = function (ligthID,i){
 
-console.log(ligthID);
+  console.log(ligthID);
   this.lights.add(this.scene.lightsStatus,i).name(ligthID);
 
 }

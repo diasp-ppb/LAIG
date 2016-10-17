@@ -67,7 +67,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultIllumination();
     this.createPrimitives();
     this.createMaterials();
-    this.loadTextures();
+    //this.loadTextures();
 };
 
 XMLscene.prototype.display = function() {
@@ -128,6 +128,10 @@ XMLscene.prototype.setDefaultAxis = function() {
 
 XMLscene.prototype.setNextCamera = function() {
     this.setCamera(this.graph.views.getNextPerspective());
+};
+
+XMLscene.prototype.nextMaterial = function() {
+    this.graph.nextMaterial(this);
 };
 
 XMLscene.prototype.setDefaultCamera = function() {
