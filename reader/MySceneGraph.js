@@ -423,9 +423,7 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
         return "Wrong number of transformations in " + transformation.id;
       }
       var id = this.reader.getString(child,"id",1);
-      var arrayTranslates = [];
-      var arrayRotates = [];
-      var arrayScales = [];
+      var arrayOperations = [];
       var childSon;
       for(var k = 0; k < nSon; k++){
         childSon = child.children[k];
@@ -433,24 +431,30 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
           var translate = [this.reader.getFloat(childSon,"x",1),
           this.reader.getFloat(childSon,"y",1),
           this.reader.getFloat(childSon,"z",1)];
-          arrayTranslates.push(translate);
+          //create operation object with type = 'translate'
+          var op = new xmlTransfOp('translate', translate);
+          arrayOperations.push(op);
         }
         else if(childSon.nodeName === "rotate"){
           var rotate = [this.reader.getItem(childSon,"axis",["x","y","z"],1),
           this.reader.getFloat(childSon,"angle",1)];
-          arrayRotates.push(rotate);
+          //create operation object with type = 'rotate'
+          var op = new xmlTransfOp('rotate', rotate);
+          arrayOperations.push(op);
         }
         else if(childSon.nodeName === "scale"){
           var scale = [this.reader.getFloat(childSon,"x",1),
           this.reader.getFloat(childSon,"y",1),
           this.reader.getFloat(childSon,"z",1)];
-          arrayScales.push(scale);
+          //create operation object with type = 'scale'
+          var op = new xmlTransfOp('scale', scale);
+          arrayOperations.push(op);
         }
         else {
           return "invalid transformation -> use translate,rotate,scale"
         }
       }
-      var transformation = new xmlTransf(id, arrayTranslates, arrayRotates, arrayScales);
+      var transformation = new xmlTransf(id, arrayOperations);
       arrayTransformations.push(transformation);
     }
   }
@@ -631,9 +635,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
       if (child.nodeName === 'transformation') {
         //only does something if it's not the recursive call
         if (recursive === false) {
-          var arrayTranslates = [];
-          var arrayRotates = [];
-          var arrayScales = [];
+          var arrayOperations = [];
           var control = 1;
           //how many children does 'transformation' have
           var nChildTrans = child.children.length;
@@ -667,14 +669,18 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                 var translate = [this.reader.getFloat(childTrans,"x",1),
                 this.reader.getFloat(childTrans,"y",1),
                 this.reader.getFloat(childTrans,"z",1)];
-                arrayTranslates.push(translate);
+                //create operation object with type = 'translate'
+                var op = new xmlTransfOp('translate', translate);
+                arrayOperations.push(op);
               }
               //if 'rotate' tags
               else if (childTrans.nodeName === 'rotate')
               {
                 var rotate = [this.reader.getItem(childTrans,"axis",["x","y","z"],1),
                 this.reader.getFloat(childTrans,"angle",1)];
-                arrayRotates.push(rotate);
+                //create operation object with type = 'rotate'
+                var op = new xmlTransfOp('rotate', rotate);
+                arrayOperations.push(op);
               }
               //if 'scale' tags
               else if (childTrans.nodeName === 'scale')
@@ -682,7 +688,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                 var scale = [this.reader.getFloat(childTrans,"x",1),
                 this.reader.getFloat(childTrans,"y",1),
                 this.reader.getFloat(childTrans,"z",1)];
-                arrayScales.push(scale);
+                //create operation object with type = 'scale'
+                var op = new xmlTransfOp('scale', scale);
+                arrayOperations.push(op);
               }
               //else it's error
               else
@@ -692,7 +700,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
             }
           }
           if (control != 1) {
-            var transformation = new xmlTransf(null, arrayTranslates, arrayRotates, arrayScales);
+            var transformation = new xmlTransf(null, arrayOperations);
           }
         }
       }
