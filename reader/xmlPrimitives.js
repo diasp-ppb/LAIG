@@ -138,6 +138,65 @@ xmlPrimitives.prototype.findTorById = function(id)
   return false;
 }
 
+xmlPrimitives.prototype.findById = function(id)
+{
+    var found = this.findRectById(id);
+    if(false == found)
+    found = this.findTriById(id);
+    if(false == found)
+    found = this.findCylById(id);
+    if(false == found)
+    found = this.findSphById(id);
+    if(false == found)
+    found = this.findTorById(id);
+
+    return found;
+}
+
+xmlPrimitives.prototype.display = function(scene){
+  var n = this.rect.length;
+
+  for(var i = 0; i < n; i++)
+  {
+    //create rect
+    //display rect
+  }
+
+ n = this.tri.length;
+
+  for(var i = 0; i < n; i++)
+  {
+    //create
+    //display
+  }
+
+  n = this.cyl.length;
+
+  for(var i = 0; i < n; i++)
+  {
+    //create
+    //display
+  }
+
+
+    n = this.sph.length;
+
+    for(var i = 0; i < n; i++)
+    {
+      //create
+      //display
+    }
+
+
+    n = this.tor.length;
+
+    for(var i = 0; i < n; i++)
+    {
+      //create
+      //display
+    }
+}
+
 /**
 * Class that represents a rectangle primitive
 * @param id ID of the rectangle

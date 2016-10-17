@@ -15,6 +15,19 @@ function xmlComp(id, transformation, materials, texture, children)
   this.children = children;
 };
 
+
+xmlComp.prototype.display = function(scene){
+  var nNodes = this.children.components.length;
+  for(var i = 0; i < nNodes; i++){
+    this.children.components[i].display();
+  }
+
+  this.children.primitives.display(scene);
+
+};
+
+
+
 /**
 * Outputs every attr to the console
 */

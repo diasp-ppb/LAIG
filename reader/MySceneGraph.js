@@ -867,3 +867,15 @@ MySceneGraph.prototype.onXMLError = function(message) {
   console.error("XML Loading Error: " + message);
   this.loadedOk = false;
 };
+
+MySceneGraph.prototype.display = function(i){
+  while (i < this.graphRoot.children.getChildren()) {
+    //apply transformations
+    //push matriz
+    //display do filho i
+    //pop da matriz
+    //chamada recursiva
+    this.display(i)
+    i++;
+  }
+};
