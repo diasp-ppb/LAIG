@@ -8,6 +8,19 @@ function xmlTransformations(arrayTransformations)
 };
 
 /**
+aplly transformation
+*/
+xmlTransformations.prototype.apply= function(scene){
+  var n = this.transformations.length;
+
+  for(var i = 0 ; i < n; i++){
+    this.transformations[i].apply(scene);
+  }
+
+};
+
+
+/**
 * Outputs every attr to the console
 */
 xmlTransformations.prototype.consoleDebug = function(){
@@ -49,6 +62,13 @@ function xmlTransf(id, arrayTransformations)
   this.transformations = arrayTransformations.slice(0);
 };
 
+xmlTransf.prototype.apply= function(scene)
+{
+  var n = this.transformations.length;
+  for(var i = 0 ; i < n ; i++){
+      this.transformations[i].apply(scene);
+  }
+};
 /**
 * Outputs every attr to the console
 */
@@ -71,7 +91,38 @@ function xmlTransfOp(type, arrayOperation)
 {
   this.type = type;
   this.operation = arrayOperation;
+  // convert degrees to rads
+  if(type === 'rotate'){
+    this.operation[1] = this.operation[1]* Math.PI / 180;
+  }
 };
+
+
+xmlTransfOp.prototype.apply = function(scene){
+  if(this.type === 'translate')
+  {
+    scene.translate(this.operation[0],this.operation[1],this.operation[2]);
+  }
+  else if (this.type === 'rotate')
+  {
+    var ex = this.operation[0]
+    if( 'x' === ex ){
+        scene.rotate(this.operation[1], 1,0,0);
+    }
+    else if('y' === ex){
+        scene.rotate(this.operation[1], 0,1,0);
+    }
+    else if('z' === ex){
+        scene.rotate(this.operation[1], 0,0,1);
+    }
+  }
+  else  if(this.type === 'scale')
+    {
+      scene.scale(this.operation[0],this.operation[1],this.operation[2]);
+    }
+
+};
+
 
 /**
 * Outputs every element of translate to the console

@@ -156,9 +156,14 @@ xmlPrimitives.prototype.findById = function(id)
 xmlPrimitives.prototype.display = function(scene){
   var n = this.rect.length;
 
+  var xml;
   for(var i = 0; i < n; i++)
   {
+
     //create rect
+     xml = this.rect[i];
+    var rec = new  Rectangle(scene,xml.point1,xml.point2);
+    rec.display(scene);
     //display rect
   }
 
@@ -167,7 +172,10 @@ xmlPrimitives.prototype.display = function(scene){
   for(var i = 0; i < n; i++)
   {
     //create
+    xml = this.tri[i];
+    var tri = new Triangle(scene,xml.point1,xml.point2,xml.point3);
     //display
+    tri.display(scene);
   }
 
   n = this.cyl.length;
@@ -175,7 +183,11 @@ xmlPrimitives.prototype.display = function(scene){
   for(var i = 0; i < n; i++)
   {
     //create
+    xml = this.cyl[i];
+
+    var cyl = new Cylinder(scene,xml.slices,xml.stacks,xml.base,xml.top,xml.height);
     //display
+    cyl.display(scene);
   }
 
 
@@ -184,7 +196,11 @@ xmlPrimitives.prototype.display = function(scene){
     for(var i = 0; i < n; i++)
     {
       //create
+      xml = this.sph[i];
+
+      var sph = new Sphere(scene,xml.slices,xml.stacks,xml.radius);
       //display
+      sph.display(scene);
     }
 
 
@@ -192,8 +208,11 @@ xmlPrimitives.prototype.display = function(scene){
 
     for(var i = 0; i < n; i++)
     {
-      //create
+      //create(scene, inner, outer, slices, loops)
+      xml = this.tor[i];
+      var tor = new Torus(scene, xml.inner, xml.outer, xml.slices,xml.loops);
       //display
+      tor.display(scene);
     }
 }
 
