@@ -147,7 +147,7 @@
 
     <component id="ciinco">
       <transformation>
-        <transformationref id="dois" />
+        <translate x="20" y="30" z="40" />
       </transformation>
       <materials>
         <material id="material1" />

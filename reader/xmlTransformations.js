@@ -1,6 +1,6 @@
 /**
 * Class that represents transformations tag in xml (it's basically just an array, but it helps with debugging)
-* @param arrayTransformations array of transformations
+* @param arrayTransformations array of transformations (object of class xmlTransf)
 */
 function xmlTransformations(arrayTransformations)
 {
@@ -41,16 +41,12 @@ xmlTransformations.prototype.findById = function(id)
 /**
 * Class that represents a single transformation
 * @param id ID of the transformation
-* @param arrayTranslates (bi-demensional array! array of translates, and each translate is an array itself)
-* @param arrayRotates (bi-demensional array! array of rotates, and each rotate is an array itself)
-* @param arrayScales (bi-demensional array! array of scales, and each scale is an array itself)
+* @param arrayTransformations array of transformations (object of class xmlTransfOp)
 */
-function xmlTransf(id, arrayTranslates, arrayRotates, arrayScales)
+function xmlTransf(id, arrayTransformations)
 {
   this.id = id;
-  this.translates = arrayTranslates.slice(0);
-  this.rotates = arrayRotates.slice(0);
-  this.scales = arrayScales.slice(0);
+  this.transformations = arrayTransformations.slice(0);
 };
 
 /**
@@ -59,35 +55,46 @@ function xmlTransf(id, arrayTranslates, arrayRotates, arrayScales)
 xmlTransf.prototype.consoleDebug = function(){
   console.log("--- START TRANSF DEBUGGING ---");
   console.log("Id: " + this.id);
-  console.log("Translates[" + this.translates.length + "]:");
-  console.log("--- START TRANSLATES DEBUGGING ---");
-  for(var i = 0; i < this.translates.length; i++){
-    this.translateConsoleDebug(this.translates[i]);
+  for (var i = 0; i < this.transformations.length; i++) {
+    this.transformations[i].consoleDebug();
   }
-  console.log("--- FINISH TRANSLATES DEBUGGING ---");
-  console.log("Rotates[" + this.rotates.length + "]:");
-  console.log("--- START ROTATES DEBUGGING ---");
-  for(var i = 0; i < this.rotates.length; i++){
-    this.rotateConsoleDebug(this.rotates[i]);
-  }
-  console.log("--- FINISH ROTATES DEBUGGING ---");
-  console.log("Scales[" + this.scales.length + "]:");
-  console.log("--- START SCALES DEBUGGING ---");
-  for(var i = 0; i < this.scales.length; i++){
-    this.scaleConsoleDebug(this.scales[i]);
-  }
-  console.log("--- FINISH SCALES DEBUGGING ---");
   console.log("--- FINISH TRANSF DEBUGGING ---");
+};
+
+/**
+* Class that represents a transformation operation
+* @param type Set to either 'translate', 'rotate' or 'scale'
+* @param arrayTransformations array of transformations
+* @param arrayOperation Array with operation values
+*/
+function xmlTransfOp(type, arrayOperation)
+{
+  this.type = type;
+  this.operation = arrayOperation;
 };
 
 /**
 * Outputs every element of translate to the console
 */
-xmlTransf.prototype.translateConsoleDebug = function(translate){
+xmlTransfOp.prototype.consoleDebug = function(){
   var ss; //string variable that helps avoiding the console.log newline
-  ss = "Translate[" + translate.length + "]:";
-  for(var i = 0; i < translate.length; i++){
-    ss += " " + translate[i];
+  if (this.type === 'translate') {
+    ss = "Translate[" + this.operation.length + "]:";
+    for(var i = 0; i < this.operation.length; i++){
+      ss += " " + this.operation[i];
+    }
+  }
+  else if (this.type === 'rotate') {
+    ss = "Rotate[" + this.operation.length + "]:";
+    for(var i = 0; i < this.operation.length; i++){
+      ss += " " + this.operation[i];
+    }
+  }
+  else if (this.type === 'scale') {
+    ss = "Scale[" + this.operation.length + "]:";
+    for(var i = 0; i < this.operation.length; i++){
+      ss += " " + this.operation[i];
+    }
   }
   console.log(ss);
 };
