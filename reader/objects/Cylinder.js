@@ -83,7 +83,7 @@
 
   for(var i = 0; i < this.slices ; i++){
     this.vertices.push(this.radius*Math.cos(angle*i),this.radius*Math.sin(angle*i), 0);
-    this.texCoords.push(this.radius+this.radius*Math.cos(angle*i),this.radius-this.radius*Math.sin(angle*i));
+    this.texCoords.push(0.5+0.5*Math.cos(angle*i),0.5-0.5*Math.sin(angle*i));
     this.normals.push(0, 0, -1);
     count ++;
   }
