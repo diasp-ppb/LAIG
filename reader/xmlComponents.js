@@ -29,7 +29,7 @@ xmlComp.prototype.display = function(scene){
   //apply material (and texture)
   this.materials.apply(scene, this.texture.texture);
   //desenhar primitivas
-  this.children.primitives.display(scene);
+  this.children.primitives.display(scene,this.texture);
   // aceder aos components
   this.children.components.display(scene);
   //pop matrix

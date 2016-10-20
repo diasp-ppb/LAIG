@@ -214,7 +214,8 @@
 
     <component id= "corpoComboio">
       <transformation>
-        <scale x="1" y="1" z="1.5"/>
+        <scale x="1" y="1" z="1.8"/>
+        <translate x="0" y="0" z="-5"/>
       </transformation>
       <materials>
         <material id="metal" />
@@ -230,7 +231,7 @@
     <component id= "pneuSet">
       <transformation>
           <rotate axis="y" angle="-90" />
-          <scale x="1" y="1" z="0.2"/>
+            <scale x="1" y="1" z="0.15"/>
           <translate x="-5" y="-2" z="-20" />
       </transformation>
       <materials>
@@ -388,7 +389,7 @@
 
         <component id= "pt">
           <transformation>
-            <translate x="10" y="24" z="-20" />
+            <translate x="10" y="48" z="-20" />
             <rotate axis="x" angle="90" />
             <scale x="0.5" y="0.5" z="5" />
           </transformation>
