@@ -248,7 +248,7 @@
 
     <component id= "pneu1">
       <transformation>
-        <transformationref id="null" />
+      <rotate axis="y" angle="-180" />
       </transformation>
       <materials>
         <material id="metal" />
@@ -278,6 +278,7 @@
     <component id= "pneu2">
       <transformation>
         <translate x="0" y="0" z="40" />
+
       </transformation>
       <materials>
         <material id="metal" />
@@ -306,6 +307,7 @@
     <component id= "pneu4">
       <transformation>
         <translate x="10" y="0" z="0" />
+        <rotate axis="y" angle="-180" />
       </transformation>
       <materials>
         <material id="metal" />
