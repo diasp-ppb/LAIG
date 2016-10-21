@@ -76,7 +76,11 @@ xmlText.prototype.load = function(scene, fatherTexture) {
         //in case id is null or inherit
         if (this.id === 'none') {
             this.texture = null;
-        } else if (this.id === 'inherit') {
+        } else if (this.id === 'inherit' && fatherTexture.id !== 'inherit') {
+            this.id = fatherTexture.id;
+            this.file = fatherTexture.file.
+            this.length_t = fatherTexture.length_t;
+            this.length_s = fatherTexture.length_s;
             this.texture = fatherTexture.texture;
         } else {
             this.texture = new CGFtexture(scene, this.file);

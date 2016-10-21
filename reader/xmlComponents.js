@@ -13,7 +13,7 @@ function xmlComp(id, transformation, materials, texture, children)
   this.materials = materials;
   this.texture = texture;
   this.children = children;
-};
+}
 
 /**
 * Draws this component to the screen
