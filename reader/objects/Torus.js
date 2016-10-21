@@ -43,7 +43,7 @@ for(var i = 0 ; i <= this.stacks ; i++){
 
 			this.vertices.push(x,y,z);
 			this.normals.push(x,y,z);
-			this.texCoords.push(i/this.stacks, 1 - m/this.slices);
+			this.texCoords.push( i/this.stacks,m/this.slices);
 
 		}
 	}

@@ -45,6 +45,8 @@ MySceneGraph.prototype.onXMLReady = function() {
   var rootElement = this.reader.xmlDoc.documentElement;
 
   //error control
+
+  this.checkDSXOrder(rootElement);
   var error;
 
   // Here should go the calls for different functions to parse the various blocks
@@ -882,4 +884,24 @@ MySceneGraph.prototype.display = function(scene){
 */
 MySceneGraph.prototype.nextMaterial = function(scene) {
   this.graphRoot.nextMaterial(scene);
+};
+
+MySceneGraph.prototype.checkDSXOrder = function(rootElement) {
+var nchild = rootElement.children.length;
+
+if(nchild != 9 )
+this.onXMLError("DSX wrong number of rootElement children");
+
+var node = ["scene","views", "illumination","lights","textures","materials","transformations","primitives","components"]
+var n = node.length;
+for(var i = 0; i  < n ; i++){
+  if(rootElement.children[i].nodeName != node[i])
+  {
+    this.onXMLwarning(String(i) +"element shouild be" + node[i]);
+  }
+}
+}
+MySceneGraph.prototype.onXMLwarning = function(message) {
+  console.warn("XML Loading Error: " + message);
+  this.loadedOk = false;
 };
