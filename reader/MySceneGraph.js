@@ -50,14 +50,59 @@ MySceneGraph.prototype.onXMLReady = function() {
 
   // Here should go the calls for different functions to parse the various blocks
   error = this.parserSceneTag(rootElement);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
   error = this.parserViews(rootElement);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
   error = this.parserIllumination(rootElement);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
   error = this.parserLights(rootElement);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
   error = this.parserTextures(rootElement);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
   error = this.parserMaterials(rootElement);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
   error = this.parserTransformations(rootElement);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
   error = this.parserPrimitives(rootElement);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
   error = this.parserComponents(rootElement, null);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
 
   //Debugging calls!
   /*this.xmlSceneTag.consoleDebug();
@@ -69,12 +114,6 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.transformations.consoleDebug();
   this.primitives.consoleDebug();/*/
   //this.graphRoot.consoleDebug();
-
-  //Error call
-  if (error != null) {
-    this.onXMLError(error);
-    return;
-  }
 
   this.loadedOk = true;
 
