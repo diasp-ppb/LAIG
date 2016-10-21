@@ -13,9 +13,10 @@ function xmlViews(attrDefault) {
  */
 xmlViews.prototype.checkDoubleId = function() {
     for (var i = 0; i < this.perspectives.length - 1; i++) {
-        for (var j = 0; j < this.perspectives.length; j++) {
-            if (this.perspectives[i].id === this.perspectives[j].id)
-                return 'Found multiple perspectives with the same id!';
+        for (var j = i + 1; j < this.perspectives.length; j++) {
+            if (this.perspectives[i].id === this.perspectives[j].id) {
+                return 'Found multiple perspectives with the same id: ' + this.perspectives[i].id;
+              }
         }
     }
     return null;
