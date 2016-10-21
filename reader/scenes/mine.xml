@@ -139,7 +139,7 @@
             <materials>
                 <material id="baco"/>
             </materials>
-            <texture id="sky"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="base"/>
             </children>
@@ -154,7 +154,7 @@
             <materials>
                 <material id="baco"/>
             </materials>
-            <texture id="sky"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="base"/>
             </children>

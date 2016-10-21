@@ -115,10 +115,10 @@ xmlComponents.prototype.getLength =  function(){
   return this.components.length;
 };
 
-xmlComponents.prototype.display = function(scene){
+xmlComponents.prototype.display = function(scene, fatherTexture){
   var n = this.components.length;
   for(var i = 0; i < n; i++){
-    this.components[i].display(scene);
+    this.components[i].display(scene,fatherTexture);
   }
 };
 
