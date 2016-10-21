@@ -39,12 +39,12 @@
     var nCorpo = 0;
   var h=0;
   var l= this.radius;
-  for (var i = 0; i < this.stacks + 1; i++)
+  for (var i = 0; i < this.stacks +1; i++)
 	{
     	this.Sinc = 0;
 
 
-		for (var j = 0; j < this.slices; j++)
+		for (var j = 0; j < this.slices + 1; j++)
 		{
 
 		this.vertices.push(Math.cos(j * angle)*l, Math.sin(j * angle)*l,  h);
@@ -60,9 +60,9 @@
 
 	}
 
-	for (var i = 0; i < this.stacks; i++)
+	for (var i = 0; i < this.stacks+1; i++)
 	{
-		for (var j = 0; j < this.slices; j++)
+		for (var j = 0; j < this.slices + 1; j++)
 		{
 			if (j == this.slices - 1)
 			{
@@ -81,19 +81,20 @@
   var count = nCorpo;
 
 
-  for(var i = 0; i < this.slices; i++){
+  for(var i = 0; i < this.slices ; i++){
     this.vertices.push(this.radius*Math.cos(angle*i),this.radius*Math.sin(angle*i), 0);
-    this.texCoords.push(this.radius-this.radius*Math.sin(angle*i),this.radius-this.radius*Math.cos(angle*i));
+    this.texCoords.push(0.5+0.5*Math.cos(angle*i),0.5-0.5*Math.sin(angle*i));
     this.normals.push(0, 0, -1);
     count ++;
   }
-    this.vertices.push(0,0,0);
-    this.texCoords.push(0,0,0);
-      this.normals.push(0, 0, -1);
 
+
+    this.vertices.push(0,0,0);
+    this.texCoords.push(0.5, 0.5);
+    this.normals.push(0, 0, -1);
 
     var i = 1;
-  	for (; i < this.slices -1; i++) {
+  	for (; i < this.slices; i++) {
   		this.indices.push(i+nCorpo,nCorpo+i+ -1,count -1);
 
   	}
@@ -104,13 +105,13 @@
     nCorpo = count + 1;
     for(var i = 0; i < this.slices; i++){
       this.vertices.push(this.radius2*Math.cos(angle*i),this.radius2*Math.sin(angle*i), this.height);
-      this.texCoords.push(this.radius2-this.radius2*Math.sin(angle*i),this.radius2-this.radius2*Math.cos(angle*i));
+      this.texCoords.push(0.5+0.5*Math.cos(angle*i),0.5-0.5*Math.sin(angle*i));
       this.normals.push(0, 0, 1);
       count ++;
     }
 
       this.vertices.push(0,0,this.height);
-      this.texCoords.push(0,0,0);
+      this.texCoords.push(0.5,0.5);
       this.normals.push(0, 0, 1);
 
 

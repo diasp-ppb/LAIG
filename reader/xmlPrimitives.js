@@ -153,7 +153,7 @@ xmlPrimitives.prototype.findById = function(id)
     return found;
 }
 
-xmlPrimitives.prototype.display = function(scene){
+xmlPrimitives.prototype.display = function(scene,texture){
   var n = this.rect.length;
 
   var xml;
@@ -163,6 +163,8 @@ xmlPrimitives.prototype.display = function(scene){
     //create rect
      xml = this.rect[i];
     var rec = new  Rectangle(scene,xml.point1,xml.point2);
+
+    rec.setTexturaRatio(texture.length_s,texture.length_t);
     rec.display(scene);
     //display rect
   }
@@ -174,6 +176,7 @@ xmlPrimitives.prototype.display = function(scene){
     //create
     xml = this.tri[i];
     var tri = new Triangle(scene,xml.point1,xml.point2,xml.point3);
+    tri.setTexturaRatio(texture.length_s,texture.length_t);
     //display
     tri.display(scene);
   }

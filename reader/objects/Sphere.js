@@ -28,12 +28,12 @@ for(var i = 0 ; i <= this.stacks ; i++){
 		for(var m = 0 ; m <= this.slices; m++){
 			sigmaSlice = m * sigma;
 			var x = this.radius * Math.cos(sigmaSlice) * Math.sin(tetaStack);
-			var y = this.radius * Math.sin(tetaStack) * Math.sin(sigmaSlice);
-			var z = this.radius * Math.cos(tetaStack);
+			var y = this.radius * Math.cos(tetaStack);
+			var z = this.radius * Math.sin(tetaStack) * Math.sin(sigmaSlice);
 
 			this.vertices.push(x,y,z);
 			this.normals.push(x,y,z);
-			this.texCoords.push(1- i/this.stacks, 1 - m/this.slices);
+			this.texCoords.push(1 - i/this.stacks, 1- m/this.slices);
 
 		}
 	}

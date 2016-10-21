@@ -30,8 +30,8 @@ var teta = 2*Math.PI/ this.stacks;
 var tetaStack  = 0;
 var sigmaSlice = 0;
 
-var r = (this.outer - this.inner);
-var R = r/2 + this.inner;
+var r = (this.outer - this.inner)/2;
+var R = r + this.inner;
 
 for(var i = 0 ; i <= this.stacks ; i++){
 		tetaStack = i * teta;
@@ -39,11 +39,11 @@ for(var i = 0 ; i <= this.stacks ; i++){
 			sigmaSlice = m * sigma;
 			var x = (R+r*Math.cos(tetaStack))*Math.cos(sigmaSlice);
 			var y = (R+r*Math.cos(tetaStack))*Math.sin(sigmaSlice);
-			var z =r * Math.sin(tetaStack);
+			var z = r * Math.sin(tetaStack);
 
 			this.vertices.push(x,y,z);
 			this.normals.push(x,y,z);
-			this.texCoords.push(1- i/this.stacks, 1 - m/this.slices);
+			this.texCoords.push( i/this.stacks,m/this.slices);
 
 		}
 	}
