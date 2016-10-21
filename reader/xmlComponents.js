@@ -18,20 +18,21 @@ function xmlComp(id, transformation, materials, texture, children)
 /**
 * Draws this component to the screen
 * @param scene Scene
+* @param fatherTexture xmlText object
 */
-xmlComp.prototype.display = function(scene){
+xmlComp.prototype.display = function(scene, fatherTexture){
   //push matrix
   scene.pushMatrix();
   //apply transformation
   this.transformation.apply(scene);
-  //load texture
-  this.texture.load(scene);
+  //load texture if not inherit
+  this.texture.load(scene, fatherTexture);
   //apply material (and texture)
   this.materials.apply(scene, this.texture.texture);
   //desenhar primitivas
   this.children.primitives.display(scene,this.texture);
   // aceder aos components
-  this.children.components.display(scene);
+  this.children.components.display(scene, this.texture);
   //pop matrix
   scene.popMatrix();
 };

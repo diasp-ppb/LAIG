@@ -875,7 +875,7 @@ MySceneGraph.prototype.onXMLError = function(message) {
 * @param scene Scene
 */
 MySceneGraph.prototype.display = function(scene){
-  this.graphRoot.display(scene);
+  this.graphRoot.display(scene, this.graphRoot.texture);
 };
 
 /**
