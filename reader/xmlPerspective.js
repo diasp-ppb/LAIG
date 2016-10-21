@@ -15,7 +15,7 @@ function xmlPerspective(id, near, far, angle, arrayFrom, arrayTo)
   this.angle = angle*Math.PI/180;
   this.from = arrayFrom.slice(0);
   this.to = arrayTo.slice(0);
-};
+}
 
 /**
 * Outputs every attr to the console

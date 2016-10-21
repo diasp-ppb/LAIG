@@ -1,6 +1,5 @@
 function MySceneGraph(filename, scene) {
   this.loadedOk = null;
-
   // Establish bidirectional references between scene and graph
   this.scene = scene;
   scene.graph = this;
@@ -193,6 +192,7 @@ MySceneGraph.prototype.parserViews = function(rootElement) {
       this.views.perspectives.push(perspective);
     }
   }
+  return this.views.checkDoubleId();
 };
 
 MySceneGraph.prototype.parserIllumination = function(rootElement) {

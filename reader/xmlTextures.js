@@ -5,7 +5,7 @@
 function xmlTextures(arrayTextures)
 {
   this.textures = arrayTextures.slice(0);
-};
+}
 
 /**
 * Outputs every attr to the console
@@ -40,7 +40,7 @@ xmlTextures.prototype.findById = function(id)
     }
   }
   return false;
-}
+};
 
 /**
 * Class that represents a single texture
@@ -57,7 +57,7 @@ function xmlText(id, file, length_s, length_t)
   this.length_t = length_t;
   //CGFTexture object. (Doen't start as null, cause reasons)
   this.texture = 'empty';
-};
+}
 
 /**
 * Outputs every attr to the console
@@ -90,4 +90,4 @@ xmlText.prototype.load = function(scene){
       this.texture = new CGFtexture(scene,this.file);
     }
   }
-}
+};
