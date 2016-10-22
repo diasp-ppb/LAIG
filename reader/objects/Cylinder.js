@@ -68,8 +68,6 @@
       var index2 = this.slices + 1 + index1;
 			this.indices.push( index1, index2 +1, index2);
       this.indices.push( index1, index1 + 1, index2 + 1);
-      console.log(index1, index2 +1, index2);
-      console.log(index1, index1 + 1, index2 + 1);
     }
 	}
 
