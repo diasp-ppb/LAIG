@@ -94,7 +94,6 @@ xmlText.prototype.load = function(scene, fatherTexture) {
             this.id = fatherTexture.id;
             this.file = fatherTexture.file;
             this.length_t = fatherTexture.length_t;
-
             this.length_s = fatherTexture.length_s;
             this.texture = fatherTexture.texture;
         } else {
