@@ -50,7 +50,7 @@
 		this.vertices.push(Math.cos(j * angle)*l, Math.sin(j * angle)*l,  h);
     nCorpo++;
   	this.normals.push(Math.cos(j * angle), Math.sin(j * angle),0);
-		this.texCoords.push(this.Sinc, this.Tinc);
+		this.texCoords.push(1 - this.Sinc,1 - this.Tinc);
 
 			this.Sinc+=1/this.slices;
 		}

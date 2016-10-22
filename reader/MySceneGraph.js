@@ -112,8 +112,8 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.textures.consoleDebug();
   this.materials.consoleDebug();
   this.transformations.consoleDebug();
-  this.primitives.consoleDebug();/*/
-  //this.graphRoot.consoleDebug();
+  this.primitives.consoleDebug();
+  this.graphRoot.consoleDebug();*/
 
   this.loadedOk = true;
 
@@ -364,6 +364,7 @@ MySceneGraph.prototype.parserLights = function(rootElement) {
     }
   }
   this.lights = new xmlLights(arrayOmni, arraySpot);
+  return this.lights.checkDoubleId();
 };
 
 MySceneGraph.prototype.parserTextures = function(rootElement) {
@@ -389,6 +390,7 @@ MySceneGraph.prototype.parserTextures = function(rootElement) {
   }
   //Once all textures are fully parsed
   this.textures = new xmlTextures(arrayTextures);
+  return this.textures.checkDoubleId();
 }
 
 MySceneGraph.prototype.parserMaterials = function(rootElement) {
@@ -442,6 +444,7 @@ MySceneGraph.prototype.parserMaterials = function(rootElement) {
     arrayMaterials.push(material);
   }
   this.materials = new xmlMaterials(arrayMaterials);
+  return this.materials.checkDoubleId();
 };
 
 MySceneGraph.prototype.parserTransformations = function(rootElement) {
@@ -468,25 +471,28 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
       var childSon;
       for(var k = 0; k < nSon; k++){
         childSon = child.children[k];
-        if(childSon.nodeName === "translate"){
+        if(childSon.nodeName == "translate"){
           var translate = [this.reader.getFloat(childSon,"x",1),
           this.reader.getFloat(childSon,"y",1),
           this.reader.getFloat(childSon,"z",1)];
           //create operation object with type = 'translate'
+		  console.log("t" + translate);
           var op = new xmlTransfOp('translate', translate);
           arrayOperations.push(op);
         }
-        else if(childSon.nodeName === "rotate"){
+        else if(childSon.nodeName == "rotate"){
           var rotate = [this.reader.getItem(childSon,"axis",["x","y","z"],1),
           this.reader.getFloat(childSon,"angle",1)];
           //create operation object with type = 'rotate'
+		  console.log("r" + rotate);
           var op = new xmlTransfOp('rotate', rotate);
           arrayOperations.push(op);
         }
-        else if(childSon.nodeName === "scale"){
+        else if(childSon.nodeName == "scale"){
           var scale = [this.reader.getFloat(childSon,"x",1),
           this.reader.getFloat(childSon,"y",1),
           this.reader.getFloat(childSon,"z",1)];
+		  console.log("s" + scale);
           //create operation object with type = 'scale'
           var op = new xmlTransfOp('scale', scale);
           arrayOperations.push(op);
@@ -500,6 +506,7 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
     }
   }
   this.transformations = new xmlTransformations(arrayTransformations);
+  return this.transformations.checkDoubleId();
 };
 
 MySceneGraph.prototype.parserPrimitives= function(rootElement) {
@@ -614,6 +621,7 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
   }
   //store all the primitives present in the dsx
   this.primitives = new xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor);
+  return this.primitives.checkDoubleId();
 };
 
 /**
@@ -622,6 +630,8 @@ MySceneGraph.prototype.parserPrimitives= function(rootElement) {
 * @param arrayComponents null if it's the first call
 */
 MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents) {
+  var arrayID = [];
+
   //get all elements that match with 'components'
   var elems = rootElement.getElementsByTagName('components');
   //in case there are no such elements
@@ -657,6 +667,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
     var comp = components.children[k];
     //extract id
     var compId = this.reader.getString(comp, 'id', 1);
+	console.log("comp " + compId);
     //how many chidlren does each component have (there can only be 4!)
     var nChildComp = comp.children.length;
     if (nChildComp != 4) {
@@ -665,27 +676,42 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
     //go through all children tags
     for (var j = 0; j < nChildComp; j++) {
       //get child tag
+	  
       var child = comp.children[j];
+	  
       //xmlTransf object
+	  
       var transformation;
+	  
       //xmlMaterials object
+	  
       var materials;
+	  
       //xmlText object
+	  
       var texture;
+	  
       //if 'transformation' tag
+	  
       if (child.nodeName === 'transformation') {
-        //only does something if it's not the recursive call
+ 
         if (recursive === false) {
           var arrayOperations = [];
           var control = 1;
-          //how many children does 'transformation' have
+    
           var nChildTrans = child.children.length;
-          //go through all children tags
+         
+		  if(nChildTrans == 0){
+			  control = 0;
+			  var translate = [0,0,0];
+			  var op = new xmlTransfOp('translate', translate);
+			  arrayOperations.push(op);
+		  }
           for (var i = 0; i < nChildTrans; i++)
           {
-            //get child tags
+           
             var childTrans = child.children[i];
-            //if 'transformationref' tag
+            
             if (childTrans.nodeName === 'transformationref')
             {
               //if there is more than 1 transformationref tag (including different tags)
@@ -885,6 +911,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
       var component = new xmlComp(compId, transformation, materials, texture, xmlChildren);
       //store it in array (at this point, component still has no components-children)
       arrayComponents.components.push(component);
+      arrayID.push(component.id);
     }
   }
   if (recursive === false) {
@@ -898,6 +925,14 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
   this.graphRoot = arrayComponents.findById(rootId);
   if (this.graphRoot === false) {
     return 'Root id is wrong!';
+  }
+  //check for double ids
+  for (var i = 0; i < arrayID.length - 1; i++) {
+      for (var j = i + 1; j < arrayID.length; j++) {
+          if (arrayID[i] === arrayID[j]) {
+              return 'Found multiple components with the same id: ' + arrayID[i];
+            }
+      }
   }
 };
 
