@@ -65,8 +65,8 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultAxis();
     this.setDefaultCamera();
     this.setDefaultIllumination();
-    this.createPrimitives();
-    this.createMaterials();
+    //this.createPrimitives();
+    //this.createMaterials();
     //this.loadTextures();
 };
 
@@ -215,7 +215,7 @@ XMLscene.prototype.createPrimitives = function() {
 
     var ntrig = this.graph.primitives.tri.length;
 
-    for (var i = 0; i < nprim; i++) {
+    for (var i = 0; i < ntrig; i++) {
         prim = this.graph.primitives.tri[i];
         this.primitives.push(new Triangle(this,prim.point1,prim.point2,prim.point3));
     }
