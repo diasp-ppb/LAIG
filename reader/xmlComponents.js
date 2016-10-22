@@ -30,12 +30,12 @@ xmlComp.prototype.display = function(scene, fatherTexture){
   this.texture.load(scene, fatherTexture);
   //apply material (and texture)
   this.materials.apply(scene, this.texture.texture);
-  if(this.texture.texture != null)
+  if(this.texture.texture !== null)
     this.texture.texture.bind();
   //desenhar primitivas
   this.children.primitives.display(scene,this.texture);
   // aceder aos components
-  if(this.texture.texture != null )
+  if(this.texture.texture !== null )
     this.texture.texture.unbind();
   this.children.components.display(scene, this.texture);
   //pop matrix
@@ -65,7 +65,6 @@ xmlComp.prototype.nextMaterial = function(scene) {
 * Outputs every attr to the console
 */
 xmlComp.prototype.consoleDebug = function(){
-	return;
   console.log("--- START COMPONENT DEBUGGING ---");
   //debug id
   console.log("Id: " + this.id);
@@ -99,7 +98,6 @@ function xmlCompChildren(childrenComp, childrenPrim)
 * Outputs every attr to the console
 */
 xmlCompChildren.prototype.consoleDebug = function(){
-	return;
   console.log("--- START COMP CHILDREN DEBUGGING ---");
   //debug components
   console.log("Components:");

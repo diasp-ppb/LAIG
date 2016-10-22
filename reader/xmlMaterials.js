@@ -61,7 +61,7 @@ xmlMaterials.prototype.apply= function(scene, texture){
   }
   //apply material if not 'inherit'
   if (this.activeMat != 'inherit') {
-    this.activeMat.apply(scene, texture);
+    this.activeMat.apply();
   }
 };
 
@@ -146,7 +146,7 @@ xmlMat.prototype.load= function(scene, texture) {
     //set shininess
     mat.setShininess(this.shininess);
     //set texture if not 'inherit'
-    if (texture != 'inherit') {
+    if (texture !== 'inherit') {
       mat.setTexture(texture);
     }
     return mat;

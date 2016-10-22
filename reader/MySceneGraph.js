@@ -676,31 +676,31 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
     //go through all children tags
     for (var j = 0; j < nChildComp; j++) {
       //get child tag
-	  
+
       var child = comp.children[j];
-	  
+
       //xmlTransf object
-	  
+
       var transformation;
-	  
+
       //xmlMaterials object
-	  
+
       var materials;
-	  
+
       //xmlText object
-	  
+
       var texture;
-	  
+
       //if 'transformation' tag
-	  
+
       if (child.nodeName === 'transformation') {
- 
+
         if (recursive === false) {
           var arrayOperations = [];
           var control = 1;
-    
+
           var nChildTrans = child.children.length;
-         
+
 		  if(nChildTrans == 0){
 			  control = 0;
 			  var translate = [0,0,0];
@@ -709,9 +709,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 		  }
           for (var i = 0; i < nChildTrans; i++)
           {
-           
+
             var childTrans = child.children[i];
-            
+
             if (childTrans.nodeName === 'transformationref')
             {
               //if there is more than 1 transformationref tag (including different tags)
