@@ -65,8 +65,8 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultAxis();
     this.setDefaultCamera();
     this.setDefaultIllumination();
-    this.createPrimitives();
-    this.createMaterials();
+    //this.createPrimitives();
+    //this.createMaterials();
     //this.loadTextures();
 };
 
