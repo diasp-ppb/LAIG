@@ -64,17 +64,13 @@
 	{
 		for (var j = 0; j < this.slices + 1; j++)
 		{
-			if (j == this.slices - 1)
-			{
-				this.indices.push((i * this.slices + j),  (i * this.slices + j) + 1 - this.slices, (((i + 1) * this.slices + j) + 1) - this.slices);
-				this.indices.push((i * this.slices + j), (((i + 1) * this.slices + j) + 1) - this.slices, ((i + 1) * this.slices + j));
-			}
-			else
-			{
-				this.indices.push((i * this.slices + j), (i * this.slices + j) + 1, ((i + 1) * this.slices + j) + 1);
-				this.indices.push((i * this.slices + j), ((i + 1) * this.slices + j) + 1, ((i + 1) * this.slices + j));
-			}
-		}
+      var index1 = i * (this.slices +1) + j;
+      var index2 = this.slices + 1 + index1;
+			this.indices.push( index1, index2 +1, index2);
+      this.indices.push( index1, index1 + 1, index2 + 1);
+      console.log(index1, index2 +1, index2);
+      console.log(index1, index1 + 1, index2 + 1);
+    }
 	}
 
   //base
