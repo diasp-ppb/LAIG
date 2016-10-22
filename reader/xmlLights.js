@@ -28,15 +28,17 @@ xmlLights.prototype.checkDoubleId = function() {
         }
     }
     //check spot
-    for (var i = 0; i < this.omni.length - 1; i++) {
-        for (var j = i + 1; j < this.omni.length; j++) {
-            if (this.omni[i].id === this.omni[j].id) {
-                return 'Found multiple lights with the same id: ' + this.omni[i].id;
+    for (var i = 0; i < this.spot.length - 1; i++) {
+        //vs spot
+        for (var j = i + 1; j < this.spot.length; j++) {
+            if (this.spot[i].id === this.spot[j].id) {
+                return 'Found multiple lights with the same id: ' + this.spot[i].id;
             }
         }
-        for (var j = 0; j < this.spot.length; j++) {
-            if (this.omni[i].id === this.spot[j].id) {
-                return 'Found multiple lights with the same id: ' + this.omni[i].id;
+        //vs omni
+        for (var j = 0; j < this.omni.length; j++) {
+            if (this.spot[i].id === this.omni[j].id) {
+                return 'Found multiple lights with the same id: ' + this.spot[i].id;
             }
         }
     }

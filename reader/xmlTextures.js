@@ -19,6 +19,20 @@ xmlTextures.prototype.consoleDebug = function() {
 };
 
 /**
+ * Checks if there are multiple objects with the same id
+ */
+xmlTextures.prototype.checkDoubleId = function() {
+    for (var i = 0; i < this.textures.length - 1; i++) {
+        for (var j = i + 1; j < this.textures.length; j++) {
+            if (this.textures[i].id === this.textures[j].id) {
+                return 'Found multiple textures with the same id: ' + this.textures[i].id;
+              }
+        }
+    }
+    return null;
+};
+
+/**
  * Scan textures array to find match with parameter id and return it
  * @param id Id to match with
  * @return Matched element. False otherwise

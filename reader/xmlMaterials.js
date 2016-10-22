@@ -24,6 +24,20 @@ xmlMaterials.prototype.consoleDebug = function(){
 };
 
 /**
+ * Checks if there are multiple objects with the same id
+ */
+xmlMaterials.prototype.checkDoubleId = function() {
+    for (var i = 0; i < this.materials.length - 1; i++) {
+        for (var j = i + 1; j < this.materials.length; j++) {
+            if (this.materials[i].id === this.materials[j].id) {
+                return 'Found multiple materials with the same id: ' + this.materials[i].id;
+              }
+        }
+    }
+    return null;
+};
+
+/**
 * Loads the active material
 * @param scene Scene
 * @param texture Texture (object of class CGFTexture)

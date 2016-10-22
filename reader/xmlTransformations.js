@@ -18,6 +18,20 @@ xmlTransformations.prototype.apply= function(scene){
   }
 };
 
+/**
+ * Checks if there are multiple objects with the same id
+ */
+xmlTransformations.prototype.checkDoubleId = function() {
+    for (var i = 0; i < this.transformations.length - 1; i++) {
+        for (var j = i + 1; j < this.transformations.length; j++) {
+            if (this.transformations[i].id === this.transformations[j].id) {
+                return 'Found multiple transformations with the same id: ' + this.transformations[i].id;
+              }
+        }
+    }
+    return null;
+};
+
 
 /**
 * Outputs every attr to the console
