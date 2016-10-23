@@ -72,7 +72,7 @@ xmlComp.prototype.display = function(scene, fatherTextureID, fatherMaterialID) {
 
     this.mat.apply()
 
-  if(this.texture.texture != null){
+  if(this.texture.texture != null && this.texture.texture !== 'empty'){
     this.texture.texture.bind();
   }
 
@@ -81,7 +81,7 @@ xmlComp.prototype.display = function(scene, fatherTextureID, fatherMaterialID) {
     this.children.primitives.display(scene, this.texture);
 
 
-      if(this.texture.texture != null){
+      if(this.texture.texture != null && this.texture.texture !== 'empty'){
         this.texture.texture.unbind();
       }
     // aceder aos components
