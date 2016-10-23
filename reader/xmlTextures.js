@@ -63,7 +63,6 @@ function xmlText(id, file, length_s, length_t) {
     this.file = file;
     this.length_s = length_s;
     this.length_t = length_t;
-    //CGFTexture object. (Doen't start as null, cause reasons)
     this.texture = 'empty';
 }
 
@@ -79,25 +78,19 @@ xmlText.prototype.consoleDebug = function() {
     console.log("--- FINISH TEXT DEBUGGING ---");
 };
 
-/**
- * Loads the texture and returns the object
- * @param scene Scene
- * @param fatherTexture xmlText object
- */
-xmlText.prototype.load = function(scene, fatherTexture) {
-    //this makes sure the texture is only loaded once
-    if (this.texture === 'empty') {
-        //in case id is null or inherit
-        if (this.id === 'none') {
-            this.texture = null;
-        } else if (this.id === 'inherit' ) {
-            this.id = fatherTexture.id;
-            this.file = fatherTexture.file;
-            this.length_t = fatherTexture.length_t;
-            this.length_s = fatherTexture.length_s;
-            this.texture = fatherTexture.texture;
-        } else {
-            this.texture = new CGFtexture(scene, this.file);
-        }
-    }
-};
+xmlText.prototype.load = function(scene, texture) {
+
+  if (this.texture === 'empty') {
+      //in case id is null or inherit
+      if (this.id === 'none') {
+          this.texture = null;
+      } else if (this.id === 'inherit' ) {
+          this.file = texture.file;
+          this.length_t = texture.length_t;
+          this.length_s = texture.length_s;
+          this.texture = texture.texture;
+      } else {
+          this.texture = new CGFtexture(scene, this.file);
+      }
+  }
+}

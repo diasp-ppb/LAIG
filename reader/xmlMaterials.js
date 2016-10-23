@@ -43,9 +43,14 @@ xmlMaterials.prototype.checkDoubleId = function() {
 * @param texture Texture (object of class CGFTexture)
 * @return Returns the CGFappearance object loaded, or 'inherit'
 */
-xmlMaterials.prototype.load= function(scene, texture, id) {
+xmlMaterials.prototype.load= function(scene) {
   //load active material
-  return this.materials[this.activeMatIndex].load(scene, texture);
+  return this.materials[this.activeMatIndex].load(scene);
+}
+
+xmlMaterials.prototype.getID = function(){
+  console.log(this.materials[this.activeMatIndex].id);
+  return this.materials[this.activeMatIndex].id;
 }
 
 /**
@@ -53,11 +58,11 @@ xmlMaterials.prototype.load= function(scene, texture, id) {
 * @param scene Scene
 * @param texture Texture (object of class CGFTexture)
 */
-xmlMaterials.prototype.apply= function(scene, texture){
+xmlMaterials.prototype.apply= function(scene){
   //this makes sure a material is only loaded once
   if (this.activeMat === null) {
     //load active material
-    this.activeMat = this.load(scene, texture);
+    this.activeMat = this.load(scene);
   }
   //apply material if not 'inherit'
   if (this.activeMat != 'inherit') {
@@ -78,7 +83,7 @@ xmlMaterials.prototype.nextMaterial = function(scene, texture) {
     this.activeMatIndex = 0;
   }
   //load new activeMaterial
-  this.activeMat = this.load(scene, texture);
+  this.activeMat = this.load(scene);
 };
 
 /**
@@ -129,7 +134,7 @@ function xmlMat(id, arrayEmission, arrayAmbient, arrayDiffuse, arraySpecular, sh
 * @param text CGFTexture object
 * @return Returns the CGFappearance object loaded, or 'inherit'
 */
-xmlMat.prototype.load= function(scene, texture) {
+xmlMat.prototype.load= function(scene) {
   //TODO M key to change material
   //only apply material if id is different than 'inherit', otherwise do nothing
   if (this.id != 'inherit') {
@@ -146,11 +151,9 @@ xmlMat.prototype.load= function(scene, texture) {
     //set shininess
     mat.setShininess(this.shininess);
     //set texture if not 'inherit'
-    if (texture !== 'inherit') {
-      mat.setTexture(texture);
-    }
     return mat;
   }
+  console.log("inherit");
   return 'inherit';
 };
 

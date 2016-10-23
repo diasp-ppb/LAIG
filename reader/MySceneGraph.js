@@ -110,11 +110,11 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.illumination.consoleDebug();
   this.lights.consoleDebug();
   this.textures.consoleDebug();
-  this.materials.consoleDebug();
+
   this.transformations.consoleDebug();
   this.primitives.consoleDebug();
   this.graphRoot.consoleDebug();*/
-
+this.materials.consoleDebug();
   this.loadedOk = true;
 
   // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
@@ -949,7 +949,8 @@ MySceneGraph.prototype.onXMLError = function(message) {
 * @param scene Scene
 */
 MySceneGraph.prototype.display = function(scene){
-  this.graphRoot.display(scene, this.graphRoot.texture);
+  
+  this.graphRoot.display(scene, "none", "none");
 };
 
 /**
