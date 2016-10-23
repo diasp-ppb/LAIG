@@ -52,7 +52,7 @@
         <texture id="bola" file="../resources/foolball.png" length_s="10" length_t="10"/>
         <texture id="tyre" file="../resources/tyre.png" length_s="100" length_t="100"/>
         <texture id="jante" file="../resources/jante.png" length_s="100" length_t="100"/>
-        <texture id="FCP" file="../resources/FCP.png" length_s="3" length_t="3"/>
+        <texture id="FCP" file="../resources/FCP.png" length_s="5" length_t="5"/>
     </textures>
 
     <materials>
@@ -139,7 +139,7 @@
             <materials>
                 <material id="baco"/>
             </materials>
-            <texture id="none"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="base"/>
             </children>

@@ -84,7 +84,7 @@
   this.texCoords=[
     0,1,
     this.bc,1,
-  this.ptX,1-this.ptY
+    this.ptX,1-this.ptY
   ];
 
 
@@ -97,8 +97,8 @@
 
    this.texCoords=[
      0,1,
-   this.bc/s,1,
-    this.ptX/s,(1-this.ptY)/t
+     this.bc/s,1,
+     this.ptX/s,(1-this.ptY)/t
    ];
 
 

@@ -26,15 +26,7 @@ XMLscene.prototype.init = function(application) {
     this.axis = new CGFaxis(this);
 
     this.lightCount = 0;
-
     this.lightsStatus = [];
-
-    this.primitives = [];
-
-    this.materials = [];
-
-    this.textures = [];
-
 };
 
 XMLscene.prototype.initLights = function() {
@@ -65,9 +57,6 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultAxis();
     this.setDefaultCamera();
     this.setDefaultIllumination();
-    //this.createPrimitives();
-    //this.createMaterials();
-    //this.loadTextures();
 };
 
 XMLscene.prototype.display = function() {
@@ -137,7 +126,9 @@ XMLscene.prototype.nextMaterial = function() {
 XMLscene.prototype.setDefaultCamera = function() {
     this.setCamera(this.graph.views.getDefaultCamera());
 };
-
+/**
+Set ligth configuration readed from xml file;
+*/
 XMLscene.prototype.setDefaultIllumination = function() {
 
 
@@ -200,78 +191,3 @@ XMLscene.prototype.setDefaultIllumination = function() {
         this.interface.addLights(this.graph.lights.spot[i].id, this.lightCount);
     }
 };
-
-XMLscene.prototype.createPrimitives = function() {
-    var nprim = this.graph.primitives.rect.length;
-
-
-    var prim;
-    for (var i = 0; i < nprim; i++) {
-        prim = this.graph.primitives.rect[i];
-
-
-      //  this.primitives.push(new Rectangle(this,prim.point1,prim.point2);
-    }
-
-    var ntrig = this.graph.primitives.tri.length;
-
-    for (var i = 0; i < ntrig; i++) {
-        prim = this.graph.primitives.tri[i];
-        this.primitives.push(new Triangle(this,prim.point1,prim.point2,prim.point3));
-    }
-
-    var ncyl = this.graph.primitives.cyl.length;
-
-    for (var i = 0; i < ncyl; i++) {
-
-        prim = this.graph.primitives.cyl[i];
-        // this.primitives.push(new Cylinder(this,prim.slices,prim.stacks,prim.base,prim.top,prim.height));
-    }
-
-    var nsph = this.graph.primitives.sph.length;
-    for (var i = 0; i < nsph; i++) {
-        prim = this.graph.primitives.sph[i];
-      //  this.primitives.push(new Sphere(this, prim.slices, prim.stacks, prim.radius));
-    }
-    var ntor = this.graph.primitives.tor.length;
-
-    for(var i = 0; i < ntor; i++){
-      prim = this.graph.primitives.tor[i];
-      //this.primitives.push(new Torus(this,prim.inner,prim.outer,prim.slices,prim.loops));
-    }
-};
-XMLscene.prototype.drawPrimitives = function() {
-    var nprim = this.primitives.length;
-    for (var i = 0; i < nprim; i++) {
-
-        this.materials[0].setTexture(this.graph.textures.textures[0].texture);
-        this.materials[0].apply(); //TODO TEMPORARIO
-        this.primitives[i].display();
-    }
-};
-XMLscene.prototype.createMaterials = function() {
-    var nMat = this.graph.materials.materials.length;
-
-    var material;
-    for (var i = 0; i < nMat; i++) {
-        material = this.graph.materials.materials[i];
-
-        this.materials[i] = new CGFappearance(this);
-        this.materials[i].setAmbient(material.ambient[0], material.ambient[1], material.ambient[2], material.ambient[3]);
-        this.materials[i].setDiffuse(material.diffuse[0], material.diffuse[1], material.diffuse[2], material.diffuse[3]);
-        this.materials[i].setSpecular(material.specular[0], material.specular[1], material.specular[2], material.specular[3]);
-        this.materials[i].setShininess(material.shininess);
-        this.materials[i].setEmission(material.emission[0], material.emission[1], material.emission[2], material.emission[3]);
-        this.materials[i].id = material.id;
-
-    }
-};
-
-XMLscene.prototype.loadTextures=function(){
-  var nText = this.graph.textures.textures.length;
-
-
-  for(var i = 0; i < nText; i++){
-    this.graph.textures.textures[i].loadTexture(this);
-  }
-}
