@@ -110,11 +110,11 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.illumination.consoleDebug();
   this.lights.consoleDebug();
   this.textures.consoleDebug();
-  this.materials.consoleDebug();
+
   this.transformations.consoleDebug();
   this.primitives.consoleDebug();
   this.graphRoot.consoleDebug();*/
-
+this.materials.consoleDebug();
   this.loadedOk = true;
 
   // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
@@ -676,31 +676,31 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
     //go through all children tags
     for (var j = 0; j < nChildComp; j++) {
       //get child tag
-	  
+
       var child = comp.children[j];
-	  
+
       //xmlTransf object
-	  
+
       var transformation;
-	  
+
       //xmlMaterials object
-	  
+
       var materials;
-	  
+
       //xmlText object
-	  
+
       var texture;
-	  
+
       //if 'transformation' tag
-	  
+
       if (child.nodeName === 'transformation') {
- 
+
         if (recursive === false) {
           var arrayOperations = [];
           var control = 1;
-    
+
           var nChildTrans = child.children.length;
-         
+
 		  if(nChildTrans == 0){
 			  control = 0;
 			  var translate = [0,0,0];
@@ -709,9 +709,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 		  }
           for (var i = 0; i < nChildTrans; i++)
           {
-           
+
             var childTrans = child.children[i];
-            
+
             if (childTrans.nodeName === 'transformationref')
             {
               //if there is more than 1 transformationref tag (including different tags)
@@ -949,7 +949,8 @@ MySceneGraph.prototype.onXMLError = function(message) {
 * @param scene Scene
 */
 MySceneGraph.prototype.display = function(scene){
-  this.graphRoot.display(scene, this.graphRoot.texture);
+  
+  this.graphRoot.display(scene, "none", "none");
 };
 
 /**
