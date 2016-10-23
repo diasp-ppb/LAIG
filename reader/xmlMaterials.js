@@ -49,7 +49,7 @@ xmlMaterials.prototype.load= function(scene) {
 }
 
 xmlMaterials.prototype.getID = function(){
-  console.log(this.materials[this.activeMatIndex].id);
+  //console.log(this.materials[this.activeMatIndex].id);
   return this.materials[this.activeMatIndex].id;
 }
 
@@ -153,7 +153,7 @@ xmlMat.prototype.load= function(scene) {
     //set texture if not 'inherit'
     return mat;
   }
-  console.log("inherit");
+  //console.log("inherit");
   return 'inherit';
 };
 

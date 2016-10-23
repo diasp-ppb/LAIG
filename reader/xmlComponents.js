@@ -52,21 +52,21 @@ xmlComp.prototype.display = function(scene, fatherTextureID, fatherMaterialID) {
         if (this.texture.id == 'none') {
             this.mat.setTexture(null); // sem textura
             this.texture.texture = null;
-            console.log("1");
+            //console.log("1");
         } else {
             this.texture.load(scene,this.texture); // textura prorpia
-            console.log("2");
+            //console.log("2");
         }
     } else {
         if (fatherTextureID == 'none') {
             this.mat.setTexture(null);
             this.texture.texture = null;
-            console.log("3");
+            //console.log("3");
         } else {
             this.text = scene.graph.textures.findById(fatherTextureID);
             this.texture.load(scene,this.text);
 
-            console.log("4");
+            //console.log("4");
         }
     }
 
