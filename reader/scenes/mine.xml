@@ -43,16 +43,16 @@
     </lights>
 
     <textures>
-        <texture id="metal" file="../resources/metal.jpg" length_s="10" length_t="10"/>
-        <texture id="grass" file="../resources/grass.jpg" length_s="50" length_t="50"/>
-        <texture id="red" file="../resources/red.jpg" length_s="1" length_t="1"/>
-        <texture id="yellow" file="../resources/yellow.jpg" length_s="1" length_t="1"/>
-        <texture id="sky" file="../resources/sky.jpg" length_s="100" length_t="100"/>
-        <texture id="palha" file="../resources/palha.jpg" length_s="100" length_t="100"/>
-        <texture id="bola" file="../resources/foolball.jpg" length_s="10" length_t="10"/>
-        <texture id="tyre" file="../resources/tyre.jpg" length_s="100" length_t="100"/>
-        <texture id="jante" file="../resources/jante.jpg" length_s="100" length_t="100"/>
-        <texture id="FCP" file="../resources/FCP.jpg" length_s="3" length_t="3"/>
+        <texture id="metal" file="../resources/metal.png" length_s="10" length_t="10"/>
+        <texture id="grass" file="../resources/grass.png" length_s="50" length_t="50"/>
+        <texture id="red" file="../resources/red.png" length_s="1" length_t="1"/>
+        <texture id="yellow" file="../resources/yellow.png" length_s="1" length_t="1"/>
+        <texture id="sky" file="../resources/sky.png" length_s="100" length_t="100"/>
+        <texture id="palha" file="../resources/palha.png" length_s="100" length_t="100"/>
+        <texture id="bola" file="../resources/foolball.png" length_s="10" length_t="10"/>
+        <texture id="tyre" file="../resources/tyre.png" length_s="100" length_t="100"/>
+        <texture id="jante" file="../resources/jante.png" length_s="100" length_t="100"/>
+        <texture id="FCP" file="../resources/FCP.png" length_s="3" length_t="3"/>
     </textures>
 
     <materials>
