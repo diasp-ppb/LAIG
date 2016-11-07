@@ -92,6 +92,14 @@
         </transformation>
     </transformations>
 
+    <animations>
+        <animation id="ani1" span="1" type="linear">
+            <controlpoint xx="2" yy="3" zz="4"/>
+            <controlpoint xx="5" yy="6" zz="7"/>
+        </animation>
+        <animation id="ani2" span="8" type="circular" center="9 10 11" radius="12" startang="13" rotang="14"/>
+    </animations>
+
     <primitives>
         <primitive id="base">
             <rectangle x1="-50" y1="-50" x2="50" y2="50"/>

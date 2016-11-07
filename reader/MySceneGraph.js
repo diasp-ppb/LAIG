@@ -91,6 +91,12 @@ MySceneGraph.prototype.onXMLReady = function() {
     this.onXMLError(error);
     return;
   }
+  error = this.parserAnimations(rootElement);
+  //Error call after each parser
+  if (error != null) {
+    this.onXMLError(error);
+    return;
+  }
   error = this.parserPrimitives(rootElement);
   //Error call after each parser
   if (error != null) {
@@ -110,11 +116,11 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.illumination.consoleDebug();
   this.lights.consoleDebug();
   this.textures.consoleDebug();
-
+  this.materials.consoleDebug();
   this.transformations.consoleDebug();
   this.primitives.consoleDebug();
   this.graphRoot.consoleDebug();*/
-this.materials.consoleDebug();
+
   this.loadedOk = true;
 
   // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
@@ -509,6 +515,10 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
   return this.transformations.checkDoubleId();
 };
 
+MySceneGraph.prototype.parserAnimations = function(rootElement) {
+
+}
+
 MySceneGraph.prototype.parserPrimitives= function(rootElement) {
   var elems = rootElement.getElementsByTagName('primitives');
   if (elems == null)
@@ -667,7 +677,6 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
     var comp = components.children[k];
     //extract id
     var compId = this.reader.getString(comp, 'id', 1);
-	console.log("comp " + compId);
     //how many chidlren does each component have (there can only be 4!)
     var nChildComp = comp.children.length;
     if (nChildComp != 4) {
