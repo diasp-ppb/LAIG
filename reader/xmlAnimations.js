@@ -6,6 +6,19 @@ function xmlAnimations(arrayAnimations) {
 	this.animations = arrayAnimations.slice(0);
 }
 
+/**
+ * Checks if there are multiple objects with the same id
+ */
+xmlAnimations.prototype.checkDoubleId = function() {
+	for (var i = 0; i < this.animations.length - 1; i++) {
+		for (var j = i + 1; j < this.animations.length; j++) {
+			if (this.animations[i].id === this.animations[j].id) {
+				return 'Found multiple animations with the same id: ' + this.animations[i].id;
+			}
+		}
+	}
+	return null;
+};
 
 /**
  * Outputs every attr to the console
@@ -105,14 +118,14 @@ xmlCircularAnim.prototype = Object.create(xmlAnim.prototype);
  */
 xmlCircularAnim.prototype.consoleDebug = function() {
 	xmlAnim.prototype.consoleDebug.call(this);
-  var ss; //string variable that helps avoiding the console.log newline
-  ss = "Center[" + this.center.length + "]:";
-  for (var i = 0; i < this.center.length; i++) {
-      ss += " " + this.center[i];
-  }
-  console.log(ss);
-  console.log("Radius: " + this.radius);
-  console.log("StartAng: " + this.startang);
-  console.log("RotAng: " + this.rotang);
+	var ss; //string variable that helps avoiding the console.log newline
+	ss = "Center[" + this.center.length + "]:";
+	for (var i = 0; i < this.center.length; i++) {
+		ss += " " + this.center[i];
+	}
+	console.log(ss);
+	console.log("Radius: " + this.radius);
+	console.log("StartAng: " + this.startang);
+	console.log("RotAng: " + this.rotang);
 	console.log("--- FINISH ANIM DEBUGGING ---");
 };

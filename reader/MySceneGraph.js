@@ -119,9 +119,9 @@ MySceneGraph.prototype.onXMLReady = function() {
 	this.lights.consoleDebug();
 	this.textures.consoleDebug();
 	this.materials.consoleDebug();
-	this.transformations.consoleDebug();*/
+	this.transformations.consoleDebug();
   this.animations.consoleDebug();
-	/*this.primitives.consoleDebug();
+	this.primitives.consoleDebug();
 	this.graphRoot.consoleDebug();*/
 
 	this.loadedOk = true;
@@ -580,7 +580,7 @@ MySceneGraph.prototype.parserAnimations = function(rootElement) {
 		}
 	}
 	this.animations = new xmlAnimations(arrayAnimations);
-	//TODO return this.animations.checkDoubleId();
+	return this.animations.checkDoubleId();
 }
 
 MySceneGraph.prototype.parserPrimitives = function(rootElement) {

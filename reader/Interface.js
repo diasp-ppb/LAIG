@@ -58,7 +58,7 @@ Interface.prototype.processKeyDown = function(event) {
 
 Interface.prototype.addLights = function (ligthID,i){
 
-  console.log(ligthID);
+  //console.log(ligthID);
   this.lights.add(this.scene.lightsStatus,i).name(ligthID);
 
 }
