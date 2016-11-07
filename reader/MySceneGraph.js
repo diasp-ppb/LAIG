@@ -120,8 +120,8 @@ MySceneGraph.prototype.onXMLReady = function() {
 	this.textures.consoleDebug();
 	this.materials.consoleDebug();
 	this.transformations.consoleDebug();*/
-  this.animations.consoleDebug();/*
-	this.primitives.consoleDebug();
+  this.animations.consoleDebug();
+	/*this.primitives.consoleDebug();
 	this.graphRoot.consoleDebug();*/
 
 	this.loadedOk = true;
@@ -539,7 +539,7 @@ MySceneGraph.prototype.parserAnimations = function(rootElement) {
 		//if linear animation
 		if (animType === "linear") {
 			//how many control points there are (needs to be at least two!)
-			var nChildAnim = anim.children.legnth;
+			var nChildAnim = anim.children.length;
 			if (nChildAnim < 2) {
 				return "there needs to be at least two control points for a linear animation!";
 			}
@@ -563,7 +563,18 @@ MySceneGraph.prototype.parserAnimations = function(rootElement) {
 		}
 		//if circular animation
 		else if (animType === "circular") {
-			//TODO completar circular animation parser
+			//extract center coordinates
+			var animCenterPoint = this.reader.getVector3(anim, 'center', 1);
+			//extract radius
+			var animRadius = this.reader.getFloat(anim, 'radius', 1);
+			//extract startang
+			var animStartang = this.reader.getFloat(anim, 'startang', 1);
+			//extract rotang
+			var animRotang = this.reader.getFloat(anim, 'rotang', 1);
+			//create xmlCircularAnim object
+			var circularAnim = new xmlCircularAnim(animId, animSpan, animType, animCenterPoint, animRadius, animStartang, animRotang);
+			//store it in the array
+			arrayAnimations.push(circularAnim);
 		} else {
 			return "invalid animation type";
 		}
