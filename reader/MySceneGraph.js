@@ -949,7 +949,7 @@ MySceneGraph.prototype.onXMLError = function(message) {
 * @param scene Scene
 */
 MySceneGraph.prototype.display = function(scene){
-  
+
   this.graphRoot.display(scene, "none", "none");
 };
 
@@ -964,10 +964,10 @@ MySceneGraph.prototype.nextMaterial = function(scene) {
 MySceneGraph.prototype.checkDSXOrder = function(rootElement) {
 var nchild = rootElement.children.length;
 
-if(nchild != 9 )
+if(nchild != 10 )
 this.onXMLError("DSX wrong number of rootElement children");
 
-var node = ["scene","views", "illumination","lights","textures","materials","transformations","primitives","components"]
+var node = ["scene","views", "illumination","lights","textures","materials","transformations","animations", "primitives","components"]
 var n = node.length;
 for(var i = 0; i  < n ; i++){
   if(rootElement.children[i].nodeName != node[i])
