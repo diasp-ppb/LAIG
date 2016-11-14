@@ -737,9 +737,11 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 		var compId = this.reader.getString(comp, 'id', 1);
 		//how many chidlren does each component have (there can only be 4!)
 		var nChildComp = comp.children.length;
-		if (nChildComp != 4) {
-			return "there can only be 4 children tags within 'component': transformation, materials, texture and children"
+		if (nChildComp != 4 && nChildComp != 5) {
+			return "there can only be 4 children tags within 'component': transformation, materials, texture and children and one optional tag: animation";
 		}
+		//xmlAnimations object
+		var animation = null;
 		//go through all children tags
 		for (var j = 0; j < nChildComp; j++) {
 			//get child tag
@@ -832,6 +834,32 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 					if (control != 1) {
 						var transformation = new xmlTransf(null, arrayOperations);
 					}
+				}
+			}
+			//if 'animation' tag
+			else if (child.nodeName === 'animation') {
+				//only does something if it's not the recursive call
+				if (recursive === false) {
+					var arrayAnimations = [];
+					//how many children does 'animation' have
+					var nChildAnim = child.children.length;
+					// go through all children tags
+					for (var i = 0; i < nChildAnim; i++) {
+						//get child tags
+						var childAnim = child.children[i];
+						//if 'animaionref' tag
+						if (childAnim.nodeName === 'animationref') {
+							//get id
+							var id = this.reader.getString(childAnim, 'id', 1);
+							//get xmlAnim object by id
+							var anim = this.animations.findById(id);
+							arrayAnimations.push(anim);
+						}
+						else {
+							return "Wrong tags within animation of component: " + compId;
+						}
+					}
+					animation = new xmlAnimations(arrayAnimations);
 				}
 			}
 			//if 'materials' tag
@@ -960,7 +988,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 		//if this isnt the recursive call
 		if (recursive === false) {
 			//create xmlComp
-			var component = new xmlComp(compId, transformation, materials, texture, xmlChildren);
+			var component = new xmlComp(compId, transformation, animation, materials, texture, xmlChildren);
 			//store it in array (at this point, component still has no components-children)
 			arrayComponents.components.push(component);
 			arrayID.push(component.id);
