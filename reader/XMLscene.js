@@ -27,6 +27,7 @@ XMLscene.prototype.init = function(application) {
 
     this.lightCount = 0;
     this.lightsStatus = [];
+
 };
 
 XMLscene.prototype.initLights = function() {
@@ -57,6 +58,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultAxis();
     this.setDefaultCamera();
     this.setDefaultIllumination();
+
 };
 
 XMLscene.prototype.display = function() {
@@ -93,8 +95,8 @@ XMLscene.prototype.display = function() {
             }
             this.lights[i].update();
         }
-        this.graph.display(this);
-
+      //  this.graph.display(this);
+      //TODO
     };
 
 };

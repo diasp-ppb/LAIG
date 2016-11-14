@@ -6,12 +6,14 @@
  * @param arraySph
  * @param arrayTor
  */
-function xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor) {
+function xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor,arrayPlane,arraySurf) {
     this.rect = arrayRect.slice(0);
     this.tri = arrayTri.slice(0);
     this.cyl = arrayCyl.slice(0);
     this.sph = arraySph.slice(0);
     this.tor = arrayTor.slice(0);
+    this.plane = arrayPlane.slice(0);
+    this.surfaces = arraySurf.slice(0);
 };
 
 /**
@@ -445,3 +447,37 @@ xmlTorus.prototype.consoleDebug = function() {
     console.log("Loops: " + this.loops);
     console.log("--- FINISH TORUS DEBUGGING ---");
 };
+/**
+ * Class that represents a patch primitive
+ * @param id ID of the rectangle
+ * @param orderU
+ * @param orderV
+ * @param partsU
+ * @param partsV
+ * @param controlPoints
+ */
+
+function xmlPatch(id,orderU,orderV,partsU,partsV, controlPoints){
+  this.id = id;
+  this.orderU = orderU;
+  this.orderV = orderV;
+  this.partsU = partsU;
+  this.partsV = partsV;
+  this.controlPoints = controlPoints;
+}
+
+/**
+ * Class that represents a patch primitive
+ * @param id ID of the rectangle
+ * @param dimX
+ * @param dimY
+ * @param partsX
+ * @param partsY
+ */
+function xmlPlane(id, dimX,dimY,partsX,partsY){
+  this.id = id;
+  this.dimX = dimX;
+  this.dimY = dimY;
+  this.partsX = partsX;
+  this.partsY = partsY;
+}

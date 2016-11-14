@@ -116,6 +116,25 @@
         <primitive id="tri">
             <triangle x1="0" y1="0" z1="0" x2="10" y2="0" z2="0" x3="10" y3="10" z3="0"/>
         </primitive>
+        <primitive id="harambe">
+        <plane dimX="ff" dimY="ff" partsX="ii" partsY="ii"/>
+        </primitive>
+
+
+        <primitive id="harambeWillSurvive">
+        <plane dimX="10" dimY="10" partsX="13" partsY="13"/>
+        </primitive>
+
+        <primitive id="harambeWILLLNOTSURVIVE">
+          <patch orderU="1" orderV="1" partsU="16" partsV="13" >
+            <controlpoint x="0" y="2" z="1" />
+            <controlpoint x="0" y="0" z="1" />
+            <controlpoint x="0" y="0" z="1" />
+            <controlpoint x="0" y="0" z="1" />
+          </patch>
+        </primitive>
+
+
     </primitives>
 
     <components>

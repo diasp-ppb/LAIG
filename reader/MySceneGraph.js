@@ -681,6 +681,38 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
 			var tor = new xmlTorus(primId, inner, outer, slices, loops);
 			//push sphere
 			arrayTor.push(tor);
+		} else if (primType.nodeName === "plane") {
+			//read attrs
+			var dimX = this.reader.getFloat(primType, 'dimX', 1);
+			var dimY = this.reader.getFloat(primType, 'dimY', 1);
+			var partsX = this.reader.getFloat(primType, 'partsX', 1);
+			var partsY = this.reader.getFloat(primType, 'partsY', 1);
+			var plane = new xmlPlane(primId,dimX,dimY,partsX,partsY);
+
+
+
+		} else if (primType.nodeName === "patch") {
+
+			var orderU = this.reader.getFloat(primType, 'orderU', 1);
+			var orderV = this.reader.getFloat(primType, 'orderV', 1);
+			var partsU = this.reader.getFloat(primType, 'partsU', 1);
+			var partsV = this.reader.getFloat(primType, 'partsV', 1);
+			var controlpoints = [];
+			var totalpoints = (orderU + 1)*(orderV + 1);
+
+			var points  = primType.children[0];
+			var realPoints = points.length;
+
+			if(totalpoints != realPoints){
+				this.onXMLError(primId + " : wrong number of controlpoints");
+			}
+			for(var i = 0; i < points; i++){
+				var control = points[i];
+			  var x  = this.reader.getFloat(control, 'x', 1);
+				var y	 = this.reader.getFloat(control, 'y', 1);
+				var z  = this.reader.getFloat(control, 'z', 1);
+				control.push([x,y,z]);
+			}
 		} else {
 			return "invalid primitive type";
 		}
