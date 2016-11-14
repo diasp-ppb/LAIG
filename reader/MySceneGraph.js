@@ -123,7 +123,6 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.animations.consoleDebug();
 	this.primitives.consoleDebug();
 	this.graphRoot.consoleDebug();*/
-	this.animations.consoleDebug();
 
 	this.loadedOk = true;
 
@@ -565,9 +564,9 @@ MySceneGraph.prototype.parserAnimations = function(rootElement) {
 		//if circular animation
 		else if (animType === "circular") {
 			//extract center coordinates
-			var animCenterPoint = [this.reader.getFloat(controlPointTag, 'centerx', 1),
-				this.reader.getFloat(controlPointTag, 'centery', 1),
-				this.reader.getFloat(controlPointTag, 'centerz', 1)
+			var animCenterPoint = [this.reader.getFloat(anim, 'centerx', 1),
+				this.reader.getFloat(anim, 'centery', 1),
+				this.reader.getFloat(anim, 'centerz', 1)
 			];
 			//extract radius
 			var animRadius = this.reader.getFloat(anim, 'radius', 1);
