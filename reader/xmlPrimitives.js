@@ -216,6 +216,38 @@ xmlPrimitives.prototype.findTorById = function(id) {
     return false;
 }
 
+/**
+ * Scan plane array to find match with parameter id and return it
+ * @param id Id to match with
+ * @return Matched element. False otherwise
+ */
+xmlPrimitives.prototype.findPlaneById = function(id) {
+    //percorrer o array
+    for (var i = 0; i < this.plane.length; i++) {
+        //match id
+        if (this.plane[i].id === id) {
+            return this.plane[i];
+        }
+    }
+    return false;
+}
+
+/**
+ * Scan patch array to find match with parameter id and return it
+ * @param id Id to match with
+ * @return Matched element. False otherwise
+ */
+xmlPrimitives.prototype.findPatchById = function(id) {
+    //percorrer o array
+    for (var i = 0; i < this.patch.length; i++) {
+        //match id
+        if (this.patch[i].id === id) {
+            return this.patch[i];
+        }
+    }
+    return false;
+}
+
 xmlPrimitives.prototype.findById = function(id) {
     var found = this.findRectById(id);
     if (false == found)
@@ -226,6 +258,10 @@ xmlPrimitives.prototype.findById = function(id) {
         found = this.findSphById(id);
     if (false == found)
         found = this.findTorById(id);
+    if (false == found)
+        found = this.findPlaneById(id);
+    if (false == found)
+        found = this.findPatchById(id);
 
     return found;
 }
@@ -288,6 +324,23 @@ xmlPrimitives.prototype.display = function(scene, texture) {
         //display
         tor.display(scene);
     }
+
+   n = this.plane.length;
+
+   for(var i = 0; i < n; i ++) {
+       xml = this.plane[i];
+       var plane = new Plane(scene, xml.dimX, xml.dimY. xml.partsX,xml.partsY);
+       plane.display();
+   }
+
+   n = this.patch.length;
+
+   for(var i = 0; i < n; i ++) {
+       xml = this.patch[i];
+       var plane = new Patch(scene, xml.orderU,xml.orderV, xml.partsU, xml.partsV, xml.controlPoints)
+       plane.display();
+   }
+
 }
 
 /**
