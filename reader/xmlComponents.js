@@ -17,6 +17,8 @@ function xmlComp(id, transformation, animation, materials, texture, children) {
     this.matID = "s";
     this.text;
     this.mat;
+    //time (in milliseconds) the last time update method was called
+    this.lastTime = 0;
 }
 
 /**
@@ -106,8 +108,25 @@ xmlComp.prototype.nextMaterial = function(scene) {
 
 };
 
+/** TODO animaçoes (nao eskecer animar os filhos tbm)
+* Updates the Component (and its children) based on time passed
+* @param currTime The current time in milliseconds
+*/
+xmlComp.prototype.update = function(currTime) {
+  //get how much time passed since last update
+  var timePassed = this.lastTime - currTime;
+  //go through all animations of component
+  for (var i = 0; i < this.animation; i++) {
+    //if it's a linear animation
+    if (this.animation.type === 'linear') {
 
-
+    }
+    else if (this.animation.type === 'circular') {
+      //TODO animaçao circular
+    }
+  }
+  
+};
 
 
 /**

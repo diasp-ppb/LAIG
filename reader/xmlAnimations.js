@@ -81,12 +81,10 @@ xmlAnim.prototype.consoleDebug = function() {
  * @param arrayControlPoints 2D array with control points
  */
 function xmlLinearAnim(id, span, type, arrayControlPoints) {
-	xmlAnim.call(this, id, span, type, linearVel);
-	//set control points
-	this.controlPoints = arrayControlPoints.slice(0);
 
 	/**
 	 * Calculate linear velocity
+	 * @return linear velocity
 	 */
 	var calcLinearVel = function() {
 		var linearVel = 0;
@@ -104,8 +102,12 @@ function xmlLinearAnim(id, span, type, arrayControlPoints) {
 		return linearVel;
 	};
 
-	//set linearVel
-	this.linearVel = calcLinearVel;
+	//set linearVel (units/second)
+	var linearVel = calcLinearVel;
+	//call to super constructor
+	xmlAnim.call(this, id, span, type, linearVel);
+	//set control points
+	this.controlPoints = arrayControlPoints.slice(0);
 }
 xmlLinearAnim.prototype = Object.create(xmlAnim.prototype);
 

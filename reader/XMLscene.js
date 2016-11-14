@@ -6,6 +6,14 @@ function XMLscene(MyInterface) {
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
+/**
+* Updates the scene based on time
+* @param currTime The current time in milliseconds
+*/
+XMLscene.prototype.update = function(currTime) {
+  console.log("OLA");
+};
+
 XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
 
@@ -27,6 +35,8 @@ XMLscene.prototype.init = function(application) {
 
     this.lightCount = 0;
     this.lightsStatus = [];
+
+    this.setUpdatePeriod(60);
 };
 
 XMLscene.prototype.initLights = function() {
