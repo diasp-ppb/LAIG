@@ -21,6 +21,25 @@ xmlAnimations.prototype.checkDoubleId = function() {
 };
 
 /**
+* Scan animations array to find match with parameter id and return it
+* @param id Id to match with
+* @return Matched element. False otherwise
+*/
+xmlAnimations.prototype.findById = function(id)
+{
+  //percorrer o array
+  for (var i = 0; i < this.animations.length; i++)
+  {
+    //match id
+    if (this.animations[i].id === id)
+    {
+      return this.animations[i];
+    }
+  }
+  return false;
+};
+
+/**
  * Outputs every attr to the console
  */
 xmlAnimations.prototype.consoleDebug = function() {

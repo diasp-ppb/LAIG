@@ -2,13 +2,15 @@
  * Class that represents a single component
  * @param id ID of the material
  * @param transformation Object of Class xmlTransf
+ * @param animation Object of Class xmlAnimations (could be just a simple array, but this helps with debugging!)
  * @param materials Object of Class xmlMaterials (could be just a simple array, but this helps with debugging!)
  * @param texture Object of Class xmlText
  * @param children Object of Class xmlCompChildren (could be just a simple bi-dim array, but this helps with debugging!)
  */
-function xmlComp(id, transformation, materials, texture, children) {
+function xmlComp(id, transformation, animation, materials, texture, children) {
     this.id = id;
     this.transformation = transformation;
+    this.animation = animation;
     this.materials = materials;
     this.texture = texture;
     this.children = children;
@@ -73,7 +75,7 @@ xmlComp.prototype.display = function(scene, fatherTextureID, fatherMaterialID) {
 
     this.mat.apply();
 
-    
+
     if(this.texture.texture != null && this.texture.texture !== 'empty'){
       this.texture.texture.bind();
     }
@@ -118,6 +120,9 @@ xmlComp.prototype.consoleDebug = function() {
     //debug transformation
     console.log("Transformation:");
     if (this.transformation != null) this.transformation.consoleDebug();
+    //debug animation
+    console.log("Animation:");
+    if (this.animation != null) this.animation.consoleDebug();
     //debug materials
     console.log("Materials:");
     if (this.materials != null) this.materials.consoleDebug();
