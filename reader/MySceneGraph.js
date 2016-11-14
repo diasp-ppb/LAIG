@@ -564,7 +564,10 @@ MySceneGraph.prototype.parserAnimations = function(rootElement) {
 		//if circular animation
 		else if (animType === "circular") {
 			//extract center coordinates
-			var animCenterPoint = this.reader.getVector3(anim, 'center', 1);
+			var animCenterPoint = [this.reader.getFloat(anim, 'centerx', 1),
+				this.reader.getFloat(anim, 'centery', 1),
+				this.reader.getFloat(anim, 'centerz', 1)
+			];
 			//extract radius
 			var animRadius = this.reader.getFloat(anim, 'radius', 1);
 			//extract startang
