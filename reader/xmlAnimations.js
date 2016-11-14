@@ -21,22 +21,19 @@ xmlAnimations.prototype.checkDoubleId = function() {
 };
 
 /**
-* Scan animations array to find match with parameter id and return it
-* @param id Id to match with
-* @return Matched element. False otherwise
-*/
-xmlAnimations.prototype.findById = function(id)
-{
-  //percorrer o array
-  for (var i = 0; i < this.animations.length; i++)
-  {
-    //match id
-    if (this.animations[i].id === id)
-    {
-      return this.animations[i];
-    }
-  }
-  return false;
+ * Scan animations array to find match with parameter id and return it
+ * @param id Id to match with
+ * @return Matched element. False otherwise
+ */
+xmlAnimations.prototype.findById = function(id) {
+	//percorrer o array
+	for (var i = 0; i < this.animations.length; i++) {
+		//match id
+		if (this.animations[i].id === id) {
+			return this.animations[i];
+		}
+	}
+	return false;
 };
 
 /**
@@ -84,10 +81,31 @@ xmlAnim.prototype.consoleDebug = function() {
  * @param arrayControlPoints 2D array with control points
  */
 function xmlLinearAnim(id, span, type, arrayControlPoints) {
-	//TODO calcular vel linear
-	var linearVel = 0;
 	xmlAnim.call(this, id, span, type, linearVel);
+	//set control points
 	this.controlPoints = arrayControlPoints.slice(0);
+
+	/**
+	 * Calculate linear velocity
+	 */
+	var calcLinearVel = function() {
+		var linearVel = 0;
+		//go through all control points
+		for (var i = 0; i < this.controlPoints - 1; i++) {
+			var point1 = this.controlPoints[i];
+			var point2 = this.controlPoints[i + 1];
+			// d = sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
+			var distance = Math.sqrt(
+				(point2[0] - point1[0]) * (point2[0] - point1[0]) +
+				(point2[1] - point1[1]) * (point2[1] - point1[1]) +
+				(point2[2] - point1[2]) * (point2[2] - point1[2]));
+			linearVel += distance;
+		}
+		return linearVel;
+	};
+
+	//set linearVel
+	this.linearVel = calcLinearVel;
 }
 xmlLinearAnim.prototype = Object.create(xmlAnim.prototype);
 
