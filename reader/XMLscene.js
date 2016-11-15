@@ -28,6 +28,11 @@ XMLscene.prototype.init = function(application) {
     this.lightCount = 0;
     this.lightsStatus = [];
 
+
+
+
+
+
 };
 
 XMLscene.prototype.initLights = function() {
@@ -59,9 +64,15 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultCamera();
     this.setDefaultIllumination();
 
+
+
 };
 
 XMLscene.prototype.display = function() {
+
+
+
+
     // ---- BEGIN Background, camera and axis setup
 
     // Clear image and depth buffer everytime we update the scene
@@ -97,6 +108,8 @@ XMLscene.prototype.display = function() {
         }
       //  this.graph.display(this);
       //TODO
+        this.chessboard = new Chessboard(this, 7, 10, "chess", 1, 1, [0,0,0.7,1], [0.7,0,0,1], "sadasd");
+        this.chessboard.display();
     };
 
 };

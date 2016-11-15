@@ -3,7 +3,7 @@
 
     <views default="cam0">
         <perspective id="cam0" near="0.1" far="500" angle="57">
-            <from x="100" y="100" z="100"/>
+            <from x="5" y="5" z="5"/>
             <to x="0" y="0" z="0"/>
         </perspective>
         <perspective id="cam1" near="0.1" far="500" angle="57">
@@ -53,6 +53,7 @@
         <texture id="tyre" file="../resources/tyre.png" length_s="100" length_t="100"/>
         <texture id="jante" file="../resources/jante.png" length_s="100" length_t="100"/>
         <texture id="FCP" file="../resources/FCP.png" length_s="3" length_t="3"/>
+        <texture id="chess" file="../resources/terrainmap.jpg" length_s="3" length_t="3"/>
     </textures>
 
     <materials>

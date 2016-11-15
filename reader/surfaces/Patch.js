@@ -1,5 +1,5 @@
 //TODO FALTA TESTAR COM OS CONTROL POINTS
-
+// FALTA VER DOUBLE IDS
 function Patch(scene, degree1, degree2 , partsU, partsV, controlPoints) {
   CGFobject.call(this,scene);
 
@@ -39,7 +39,7 @@ Patch.prototype.getControlVertex = function(){
   }
   return final;
 }
-//From class example
+
 Patch.prototype.getKnotsVector = function(degree) {
 
 	var v = new Array();
@@ -51,7 +51,7 @@ Patch.prototype.getKnotsVector = function(degree) {
 	}
 	return v;
 }
-//From class Example
+
 Patch.prototype.makeSurface = function () {
 
 	var knots1 = this.getKnotsVector(this.degree1); // to be built inside webCGF in later versions ()
