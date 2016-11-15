@@ -1,11 +1,67 @@
 /**
+ *	Class that represents a parameterized line segment between two points in space
+ * @param pointA Initial point of line segment (array of 3 coords)
+ * @param pointB Final point of line segment (array of 3 coords)
+ * @param linearVel Linear Velocity
+ */
+function lineSegment(pointA, pointB, linearVel) {
+	this.pointA = pointA.slice(0);
+	this.pointB = pointB.slice(0);
+	//vector director
+	this.vector = [pointB[0] - pointA[0], pointB[1] - pointA[1], pointB[2] - pointA[2]];
+	// d = sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
+	this.distance = Math.sqrt(
+		(pointB[0] - pointA[0]) * (pointB[0] - pointA[0]) +
+		(pointB[1] - pointA[1]) * (pointB[1] - pointA[1]) +
+		(pointB[2] - pointA[2]) * (pointB[2] - pointA[2]));
+	// linear velocity
+	this.linearVel = linearVel;
+	// how long this lineSegment takes to go through (in milliseconds)
+	this.totalDuration = this.distance / this.linearVel;
+	// how long this segment has been active for (in milliseconds)
+	this.activeDuration = 0;
+	// current position in this line segment (array of 3 coords)
+	this.currentPosition = this.pointA.slice(0);
+}
+
+/**
+ * Calculates new position given time
+ * @param timePassed Time passed since last call
+ * @return Over duration (duration that is left to animate after this segment is done)
+ */
+lineSegment.prototype.update = function(timePassed) {
+
+	// update active duration
+	this.activeDuration += timePassed;
+
+	// used as a control value by animation class
+	var overDuration = this.activeDuration - this.totalDuration;
+
+	// normalize time in order to calculate equation
+	var time = timePassed / this.totalDuration;
+
+	// currentPosition += pointA + t * vector
+
+	// x
+	this.currentPosition[0] += this.pointA[0] + time * this.vector[0];
+	// y
+	this.currentPosition[1] += this.pointA[1] + time * this.vector[1];
+	// z
+	this.currentPosition[2] += this.pointA[2] + time * this.vector[2];
+
+	return overDuration;
+};
+
+
+/**
  * Class that represents animations tag in xml (it's basically just an array, but it helps with debugging)
  * @param arrayAnimations array of animations (object of class xmlAnim)
  */
 function xmlAnimations(arrayAnimations) {
 	this.animations = arrayAnimations.slice(0);
 	//set active animation
-	this.activeAnimation = this.animations[0];
+	this.activeAnimationIndex = 0;
+	this.activeAnimation = this.animations[this.activeAnimationIndex];
 	//set start position
 	this.objectPosition = [0, 0, 0];
 }
@@ -15,7 +71,7 @@ function xmlAnimations(arrayAnimations) {
  * @param currTime The current time in milliseconds
  */
 xmlAnimations.prototype.update = function(currTime) {
-	this.activeAnimation.update(currTime);
+	var overDuration = this.activeAnimation.update(currTime);
 	//TODO move to next animation if activeAnimation.done === true;
 };
 
@@ -73,8 +129,10 @@ function xmlAnim(id, span, type, linearVel) {
 	this.span = span;
 	this.type = type;
 	this.linearVel = linearVel;
-	//time of last update
+	// time of last update
 	this.lastTime = 0;
+	// how long this animation has been active for
+	this.activeDuration = 0;
 }
 
 /**
@@ -96,45 +154,83 @@ xmlAnim.prototype.consoleDebug = function() {
  * @param arrayControlPoints 2D array with control points
  */
 function xmlLinearAnim(id, span, type, arrayControlPoints) {
-	//initialize linear vel (units/second)
-	var linearVel = 0;
-	//go through all control points to find linearVel value
+	// initialize totalDistance
+	var totalDistance = 0;
+
+	// go through all control points to find totalDistance
 	for (var i = 0; i < this.controlPoints - 1; i++) {
-		var point1 = this.controlPoints[i];
-		var point2 = this.controlPoints[i + 1];
+		var pointA = this.controlPoints[i];
+		var pointB = this.controlPoints[i + 1];
 		// d = sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
 		var distance = Math.sqrt(
-			(point2[0] - point1[0]) * (point2[0] - point1[0]) +
-			(point2[1] - point1[1]) * (point2[1] - point1[1]) +
-			(point2[2] - point1[2]) * (point2[2] - point1[2]));
-		//update linear vel
-		linearVel += distance;
+			(pointB[0] - pointA[0]) * (pointB[0] - pointA[0]) +
+			(pointB[1] - pointA[1]) * (pointB[1] - pointA[1]) +
+			(pointB[2] - pointA[2]) * (pointB[2] - pointA[2]));
+		totalDistance += distance;
 	}
-	//call to super constructor
+
+	// find linear velocity
+	var linearVel = totalDistance / span;
+
+	// line segments storage
+	this.lineSegments = [];
+
+	// go through all control points and create their line segments
+	for (var i = 0; i < this.controlPoints - 1; i++) {
+		var pointA = this.controlPoints[i];
+		var pointB = this.controlPoints[i + 1];
+		this.lineSegments.push(new lineSegment(pointA, pointB, linearVel));
+	}
+
+	// call to super constructor
 	xmlAnim.call(this, id, span, type, linearVel);
-	//set control points
+
+	// set control points
 	this.controlPoints = arrayControlPoints.slice(0);
-	//set current position inside the trajectory
-	this.currentPosition = this.controlPoints[0];
+
+	// set current line segment
+	this.currentLineSegmentIndex = 0;
+	this.currentLineSegment = this.lineSegments[this.currentLineSegmentIndex];
 }
 xmlLinearAnim.prototype = Object.create(xmlAnim.prototype);
 
 /**
  * Updates animation based on time passed
  * @param currTime The current time in milliseconds
+ * @return -1 if animation is not over, overDuration otherwise
  */
 xmlLinearAnim.prototype.update = function(currTime) {
-	//if it's the first update since program started
+	// if it's the first update since program started
 	if (this.lastTime === 0) {
 		//set last time
 		this.lastTime = currTime;
-	} else {
-		//get how much time passed since last update
+	}
+	// if it's not the first time
+	else {
+		// get how much time passed since last update (in milliseconds)
 		var timePassed = this.lastTime - currTime;
-		//update lastTime
+		// update lastTime
 		this.lastTime = currTime;
-		//get position increment
-		var posInc = this.linearVel * timePassed;
+		// update active duration
+		this.activeDuration += timePassed;
+		// update position in line segment
+		var overDuration = this.currentLineSegment.update(timePassed);
+		//TODO por isto em ciclo do while, no caso de ter de saltar varios segments num unico update
+		// if overDuration >= 0 means currentLineSegment is over and need to move to the next overDurationLineSegment
+		if (overDuration >= 0) {
+			this.currentLineSegmentIndex++;
+			// if last segment is over
+			if (this.currentLineSegmentIndex >= this.lineSegments.length) {
+				return overDuration;
+			} else {
+				// move to the next line segment
+				this.currentLineSegment = this.lineSegments[this.currentLineSegmentIndex];
+				// and update it as well
+				this.currentLineSegment.update(timePassed);
+			}
+		}
+		// means this animation isn't over yet
+		return -1;
 	}
 };
 

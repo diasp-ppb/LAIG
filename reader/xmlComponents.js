@@ -17,8 +17,6 @@ function xmlComp(id, transformation, animation, materials, texture, children) {
 	this.matID = "s";
 	this.text = null;
 	this.mat = null;
-	//time (in milliseconds) the last time update method was called
-	this.lastTime = 0;
 	//position[x, y, z]
   this.position = [];
 }
