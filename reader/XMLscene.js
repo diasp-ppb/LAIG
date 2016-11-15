@@ -38,7 +38,7 @@ XMLscene.prototype.init = function(application) {
 	this.lightCount = 0;
 	this.lightsStatus = [];
 
-	this.setUpdatePeriod(60);
+	this.setUpdatePeriod(17);
 };
 
 XMLscene.prototype.initLights = function() {
