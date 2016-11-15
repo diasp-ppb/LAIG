@@ -1034,6 +1034,14 @@ MySceneGraph.prototype.display = function(scene) {
 };
 
 /**
+ * Updates the graph root (and its children) based on time passed
+ * @param currTime The current time in milliseconds
+ */
+MySceneGraph.prototype.update = function(currTime) {
+	this.graphRoot.update(currTime);
+};
+
+/**
  * Change all objects to next material
  * @param scene Scene
  */

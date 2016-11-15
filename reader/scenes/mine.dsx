@@ -123,10 +123,6 @@
             <transformation>
                 <transformationref id="null"/>
             </transformation>
-            <animation>
-                <animationref id="ani1"/>
-                <animationref id="ani2"/>
-            </animation>
             <materials>
                 <material id="baco"/>
             </materials>

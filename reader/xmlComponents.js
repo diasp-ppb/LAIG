@@ -18,7 +18,7 @@ function xmlComp(id, transformation, animation, materials, texture, children) {
 	this.text = null;
 	this.mat = null;
 	//position[x, y, z]
-  this.position = [];
+	this.position = [];
 }
 
 /** TODO animaçoes (nao eskecer animar os filhos tbm)
@@ -26,7 +26,9 @@ function xmlComp(id, transformation, animation, materials, texture, children) {
  * @param currTime The current time in milliseconds
  */
 xmlComp.prototype.update = function(currTime) {
-	this.animation.update(currTime);
+	if (this.animation !== null) {
+		this.animation.update(currTime);
+	}
 };
 
 /**
@@ -40,7 +42,13 @@ xmlComp.prototype.display = function(scene, fatherTextureID, fatherMaterialID) {
 	//apply transformation
 	this.transformation.apply(scene);
 
-
+	// TODO aqui
+	/*if (this.id === 'carro') {
+		scene.rotate(Math.PI/2, 0,1,0);
+	}*/
+	if (this.animation !== null) {
+		this.animation.apply(scene);
+	}
 
 	this.matID = this.materials.getID();
 	this.text = this.texture;
