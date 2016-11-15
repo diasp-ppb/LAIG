@@ -5,7 +5,7 @@
 function xmlTransformations(arrayTransformations)
 {
   this.transformations = arrayTransformations.slice(0);
-};
+}
 
 /**
 * Applies transformations
@@ -62,7 +62,7 @@ xmlTransformations.prototype.findById = function(id)
     }
   }
   return false;
-}
+};
 
 /**
 * Class that represents a single transformation
@@ -73,7 +73,7 @@ function xmlTransf(id, arrayTransformations)
 {
   this.id = id;
   this.transformations = arrayTransformations.slice(0);
-};
+}
 
 /**
 * Applies transformations
@@ -113,7 +113,7 @@ function xmlTransfOp(type, arrayOperation)
   if(type === 'rotate'){
     this.operation[1] = this.operation[1]* Math.PI / 180;
   }
-};
+}
 
 /**
 * Applies transformations
@@ -126,7 +126,7 @@ xmlTransfOp.prototype.apply = function(scene){
   }
   else if (this.type === 'rotate')
   {
-    var ex = this.operation[0]
+    var ex = this.operation[0];
     if( 'x' === ex ){
         scene.rotate(this.operation[1], 1,0,0);
     }
