@@ -93,11 +93,11 @@
     </transformations>
 
     <animations>
-        <animation id="ani1" span="5" type="linear">
+        <animation id="ani1" span="4" type="linear">
             <controlpoint xx="0" yy="0" zz="0"/>
-            <controlpoint xx="20" yy="20" zz="20"/>
+            <controlpoint xx="20" yy="0" zz="0"/>
             <controlpoint xx="20" yy="0" zz="20"/>
-            <controlpoint xx="40" yy="20" zz="40"/>
+            <controlpoint xx="0" yy="0" zz="20"/>
             <controlpoint xx="0" yy="0" zz="0"/>
         </animation>
     </animations>

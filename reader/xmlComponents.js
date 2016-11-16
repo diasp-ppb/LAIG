@@ -21,7 +21,7 @@ function xmlComp(id, transformation, animation, materials, texture, children) {
 	this.position = [];
 }
 
-/** TODO animaçoes (nao eskecer animar os filhos tbm)
+/**
  * Updates the Component (and its children) based on time passed
  * @param currTime The current time in milliseconds
  */
@@ -42,10 +42,7 @@ xmlComp.prototype.display = function(scene, fatherTextureID, fatherMaterialID) {
 	//apply transformation
 	this.transformation.apply(scene);
 
-	// TODO aqui
-	/*if (this.id === 'carro') {
-		scene.rotate(Math.PI/2, 0,1,0);
-	}*/
+	// animations
 	if (this.animation !== null) {
 		this.animation.apply(scene);
 	}

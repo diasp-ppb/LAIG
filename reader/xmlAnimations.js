@@ -23,6 +23,18 @@ function lineSegment(pointA, pointB, linearVel) {
 }
 
 /**
+ *	Calculates and returns the angle (in radians!) between the vector of this line and axis Oz
+ * @return angle (in radians!) between the vectors (ignoring Y coordinate)
+ */
+lineSegment.prototype.getAngle = function() {
+
+	// don't even ask how this works. After multiple attempts it finally does! #trigonometry
+	var angle = Math.atan2(this.vector[0], this.vector[2]);
+
+	return angle;
+};
+
+/**
  * Calculates new position given time
  * @param timePassed Time passed since last call
  * @param position Position to update (array of 3 coords)
@@ -233,8 +245,11 @@ function xmlLinearAnim(id, span, type, arrayControlPoints) {
 	this.currentLineSegmentIndex = 0;
 	this.currentLineSegment = this.lineSegments[this.currentLineSegmentIndex];
 
-	// set position TODO teest this
+	// set position
 	this.position = this.currentLineSegment.pointA.slice(0);
+
+	// set angle in radians (first time it's the angle of first lineSegment with Oz axis)
+	this.angle = this.currentLineSegment.getAngle();
 }
 xmlLinearAnim.prototype = Object.create(xmlAnim.prototype);
 
@@ -270,6 +285,8 @@ xmlLinearAnim.prototype.update = function(currTime) {
 			} else {
 				// move to the next line segment
 				this.currentLineSegment = this.lineSegments[this.currentLineSegmentIndex];
+				// set new angle
+				this.angle = this.currentLineSegment.getAngle();
 				// and update it as well
 				overtime = this.currentLineSegment.update(timePassed, this.position);
 			}
@@ -284,11 +301,15 @@ xmlLinearAnim.prototype.update = function(currTime) {
  * @param scene Scene
  */
 xmlLinearAnim.prototype.apply = function(scene) {
+
 	// translate
 	var xTranslate = this.position[0] - this.origin[0];
 	var yTranslate = this.position[1] - this.origin[1];
 	var zTranslate = this.position[2] - this.origin[2];
 	scene.translate(xTranslate, yTranslate, zTranslate);
+
+	// rotate around Oy axis
+	scene.rotate(this.angle, 0, 1, 0);
 };
 
 /**
