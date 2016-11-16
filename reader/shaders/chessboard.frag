@@ -37,7 +37,7 @@ void main() {
 
 
   if(vTextureCoord.x <= fu && vTextureCoord.x > iu && vTextureCoord.y <= fv && vTextureCoord.y > iu )
-  vec4 colorToMix = colorMark;
+     colorToMix = colorMark;
 
 
 
