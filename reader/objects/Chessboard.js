@@ -27,6 +27,17 @@ function Chessboard(scene, divU, divV, textureref, sU, sV, color1, color2, color
     this.shader.setUniformsValues({colorMark : this.color3});
     this.shader.setUniformsValues({divU:parseInt(this.divU)*1.0}); // Force number to be dd.00
     this.shader.setUniformsValues({divV:parseInt(this.divV)*1.0}); // Force number to be dd.00
+
+
+    // For selected cell
+    this.iu;
+    this.fu;
+
+    this.iv;
+    this.fv;
+
+
+    this.updateSelection(sU,sV);
 };
 
 Chessboard.prototype = Object.create(CGFobject.prototype);
@@ -55,4 +66,32 @@ Chessboard.prototype.display = function() {
 
 
     this.scene.popMatrix();
+};
+
+
+Chessboard.prototype.updateSelection = function (Su,Sv){
+  if(Su < 0 || Su > this.divU)
+  {
+    this.iu = this.divU*2;
+    this.fu = this.divU*2;
+  }
+
+  if(Sv < 0|| Sv > this.divV)
+  {
+    this.iv = this.divV*2;
+    this.fv = this.divU*2;
+  }
+
+  this.fu = Su/this.divU;
+  this.iu = this.fu - 1/this.divU;
+
+  this.fv = Su/this.divV;
+  this.iv = this.fv - 1/this.divV;
+
+    this.shader.setUniformsValues({fu: this.fu});
+    this.shader.setUniformsValues({iu: this.iu});
+
+    this.shader.setUniformsValues({fv: this.fv});
+    this.shader.setUniformsValues({iv: this.iu});
+
 };

@@ -108,7 +108,7 @@ XMLscene.prototype.display = function() {
         }
       //  this.graph.display(this);
       //TODO
-        this.chessboard = new Chessboard(this, 7, 10, "chess", 1, 1, [0,0,0.7,1], [0.7,0,0,1], "sadasd");
+        this.chessboard = new Chessboard(this, 7, 10, "chess", 1, 1, [0,0,0.7,1], [0.7,0,0,1], [0,0.7,0,1]);
         this.chessboard.display();
     };
 
