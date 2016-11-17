@@ -14,19 +14,20 @@ uniform float sU;
 uniform float sV;
 varying vec2 vTextureCoord;
 
-
-
 void main() {
 
-  float fU = (sU+0.01)/divU;
-  float iU = fU - 1.01/divU;
-  float fV = (sV+0.01)/divV;
-  float iV = fV - 1.01/divV;
+  float fU = (sU  +0.05) / divU;
+  float iU = fU - 1.05 / divU;
+  float fV = (sV +0.05) / divV;
 
-  if( aTextureCoord.x <= fU && aTextureCoord.x >= iU && aTextureCoord.y<= fV  && aTextureCoord.y >= iV )
-   gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition.x, aVertexPosition.y , aVertexPosition.z+0.5, 1.0);
+  float iV = fV - 1.05 / divV;
+  if (aTextureCoord.x <= fU && aTextureCoord.x >= iU && aTextureCoord.y <= fV &&
+      aTextureCoord.y >= iV)
+    gl_Position =
+        uPMatrix * uMVMatrix * vec4(aVertexPosition.x, aVertexPosition.y,
+                                    aVertexPosition.z + 0.5, 1.0);
   else
-  gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
 
   vTextureCoord = aTextureCoord;
 }
