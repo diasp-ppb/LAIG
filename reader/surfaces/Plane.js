@@ -18,7 +18,6 @@ this.controlPoints = [
 										 ];
 
 this.patch = new Patch(scene,1,1,this.divX,this.divY,this.controlPoints);
-
 }
 
 

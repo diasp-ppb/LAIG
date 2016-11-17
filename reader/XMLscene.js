@@ -65,7 +65,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultIllumination();
 
 
-
+    //  this.vei = new Vehicle(this);
 };
 
 XMLscene.prototype.display = function() {
@@ -107,9 +107,13 @@ XMLscene.prototype.display = function() {
             this.lights[i].update();
         }
       //  this.graph.display(this);
-      //TODO
-        this.chessboard = new Chessboard(this, 7, 10, "chess", 1, 1, [0,0,0.7,1], [0.7,0,0,1], [0,0.7,0,1]);
+      //TOD
+        this.chessboard = new Chessboard(this, 7, 7, "chess",3,5 , [0,0,0.7,1], [0.7,0,0,1], [0,0.7,0,1]);
         this.chessboard.display();
+
+
+      //this.vei.display();
+
     };
 
 };

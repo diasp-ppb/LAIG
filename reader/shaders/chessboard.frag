@@ -8,12 +8,12 @@ uniform sampler2D uSampler;
 uniform vec4 color1;
 uniform vec4 color2;
 uniform vec4 colorMark;
+
 uniform float divU;
 uniform float divV;
-uniform float fu;
-uniform float iu;
-uniform float iv;
-uniform float fv;
+uniform float sU;
+uniform float sV;
+
 
 
 vec4 colorSeclect(vec2 tex, vec4 color0, vec4 color1)
@@ -32,11 +32,18 @@ vec4 colorSeclect(vec2 tex, vec4 color0, vec4 color1)
 
 void main() {
 
+
+  float fU = (sU+0.01)/divU;
+  float iU = fU - 1.01/divU;
+  float fV = (sV+0.01)/divV;
+  float iV = fV - 1.01/divV;
+
+
   vec4 finalColor = texture2D(uSampler, vTextureCoord);
   vec4 colorToMix = colorSeclect(vTextureCoord,color1,color2);
 
 
-  if(vTextureCoord.x <= fu && vTextureCoord.x > iu && vTextureCoord.y <= fv && vTextureCoord.y > iu )
+  if( vTextureCoord.x<= fU && vTextureCoord.x >= iU && vTextureCoord.y <= fV && vTextureCoord.y >= iV )
      colorToMix = colorMark;
 
 
