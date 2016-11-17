@@ -56,7 +56,7 @@ this.support = new Patch(scene, 2, 1, 5, 5,this.controlPoints2);
 this.cover = new Patch(scene, 2, 3, 5, 5,this.controlPoints3);
 this.tire = new Torus(scene, 0.1, 0.8, 8, 8);
 this.canon = new Cylinder(scene, 8, 8, 0.3, 0.2, 4);
-this.block = new Cylinder(scene, 10, 1, 1, 0.4, 2.5);
+this.block = new Cylinder(scene, 10, 1, 0.4, 1, 2.5);
 this.transmission = new Cylinder(scene, 6,1,0.1,0.1,2.5);
 
 
@@ -97,20 +97,20 @@ this.camo.bind();
 this.scene.pushMatrix();
 this.scene.translate(0,1,1);
 this.scene.rotate(Math.PI/2,-1,0,0);
-this.scene.rotate(Math.PI/2,0,0,-1);
+this.scene.rotate(Math.PI/2,0,0,1);
 this.up.display();
 this.scene.popMatrix();
 
 
 
 this.scene.pushMatrix();
-this.scene.translate(0,0.75,0);
+this.scene.translate(0,0.75,-0.5);
 this.block.display();
 this.scene.popMatrix();
 
 //weapon
 this.scene.pushMatrix();
-this.scene.translate(0,1,-4);
+this.scene.translate(0,1,1);
 this.canon.display();
 this.scene.popMatrix();
 
