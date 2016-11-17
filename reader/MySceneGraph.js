@@ -789,6 +789,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 							var id = this.reader.getString(childTrans, 'id', 1);
 							//get xmlTransf object by id
 							transformation = this.transformations.findById(id);
+							if (transformation === false) {
+								return "transformation of component " + compId + " doesn't exist";
+							}
 							//set control
 							control = 1;
 						}
@@ -853,6 +856,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 							var id = this.reader.getString(childAnim, 'id', 1);
 							//get xmlAnim object by id
 							var anim = this.animations.findById(id);
+							if (anim === false) {
+								return "animation of component " + compId + " doesn't exist";
+							}
 							arrayAnimations.push(anim);
 						}
 						else {
@@ -883,6 +889,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 							var id = this.reader.getString(childMat, 'id', 1);
 							//get xmlMat object by id
 							var mat = this.materials.findById(id);
+							if (mat === false) {
+								return "material of component " + compId + " doesn't exist";
+							}
 							arrayMaterials.push(mat);
 						}
 					}
@@ -897,6 +906,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 					var id = this.reader.getString(child, 'id', 1);
 					//get xmlText
 					texture = this.textures.findById(id);
+					if (texture === false) {
+						return "texture of component " + compId + " doesn't exist";
+					}
 				}
 			}
 			//if 'children' tag
@@ -921,7 +933,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 						var xmlComponent = arrayComponents.findById(id);
 						//check if false
 						if (xmlComponent === false) {
-							return 'Wrong id for component children!';
+							return "Wrong id for component children of component " + compId;
 						} else {
 							//get THIS component
 							var thisComp = arrayComponents.findById(compId);
@@ -996,7 +1008,10 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
 	}
 	if (recursive === false) {
 		//parse all components once again, in order to handle componentref. It ain't pretty, BUT IT WORKS!
-		this.parserComponents(rootElement, arrayComponents);
+		var error = this.parserComponents(rootElement, arrayComponents);
+		if (error !== null) {
+			return error;
+		}
 	}
 	//once all components are loaded, let's find the root of the graph
 	//get root id
