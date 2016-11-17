@@ -32,12 +32,10 @@ vec4 colorSeclect(vec2 tex, vec4 color0, vec4 color1)
 
 void main() {
 
-
-  float fU = (sU)/divU;
-  float iU = fU - 1.0/divU;
-  float fV = (sV)/divV;
-  float iV = fV - 1.0/divV;
-
+  float fU = (sU  +0.05) / divU;
+  float iU = fU - 1.05 / divU;
+  float fV = (sV +0.05) / divV;
+  float iV = fV - 1.05 / divV;
 
   vec4 finalColor = texture2D(uSampler, vTextureCoord);
   vec4 colorToMix = colorSeclect(vTextureCoord,color1,color2);

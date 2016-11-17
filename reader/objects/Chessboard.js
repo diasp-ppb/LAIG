@@ -2,11 +2,11 @@ function Chessboard(scene, divU, divV, textureref, sU, sV, color1, color2, color
     CGFobject.call(this, scene);
 
 
-    this.divU = divU;
-    this.divV = divV;
+    this.divU = parseInt(divU);
+    this.divV = parseInt(divV);
     this.textureref = textureref;
-    this.sU = sU;
-    this.sV = sV;
+    this.sU =   parseInt(sU);
+    this.sV = parseInt(sV);
     this.color1 = color1;
     this.color2 = color2;
     this.color3 = color3;
@@ -25,8 +25,8 @@ function Chessboard(scene, divU, divV, textureref, sU, sV, color1, color2, color
     this.shader.setUniformsValues({color1 : this.color1});
     this.shader.setUniformsValues({color2 : this.color2});
     this.shader.setUniformsValues({colorMark : this.color3});
-    this.shader.setUniformsValues({divU:parseInt(this.divU)*1.0}); // Force number to be dd.00
-    this.shader.setUniformsValues({divV:parseInt(this.divV)*1.0}); // Force number to be dd.00
+    this.shader.setUniformsValues({divU:this.divU*1.0}); // Force number to be dd.00
+    this.shader.setUniformsValues({divV:this.divV*1.0}); // Force number to be dd.00
 
 
 
@@ -41,9 +41,8 @@ Chessboard.prototype.display = function() {
 
 
     this.scene.pushMatrix();
-    this.scene.translate(0.2,0,1.1);
     this.scene.rotate(Math.PI/2,-1,0,0);
-    this.scene.rotate(Math.PI,0,0,1);
+    this.scene.rotate(Math.PI/2,0,0,-1);
 
     this.texture.bind(0);
 
@@ -72,6 +71,6 @@ Chessboard.prototype.updateSelection = function (Su,Sv){
   }
 
 
-  this.shader.setUniformsValues({sU : this.sU});
-  this.shader.setUniformsValues({sV : this.sV});
+  this.shader.setUniformsValues({sU : this.sU*1.0});
+  this.shader.setUniformsValues({sV : this.sV*1.0});
 };

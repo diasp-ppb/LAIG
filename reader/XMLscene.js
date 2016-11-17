@@ -65,7 +65,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultIllumination();
     
 
-    this.chessboard = new Chessboard(this, 3, 3, "chess",3,1 , [0,0,0.7,1], [0.7,0,0,1], [0,0.7,0,1]);
+    this.chessboard = new Chessboard(this, 11, 11, "chess",7,5 , [0,0,0.7,1], [0.7,0,0,1], [0,0.7,0,1]);
 
     //  this.vei = new Vehicle(this);
 };
