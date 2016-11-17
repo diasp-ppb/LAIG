@@ -70,6 +70,65 @@ lineSegment.prototype.update = function(timePassed, position) {
 
 
 /**
+ *	Class that represents a parameterized circle (it's only part of a circle, but wtv, let's not get technical)
+ * @param span Span of the animation
+ * @param centerPoint Coordinates for center
+ * @param radius radius
+ * @param startang Starting angle (in degree!)
+ * @param rotang Rotating angle (in degree!)
+ * @param linearVel Linear Velocity (units / milliseconds)
+ */
+function circle(span, centerPoint, radius, startang, rotang, linearVel) {
+
+	// in milliseconds
+	this.span = span * 1000;
+	this.center = centerPoint.slice(0);
+	this.radius = radius;
+	// store in radians!
+	this.startang = startang * (Math.PI / 180);
+	// store in radians!
+	this.rotang = rotang * (Math.PI / 180);
+	// store in radians!
+	this.finishang = this.startang + this.rotang;
+	this.linearVel = linearVel;
+	// how long this segment has been active for (in milliseconds)
+	this.activeDuration = 0;
+}
+
+/**
+ * Calculates new position given time
+ * @param timePassed Time passed since last call
+ * @param position Position to update (array of 3 coords)
+ * @return Over duration (duration that is left to animate after this circle is done)
+ */
+circle.prototype.update = function(timePassed, position) {
+
+	// update active duration
+	this.activeDuration += timePassed;
+
+	// used as a control value by animation class
+	var overtime = this.activeDuration - this.span;
+
+	// get theta in order to calculate equation
+	var theta = this.startang + ((this.activeDuration / this.span) * this.rotang);
+
+	// make sure to limit theta
+	if (theta > this.finishang) {
+		theta = this.finishang;
+	}
+
+	// positionX = centerX + radius * cos(t), 0 >= t, >= PI
+	position[0] = this.center[0] + this.radius * Math.cos(theta);
+
+	// positionY - ignore
+
+	// positionZ = centerY + radius * sin(t), 0 >= t, >= PI
+	position[2] = this.center[2] + this.radius * Math.sin(theta);
+
+	return overtime;
+};
+
+/**
  * Class that represents animations tag in xml (it's basically just an array, but it helps with debugging)
  * @param arrayAnimations array of animations (object of class xmlAnim)
  */
@@ -271,8 +330,6 @@ xmlLinearAnim.prototype.update = function(currTime) {
 		var timePassed = currTime - this.lastTime;
 		// update lastTime
 		this.lastTime = currTime;
-		// update active duration
-		this.activeDuration += timePassed;
 		// update position in line segment
 		var overtime = this.currentLineSegment.update(timePassed, this.position);
 		// if overtime >= 0 means currentLineSegment is over and need to move to the next overtimeLineSegment
@@ -349,24 +406,78 @@ xmlLinearAnim.prototype.consoleDebug = function() {
  * @param rotang Rotating angle (in degree!)
  */
 function xmlCircularAnim(id, span, type, centerPoint, radius, startang, rotang) {
+
 	//TODO calcular vel linear
 	var linearVel = 0;
-	//TODO calcular vel angular
+
+	//TODO calcular vel angular remover linear vel form everywhere circle
 	var angVel = 0;
+
 	xmlAnim.call(this, id, span, type, linearVel);
-	this.center = centerPoint.slice(0);
-	this.radius = radius;
-	this.startang = startang;
-	this.rotang = rotang;
+
+	this.lastTime = 0;
+
+	this.circle = new circle(span, centerPoint, radius, startang, rotang, linearVel);
+
+	// set position
+	this.position = [0, 0, 0];
+	this.circle.update(0, this.position);
+
+	// set origin
+	this.origin = this.position.slice(0);
 }
 xmlCircularAnim.prototype = Object.create(xmlAnim.prototype);
+
+/**
+ * Updates animation based on time passed
+ * @param currTime The current time in milliseconds
+ * @return -1 if animation is not over, overtime otherwise
+ */
+xmlCircularAnim.prototype.update = function(currTime) {
+
+	// if it's the first update since program started
+	if (this.lastTime === 0) {
+		//set last time
+		this.lastTime = currTime;
+	}
+	// if it's not the first time
+	else {
+		// get how much time passed since last update (in milliseconds)
+		var timePassed = currTime - this.lastTime;
+		// update lastTime
+		this.lastTime = currTime;
+		// update position in circle
+		var overtime = this.circle.update(timePassed, this.position);
+		// if overtime >= 0 means animation is over
+		return overtime;
+	}
+};
+
+/**
+ * Applies needed transformations in order to animate
+ * @param scene Scene
+ */
+xmlCircularAnim.prototype.apply = function(scene) {
+
+	// translate
+	var xTranslate = this.position[0] - this.origin[0];
+	var yTranslate = this.position[1] - this.origin[1];
+	var zTranslate = this.position[2] - this.origin[2];
+	scene.translate(xTranslate, yTranslate, zTranslate);
+
+	// rotate around Oy axis
+	// scene.rotate(this.angle, 0, 1, 0);
+};
 
 /**
  * Clones this Object
  * @return Cloned Object
  */
 xmlCircularAnim.prototype.clone = function() {
-	return new xmlCircularAnim(this.id, this.span, this.type, this.center, this.radius, this.startang, this.rotang);
+
+	var startang = this.circle.startang * (180 / Math.PI);
+	var rotang = this.circle.rotang * (180 / Math.PI);
+	return new xmlCircularAnim(this.id, this.span, this.type, this.circle.center, this.circle.radius, startang, rotang);
 };
 
 /**
