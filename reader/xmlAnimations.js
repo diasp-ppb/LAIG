@@ -193,8 +193,16 @@ xmlAnimations.prototype.update = function(currTime) {
 				this.done = true;
 				break;
 			} else {
+
+				// get current position & origin
+				var currentPos = this.activeAnimation.position.slice(0);
+				var origin = this.activeAnimation.origin.slice(0);
 				// move to the next animation
 				this.activeAnimation = this.animations[this.activeAnimationIndex];
+				// set position
+				this.activeAnimation.lastAnimPos[0] = currentPos[0] - origin[0];
+				this.activeAnimation.lastAnimPos[1] = currentPos[1] - origin[1];
+				this.activeAnimation.lastAnimPos[2] = currentPos[2] - origin[2];
 				// and update it as well
 				overtime = this.activeAnimation.update(currTime);
 			}
@@ -258,6 +266,7 @@ function xmlAnim(id, span, type) {
 	this.lastTime = 0;
 	// how long this animation has been active for
 	this.activeDuration = 0;
+	this.lastAnimPos = [0, 0, 0];
 }
 
 /**
@@ -377,9 +386,10 @@ xmlLinearAnim.prototype.update = function(currTime) {
 xmlLinearAnim.prototype.apply = function(scene) {
 
 	// translate
-	var xTranslate = this.position[0] - this.origin[0];
-	var yTranslate = this.position[1] - this.origin[1];
-	var zTranslate = this.position[2] - this.origin[2];
+
+	var xTranslate = this.lastAnimPos[0] + this.position[0] - this.origin[0];
+	var yTranslate = this.lastAnimPos[1] + this.position[1] - this.origin[1];
+	var zTranslate = this.lastAnimPos[2] + this.position[2] - this.origin[2];
 	scene.translate(xTranslate, yTranslate, zTranslate);
 
 	// rotate around Oy axis
@@ -476,9 +486,9 @@ xmlCircularAnim.prototype.update = function(currTime) {
 xmlCircularAnim.prototype.apply = function(scene) {
 
 	// translate
-	var xTranslate = this.position[0] - this.origin[0];
-	var yTranslate = this.position[1] - this.origin[1];
-	var zTranslate = this.position[2] - this.origin[2];
+	var xTranslate = this.lastAnimPos[0] + this.position[0] - this.origin[0];
+	var yTranslate = this.lastAnimPos[1] + this.position[1] - this.origin[1];
+	var zTranslate = this.lastAnimPos[1] + this.position[2] - this.origin[2];
 	scene.translate(xTranslate, yTranslate, zTranslate);
 
 	// rotate around Oy axis
