@@ -10,6 +10,10 @@
             <from x="200" y="200" z="300"/>
             <to x="0" y="20" z="0"/>
         </perspective>
+        <perspective id="cam3" near="0.1" far="500" angle="57">
+            <from x="0.1" y="120" z="0.1"/>
+            <to x="0" y="0" z="0"/>
+        </perspective>
     </views>
 
     <illumination doublesided="1" local="1">
@@ -93,12 +97,17 @@
     </transformations>
 
     <animations>
-        <animation id="ani1" span="1" type="linear">
+      <animation id="ani1" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="360"/>
+      <animation id="ani2" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="180" rotang="-360"/>
+        <animation id="ani3" span="0.6" type="linear">
             <controlpoint xx="0" yy="0" zz="0"/>
-            <controlpoint xx="20" yy="0" zz="0"/>
+            <controlpoint xx="0" yy="0" zz="20"/>
         </animation>
-        <animation id="ani2" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="360"/>
-        <animation id="ani3" span="1.5" type="circular" centerx="0" centery="0" centerz="0" radius="10" startang="0" rotang="180"/>
+<animation id="ani4" span="2" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="270"/>
+<animation id="ani5" span="0.6" type="linear">
+    <controlpoint xx="0" yy="0" zz="0"/>
+    <controlpoint xx="20" yy="0" zz="0"/>
+</animation>
     </animations>
 
     <primitives>
@@ -122,11 +131,14 @@
     <components>
 
         <component id="carro">
-            <transformation></transformation>
+            <transformation>
+            </transformation>
             <animation>
-                <animationref id="ani2"/>
                 <animationref id="ani1"/>
+                <animationref id="ani2"/>
                 <animationref id="ani3"/>
+<animationref id="ani4"/>
+<animationref id="ani5"/>
             </animation>
             <materials>
                 <material id="metal"/>

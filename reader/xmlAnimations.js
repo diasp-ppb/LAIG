@@ -88,6 +88,12 @@ function circle(span, centerPoint, radius, startang, rotang, linearVel) {
 	this.startang = startang * (Math.PI / 180);
 	// store in radians!
 	this.rotang = rotang * (Math.PI / 180);
+	if (this.rotang < 0) {
+		this.invert = true;
+		this.rotang = -1 * this.rotang;
+	} else {
+		this.invert = false;
+	}
 	// store in radians!
 	this.finishang = this.startang + this.rotang;
 	this.linearVel = linearVel;
@@ -105,11 +111,14 @@ circle.prototype.getAngle = function(position) {
 	var angle;
 
 	// Don't even ask how this works. It just does.
-
 	if (position[2] <= this.center[2]) {
 		angle = Math.acos((position[0] - this.center[0]) / this.radius);
 	} else {
 		angle = -1 * Math.acos((position[0] - this.center[0]) / this.radius);
+	}
+
+	if (this.invert === true) {
+		angle -= Math.PI;
 	}
 
 	return angle;
@@ -130,20 +139,33 @@ circle.prototype.update = function(timePassed, position) {
 	var overtime = this.activeDuration - this.span;
 
 	// get theta in order to calculate equation
-	var theta = this.startang + ((this.activeDuration / this.span) * this.rotang);
+	var theta;
+	theta = this.startang + ((this.activeDuration / this.span) * this.rotang);
 
 	// make sure to limit theta
 	if (theta > this.finishang) {
 		theta = this.finishang;
 	}
 
-	// positionX = centerX + radius * cos(t), 0 >= t, >= PI
-	position[0] = this.center[0] + this.radius * Math.cos(theta);
+	if (this.invert === false) {
 
-	// positionY - ignore
+		// positionX = centerX + radius * cos(t), 0 >= t, >= PI
+		position[0] = this.center[0] + this.radius * Math.cos(theta);
 
-	// positionZ = centerY + radius * sin(t), 0 >= t, >= PI
-	position[2] = this.center[2] + this.radius * Math.sin(theta);
+		// positionY - ignore
+
+		// positionZ = centerY + radius * sin(t), 0 >= t, >= PI
+		position[2] = this.center[2] + this.radius * Math.sin(theta);
+
+	} else {
+
+		// positionX = centerX + radius * cos(t), 0 >= t, >= PI
+		position[0] = this.center[0] + this.radius * Math.cos(theta);
+		// positionY - ignore
+
+		// positionZ = centerY + radius * sin(t), 0 >= t, >= PI
+		position[2] = this.center[2] - this.radius * Math.sin(theta);
+	}
 
 	return overtime;
 };
@@ -195,14 +217,14 @@ xmlAnimations.prototype.update = function(currTime) {
 			} else {
 
 				// get current position & origin
-				var currentPos = this.activeAnimation.position.slice(0);
-				var origin = this.activeAnimation.origin.slice(0);
+				var currentPos = [0, 0, 0];
+				this.activeAnimation.getAbsolutePos(currentPos);
 				// move to the next animation
 				this.activeAnimation = this.animations[this.activeAnimationIndex];
 				// set position
-				this.activeAnimation.lastAnimPos[0] = currentPos[0] - origin[0];
-				this.activeAnimation.lastAnimPos[1] = currentPos[1] - origin[1];
-				this.activeAnimation.lastAnimPos[2] = currentPos[2] - origin[2];
+				this.activeAnimation.lastAnimPos[0] = currentPos[0];
+				this.activeAnimation.lastAnimPos[1] = currentPos[1];
+				this.activeAnimation.lastAnimPos[2] = currentPos[2];
 				// and update it as well
 				overtime = this.activeAnimation.update(currTime);
 			}
@@ -386,11 +408,9 @@ xmlLinearAnim.prototype.update = function(currTime) {
 xmlLinearAnim.prototype.apply = function(scene) {
 
 	// translate
-
-	var xTranslate = this.lastAnimPos[0] + this.position[0] - this.origin[0];
-	var yTranslate = this.lastAnimPos[1] + this.position[1] - this.origin[1];
-	var zTranslate = this.lastAnimPos[2] + this.position[2] - this.origin[2];
-	scene.translate(xTranslate, yTranslate, zTranslate);
+	var translate = [0, 0, 0];
+	this.getAbsolutePos(translate);
+	scene.translate(translate[0], translate[1], translate[2]);
 
 	// rotate around Oy axis
 	scene.rotate(this.angle, 0, 1, 0);
@@ -402,6 +422,16 @@ xmlLinearAnim.prototype.apply = function(scene) {
  */
 xmlLinearAnim.prototype.clone = function() {
 	return new xmlLinearAnim(this.id, this.span, this.type, this.controlPoints);
+};
+
+/**
+ * Calculate the absolute position of this object
+ * @param absPos Storage for abslute position
+ */
+xmlLinearAnim.prototype.getAbsolutePos = function(absPos) {
+	absPos[0] = this.lastAnimPos[0] + this.position[0] - this.origin[0];
+	absPos[1] = this.lastAnimPos[1] + this.position[1] - this.origin[1];
+	absPos[2] = this.lastAnimPos[2] + this.position[2] - this.origin[2];
 };
 
 /**
@@ -480,16 +510,25 @@ xmlCircularAnim.prototype.update = function(currTime) {
 };
 
 /**
+ * Calculate the absolute position of this object
+ * @param absPos Storage for abslute position
+ */
+xmlCircularAnim.prototype.getAbsolutePos = function(absPos) {
+	absPos[0] = this.lastAnimPos[0] + this.position[0] - this.origin[0];
+	absPos[1] = this.lastAnimPos[1] + this.position[1] - this.origin[1];
+	absPos[2] = this.lastAnimPos[2] + this.position[2] - this.origin[2];
+};
+
+/**
  * Applies needed transformations in order to animate
  * @param scene Scene
  */
 xmlCircularAnim.prototype.apply = function(scene) {
 
 	// translate
-	var xTranslate = this.lastAnimPos[0] + this.position[0] - this.origin[0];
-	var yTranslate = this.lastAnimPos[1] + this.position[1] - this.origin[1];
-	var zTranslate = this.lastAnimPos[1] + this.position[2] - this.origin[2];
-	scene.translate(xTranslate, yTranslate, zTranslate);
+	var translate = [0, 0, 0];
+	this.getAbsolutePos(translate);
+	scene.translate(translate[0], translate[1], translate[2]);
 
 	// rotate around Oy axis
 	scene.rotate(this.angle, 0, 1, 0);
@@ -503,6 +542,9 @@ xmlCircularAnim.prototype.clone = function() {
 
 	var startang = this.circle.startang * (180 / Math.PI);
 	var rotang = this.circle.rotang * (180 / Math.PI);
+	if (this.circle.invert === true) {
+		rotang = -1 * rotang;
+	}
 	return new xmlCircularAnim(this.id, this.span, this.type, this.circle.center, this.circle.radius, startang, rotang);
 };
 
