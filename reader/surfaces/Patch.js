@@ -1,5 +1,4 @@
-//TODO FALTA TESTAR COM OS CONTROL POINTS
-// FALTA VER DOUBLE IDS
+//TODO FALTA TESTAR COM OS CONTROL POINTS do dsx
 function Patch(scene, degree1, degree2 , partsU, partsV, controlPoints) {
   CGFobject.call(this,scene);
 

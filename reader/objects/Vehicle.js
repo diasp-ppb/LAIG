@@ -177,37 +177,17 @@ this.scene.popMatrix();
 
 this.tyre.unbind();
 
-
-this.scene.pushMatrix();
-
 this.wood.bind();
-this.scene.translate(0,1,0.8);
-this.scene.scale(0.5,0.5,0.5);
-this.scene.rotate(Math.PI/2, -1,0,0);
-
-this.canon.display();
-
-this.scene.popMatrix();
-
 
 this.scene.pushMatrix();
-
-this.scene.translate(0,3,0.8);
-this.scene.pushMatrix();
-this.scene.scale(1.7,0.2,1);
-this.canon.display();
-this.scene.rotate(Math.PI,0,1,0);
-this.canon.display();
-
-
-this.scene.popMatrix();
-this.scene.pushMatrix();
-
-this.scene.scale(1,0.2,1.7);
+this.scene.translate(0,0.5,0.5);
+this.scene.scale(1.4,0.1,2);
 this.scene.rotate(Math.PI/2,0,1,0);
 this.canon.display();
 this.scene.rotate(Math.PI,0,1,0);
 this.canon.display();
+
+
 this.wood.unbind();
 
 
