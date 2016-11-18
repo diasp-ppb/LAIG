@@ -69,7 +69,7 @@ lineSegment.prototype.update = function(timePassed, position) {
 };
 
 
-/**
+/** TODO permitir rotaçoes de angulos negativos, para poder andar para tras
  *	Class that represents a parameterized circle (it's only part of a circle, but wtv, let's not get technical)
  * @param span Span of the animation
  * @param centerPoint Coordinates for center
@@ -94,6 +94,26 @@ function circle(span, centerPoint, radius, startang, rotang, linearVel) {
 	// how long this segment has been active for (in milliseconds)
 	this.activeDuration = 0;
 }
+
+/** TODO aqui
+ *	Calculates and returns the angle (in radians!) between the vector at this instance and axis Oz
+ * @param position Position at this instance
+ * @return angle (in radians!) between the vectors (ignoring Y coordinate)
+ */
+circle.prototype.getAngle = function(position) {
+
+	var angle;
+
+	// Don't even ask how this works. It just does.
+
+	if (position[2] <= this.center[2]) {
+		angle = Math.acos((position[0] - this.center[0]) / this.radius);
+	} else {
+		angle = -1 * Math.acos((position[0] - this.center[0]) / this.radius);
+	}
+
+	return angle;
+};
 
 /**
  * Calculates new position given time
@@ -128,7 +148,7 @@ circle.prototype.update = function(timePassed, position) {
 	return overtime;
 };
 
-/**
+/** TODO ligar as posiçoes de uma animaçao à animaçao seguinte
  * Class that represents animations tag in xml (it's basically just an array, but it helps with debugging)
  * @param arrayAnimations array of animations (object of class xmlAnim)
  */
@@ -176,7 +196,7 @@ xmlAnimations.prototype.update = function(currTime) {
 				// move to the next animation
 				this.activeAnimation = this.animations[this.activeAnimationIndex];
 				// and update it as well
-				overtime = this.activeAnimation.update(timePassed);
+				overtime = this.activeAnimation.update(currTime);
 			}
 		}
 	}
@@ -229,14 +249,11 @@ xmlAnimations.prototype.consoleDebug = function() {
  * @param id ID
  * @param span Span of the animation
  * @param type Linear or Circular
- * @param linearVel Linear velocity (units / milliseconds)
  */
-function xmlAnim(id, span, type, linearVel) {
+function xmlAnim(id, span, type) {
 	this.id = id;
 	this.span = span;
 	this.type = type;
-	// linearVel (units / milliseconds)
-	this.linearVel = linearVel;
 	// time of last update
 	this.lastTime = 0;
 	// how long this animation has been active for
@@ -285,7 +302,7 @@ function xmlLinearAnim(id, span, type, arrayControlPoints) {
 	}
 
 	// find linear velocity (units / milliseconds)
-	var linearVel = totalDistance / (span * 1000);
+	this.linearVel = totalDistance / (span * 1000);
 
 	// line segments storage
 	this.lineSegments = [];
@@ -294,11 +311,11 @@ function xmlLinearAnim(id, span, type, arrayControlPoints) {
 	for (var i = 0; i < this.controlPoints.length - 1; i++) {
 		var pointA = this.controlPoints[i];
 		var pointB = this.controlPoints[i + 1];
-		this.lineSegments.push(new lineSegment(pointA, pointB, linearVel));
+		this.lineSegments.push(new lineSegment(pointA, pointB, this.linearVel));
 	}
 
 	// call to super constructor
-	xmlAnim.call(this, id, span, type, linearVel);
+	xmlAnim.call(this, id, span, type);
 
 	// set current line segment
 	this.currentLineSegmentIndex = 0;
@@ -407,17 +424,11 @@ xmlLinearAnim.prototype.consoleDebug = function() {
  */
 function xmlCircularAnim(id, span, type, centerPoint, radius, startang, rotang) {
 
-	//TODO calcular vel linear
-	var linearVel = 0;
-
-	//TODO calcular vel angular remover linear vel form everywhere circle
-	var angVel = 0;
-
-	xmlAnim.call(this, id, span, type, linearVel);
+	xmlAnim.call(this, id, span, type);
 
 	this.lastTime = 0;
 
-	this.circle = new circle(span, centerPoint, radius, startang, rotang, linearVel);
+	this.circle = new circle(span, centerPoint, radius, startang, rotang);
 
 	// set position
 	this.position = [0, 0, 0];
@@ -425,6 +436,9 @@ function xmlCircularAnim(id, span, type, centerPoint, radius, startang, rotang) 
 
 	// set origin
 	this.origin = this.position.slice(0);
+
+	// set angle in radians
+	this.angle = this.circle.getAngle(this.position);
 }
 xmlCircularAnim.prototype = Object.create(xmlAnim.prototype);
 
@@ -448,6 +462,8 @@ xmlCircularAnim.prototype.update = function(currTime) {
 		this.lastTime = currTime;
 		// update position in circle
 		var overtime = this.circle.update(timePassed, this.position);
+		// set new angle
+		this.angle = this.circle.getAngle(this.position);
 		// if overtime >= 0 means animation is over
 		return overtime;
 	}
@@ -466,7 +482,7 @@ xmlCircularAnim.prototype.apply = function(scene) {
 	scene.translate(xTranslate, yTranslate, zTranslate);
 
 	// rotate around Oy axis
-	// scene.rotate(this.angle, 0, 1, 0);
+	scene.rotate(this.angle, 0, 1, 0);
 };
 
 /**

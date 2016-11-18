@@ -93,14 +93,11 @@
     </transformations>
 
     <animations>
-        <animation id="lin1" span="4" type="linear">
+        <animation id="ani1" span="1" type="linear">
             <controlpoint xx="0" yy="0" zz="0"/>
             <controlpoint xx="20" yy="0" zz="0"/>
-            <controlpoint xx="20" yy="0" zz="20"/>
-            <controlpoint xx="0" yy="0" zz="20"/>
-            <controlpoint xx="0" yy="0" zz="0"/>
         </animation>
-        <animation id="circ1" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="360"/>
+        <animation id="ani2" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="180"/>
     </animations>
 
     <primitives>
@@ -124,11 +121,10 @@
     <components>
 
         <component id="carro">
-            <transformation>
-
-            </transformation>
+            <transformation></transformation>
             <animation>
-                <animationref id="circ1"/>
+                <animationref id="ani2"/>
+                <animationref id="ani1"/>
             </animation>
             <materials>
                 <material id="metal"/>
