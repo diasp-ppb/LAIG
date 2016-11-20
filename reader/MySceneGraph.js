@@ -516,72 +516,76 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
 };
 
 MySceneGraph.prototype.parserAnimations = function(rootElement) {
-    var elems = rootElement.getElementsByTagName('animations');
-    if (elems === null) {
-        return "'animations' element is missing";
-    }
-    //declare array to store animations
-    var arrayAnimations = [];
-    //'animations' tag
-    var animations = elems[0];
-    //how many 'animation' tags there are
-    var nAnim = animations.children.length;
-    //start parsing each animations
-    for (var i = 0; i < nAnim; i++) {
-        //'animation' tag
-        var anim = animations.children[i];
-        //extract id
-        var animId = this.reader.getString(anim, 'id', 1);
-        //extract span
-        var animSpan = this.reader.getFloat(anim, 'span', 1);
-        //extract type
-        var animType = this.reader.getString(anim, 'type', 1);
-        //if linear animation
-        if (animType === "linear") {
-            //how many control points there are (needs to be at least two!)
-            var nChildAnim = anim.children.length;
-            if (nChildAnim < 2) {
-                return "there needs to be at least two control points for a linear animation!";
-            }
-            //declare array to store control points
-            var arrayControlPoints = [];
-            //go through all control points
-            for (var j = 0; j < nChildAnim; j++) {
-                //get control point tag
-                var controlPointTag = anim.children[j];
-                //get control point
-                var controlPoint = [this.reader.getFloat(controlPointTag, 'xx', 1),
-                    this.reader.getFloat(controlPointTag, 'yy', 1),
-                    this.reader.getFloat(controlPointTag, 'zz', 1)
-                ];
-                arrayControlPoints.push(controlPoint);
-            }
-            //create xmlLinearAnim object
-            var linearAnim = new xmlLinearAnim(animId, animSpan, animType, arrayControlPoints);
-            //store it in the array
-            arrayAnimations.push(linearAnim);
-        }
-        //if circular animation
-        else if (animType === "circular") {
-            //extract center coordinates
-            var animCenterPoint = this.reader.getVector3(anim, 'center', 1);
-            //extract radius
-            var animRadius = this.reader.getFloat(anim, 'radius', 1);
-            //extract startang
-            var animStartang = this.reader.getFloat(anim, 'startang', 1);
-            //extract rotang
-            var animRotang = this.reader.getFloat(anim, 'rotang', 1);
-            //create xmlCircularAnim object
-            var circularAnim = new xmlCircularAnim(animId, animSpan, animType, animCenterPoint, animRadius, animStartang, animRotang);
-            //store it in the array
-            arrayAnimations.push(circularAnim);
-        } else {
-            return "invalid animation type";
-        }
-    }
-    this.animations = new xmlAnimations(arrayAnimations);
-    return this.animations.checkDoubleId();
-}
+	var elems = rootElement.getElementsByTagName('animations');
+	if (elems === null) {
+		return "'animations' element is missing";
+	}
+	//declare array to store animations
+	var arrayAnimations = [];
+	//'animations' tag
+	var animations = elems[0];
+	//how many 'animation' tags there are
+	var nAnim = animations.children.length;
+	//start parsing each animations
+	for (var i = 0; i < nAnim; i++) {
+		//'animation' tag
+		var anim = animations.children[i];
+		//extract id
+		var animId = this.reader.getString(anim, 'id', 1);
+		//extract span
+		var animSpan = this.reader.getFloat(anim, 'span', 1);
+		//extract type
+		var animType = this.reader.getString(anim, 'type', 1);
+		//if linear animation
+		if (animType === "linear") {
+			//how many control points there are (needs to be at least two!)
+			var nChildAnim = anim.children.length;
+			if (nChildAnim < 2) {
+				return "there needs to be at least two control points for a linear animation!";
+			}
+			//declare array to store control points
+			var arrayControlPoints = [];
+			//go through all control points
+			for (var j = 0; j < nChildAnim; j++) {
+				//get control point tag
+				var controlPointTag = anim.children[j];
+				//get control point
+				var controlPoint = [this.reader.getFloat(controlPointTag, 'xx', 1),
+					this.reader.getFloat(controlPointTag, 'yy', 1),
+					this.reader.getFloat(controlPointTag, 'zz', 1)
+				];
+				arrayControlPoints.push(controlPoint);
+			}
+			//create xmlLinearAnim object
+			var linearAnim = new xmlLinearAnim(animId, animSpan, animType, arrayControlPoints);
+			//store it in the array
+			arrayAnimations.push(linearAnim);
+		}
+		//if circular animation
+		else if (animType === "circular") {
+			//extract center coordinates
+			var animCenterPoint = [this.reader.getFloat(anim, 'centerx', 1),
+				this.reader.getFloat(anim, 'centery', 1),
+				this.reader.getFloat(anim, 'centerz', 1)
+			];
+			//extract radius
+			var animRadius = this.reader.getFloat(anim, 'radius', 1);
+			//extract startang
+			var animStartang = this.reader.getFloat(anim, 'startang', 1);
+			//extract rotang
+			var animRotang = this.reader.getFloat(anim, 'rotang', 1);
+			//create xmlCircularAnim object
+			var circularAnim = new xmlCircularAnim(animId, animSpan, animType, animCenterPoint, animRadius, animStartang, animRotang);
+			//store it in the array
+			arrayAnimations.push(circularAnim);
+		} else {
+			return "invalid animation type";
+		}
+	}
+	this.animations = new xmlAnimations(arrayAnimations);
+	return this.animations.checkDoubleId();
+};
+
 
 MySceneGraph.prototype.parserPrimitives = function(rootElement) {
     var elems = rootElement.getElementsByTagName('primitives');
@@ -790,6 +794,7 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
  * @param arrayComponents null if it's the first call
  */
 MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents) {
+<<<<<<< HEAD
     var arrayID = [];
 
     //get all elements that match with 'components'
@@ -925,6 +930,32 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                     }
                 }
             }
+            //if 'animation' tag
+          	else if (child.nodeName === 'animation') {
+          				//only does something if it's not the recursive call
+          				if (recursive === false) {
+          					var arrayAnimations = [];
+          					//how many children does 'animation' have
+          					var nChildAnim = child.children.length;
+          					// go through all children tags
+          					for (var i = 0; i < nChildAnim; i++) {
+          						//get child tags
+          						var childAnim = child.children[i];
+          						//if 'animaionref' tag
+          						if (childAnim.nodeName === 'animationref') {
+          							//get id
+          							var id = this.reader.getString(childAnim, 'id', 1);
+          							//get xmlAnim object by id
+          							var anim = this.animations.findById(id);
+          							arrayAnimations.push(anim);
+          						}
+          						else {
+          							return "Wrong tags within animation of component: " + compId;
+          						}
+          					}
+          					animation = new xmlAnimations(arrayAnimations);
+          				}
+          			}
             //if 'materials' tag
             else if (child.nodeName === 'materials') {
                 //only does something if it's not the recursive call
@@ -1106,6 +1137,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
             }
         }
     }
+
+
+
 };
 
 /*
@@ -1123,6 +1157,14 @@ MySceneGraph.prototype.onXMLError = function(message) {
 MySceneGraph.prototype.display = function(scene) {
 
     this.graphRoot.display(scene, "none", "none");
+};
+
+/**
+ * Updates the graph root (and its children) based on time passed
+ * @param currTime The current time in milliseconds
+ */
+MySceneGraph.prototype.update = function(currTime) {
+	this.graphRoot.update(currTime);
 };
 
 /**

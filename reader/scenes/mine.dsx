@@ -98,7 +98,7 @@
             <controlpoint xx="2" yy="3" zz="4"/>
             <controlpoint xx="5" yy="6" zz="7"/>
         </animation>
-        <animation id="ani2" span="8" type="circular" center="9 10 11" radius="12" startang="13" rotang="14"/>
+        <animation id="ani2" span="8" type="circular" centerx="9" centery="10" centerz="11" radius="12" startang="13" rotang="14"/>
     </animations>
 
     <primitives>
