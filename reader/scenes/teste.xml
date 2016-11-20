@@ -1,5 +1,5 @@
 <dsx>
-    <scene root="base" axis_length="20.0"/>
+    <scene root="chao" axis_length="20.0"/>
 
     <views default="cam0">
         <perspective id="cam0" near="0.1" far="500" angle="57">
@@ -90,17 +90,17 @@
     </transformations>
 
     <animations>
-      <animation id="ani1" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="360"/>
-      <animation id="ani2" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="180" rotang="-360"/>
+        <animation id="ani1" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="360"/>
+        <animation id="ani2" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="180" rotang="-360"/>
         <animation id="ani3" span="0.6" type="linear">
             <controlpoint xx="0" yy="0" zz="0"/>
             <controlpoint xx="0" yy="0" zz="20"/>
         </animation>
-<animation id="ani4" span="2" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="270"/>
-<animation id="ani5" span="0.6" type="linear">
-    <controlpoint xx="0" yy="0" zz="0"/>
-    <controlpoint xx="20" yy="0" zz="0"/>
-</animation>
+        <animation id="ani4" span="2" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="270"/>
+        <animation id="ani5" span="0.6" type="linear">
+            <controlpoint xx="0" yy="0" zz="0"/>
+            <controlpoint xx="20" yy="0" zz="0"/>
+        </animation>
     </animations>
 
     <primitives>
@@ -121,47 +121,30 @@
         </primitive>
 
         <primitive id="tank">
-          <vehicle/>
+            <vehicle/>
         </primitive>
 
         <primitive id="plane">
-        <plane dimX="10" dimY="10" partsX="13" partsY="13"/>
+            <plane dimX="10" dimY="10" partsX="13" partsY="13"/>
         </primitive>
     </primitives>
 
     <components>
 
-              <component id="base">
-                  <transformation>
-                  </transformation>
-                  <materials>
-                      <material id="metal"/>
-                  </materials>
-                  <texture id="metal"/>
-                  <children>
-                      <componentref id="carro"/>
-                      <componentref id="chao"/>
-                  </children>
-              </component>
-
-              <component id="chao">
-                  <transformation>
-                  </transformation>
-                  <materials>
-                      <material id="metal"/>
-                  </materials>
-                  <texture id="sky"/>
-                  <children>
-                        <primitiveref id="plane"/>
-
-                  </children>
-              </component>
-
-
-
-        <component id="carro">
+        <component id="chao">
             <transformation>
+                <transformationref id="null"/>
             </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <componentref id="carro"/>
+            </children>
+        </component>
+        <component id="carro">
+            <transformation></transformation>
             <animation>
                 <animationref id="ani1"/>
                 <animationref id="ani2"/>
@@ -174,15 +157,14 @@
             </materials>
             <texture id="metal"/>
             <children>
-                  <primitiveref id="tank"/>
+                <primitiveref id="tank"/>
                 <componentref id="carro2"/>
             </children>
         </component>
 
-
         <component id="carro2">
             <transformation>
-              <translate x="8" y="0" z="8"/>
+                <translate x="8" y="0" z="8"/>
             </transformation>
             <materials>
                 <material id="metal"/>
@@ -196,7 +178,7 @@
 
         <component id="carro3">
             <transformation>
-              <translate x="-16" y="0" z="0"/>
+                <translate x="-16" y="0" z="0"/>
             </transformation>
             <materials>
                 <material id="metal"/>
@@ -206,7 +188,6 @@
                 <primitiveref id="tank"/>
             </children>
         </component>
-
 
     </components>
 </dsx>

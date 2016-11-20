@@ -554,13 +554,13 @@ xmlCircularAnim.prototype.clone = function() {
 xmlCircularAnim.prototype.consoleDebug = function() {
 	xmlAnim.prototype.consoleDebug.call(this);
 	var ss; //string variable that helps avoiding the console.log newline
-	ss = "Center[" + this.center.length + "]:";
-	for (var i = 0; i < this.center.length; i++) {
-		ss += " " + this.center[i];
+	ss = "Center[" + this.circle.center.length + "]:";
+	for (var i = 0; i < this.circle.center.length; i++) {
+		ss += " " + this.circle.center[i];
 	}
 	console.log(ss);
-	console.log("Radius: " + this.radius);
-	console.log("StartAng: " + this.startang);
-	console.log("RotAng: " + this.rotang);
+	console.log("Radius: " + this.circle.radius);
+	console.log("StartAng: " + this.circle.startang);
+	console.log("RotAng: " + this.circle.rotang);
 	console.log("--- FINISH ANIM DEBUGGING ---");
 };

@@ -29,6 +29,7 @@ xmlComp.prototype.update = function(currTime) {
 	if (this.animation !== null) {
 		this.animation.update(currTime);
 	}
+	this.children.update(currTime);
 };
 
 /**
@@ -157,6 +158,15 @@ function xmlCompChildren(childrenComp, childrenPrim) {
 }
 
 /**
+ * Updates the children components
+ * @param currTime The current time in milliseconds
+ */
+xmlCompChildren.prototype.update = function(currTime) {
+	this.components.update(currTime);
+};
+
+
+/**
  * Outputs every attr to the console
  */
 xmlCompChildren.prototype.consoleDebug = function() {
@@ -186,6 +196,16 @@ xmlComponents.prototype.display = function(scene, fatherTextureID, fatherMateria
 	var n = this.components.length;
 	for (var i = 0; i < n; i++) {
 		this.components[i].display(scene, fatherTextureID, fatherMaterialID);
+	}
+};
+
+/**
+ * Updates the Components
+ * @param currTime The current time in milliseconds
+ */
+xmlComponents.prototype.update = function(currTime) {
+	for (var i = 0; i < this.components.length; i++) {
+			this.components[i].update(currTime);
 	}
 };
 
