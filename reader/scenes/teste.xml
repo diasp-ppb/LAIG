@@ -1,5 +1,5 @@
 <dsx>
-    <scene root="carro" axis_length="20.0"/>
+    <scene root="chao" axis_length="20.0"/>
 
     <views default="cam0">
         <perspective id="cam0" near="0.1" far="500" angle="57">
@@ -97,17 +97,17 @@
     </transformations>
 
     <animations>
-      <animation id="ani1" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="360"/>
-      <animation id="ani2" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="180" rotang="-360"/>
+        <animation id="ani1" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="360"/>
+        <animation id="ani2" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="180" rotang="-360"/>
         <animation id="ani3" span="0.6" type="linear">
             <controlpoint xx="0" yy="0" zz="0"/>
             <controlpoint xx="0" yy="0" zz="20"/>
         </animation>
-<animation id="ani4" span="2" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="270"/>
-<animation id="ani5" span="0.6" type="linear">
-    <controlpoint xx="0" yy="0" zz="0"/>
-    <controlpoint xx="20" yy="0" zz="0"/>
-</animation>
+        <animation id="ani4" span="2" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="270"/>
+        <animation id="ani5" span="0.6" type="linear">
+            <controlpoint xx="0" yy="0" zz="0"/>
+            <controlpoint xx="20" yy="0" zz="0"/>
+        </animation>
     </animations>
 
     <primitives>
@@ -130,15 +130,26 @@
 
     <components>
 
-        <component id="carro">
+        <component id="chao">
             <transformation>
+                <transformationref id="null"/>
             </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <componentref id="carro"/>
+            </children>
+        </component>
+        <component id="carro">
+            <transformation></transformation>
             <animation>
                 <animationref id="ani1"/>
                 <animationref id="ani2"/>
                 <animationref id="ani3"/>
-<animationref id="ani4"/>
-<animationref id="ani5"/>
+                <animationref id="ani4"/>
+                <animationref id="ani5"/>
             </animation>
             <materials>
                 <material id="metal"/>
