@@ -3,7 +3,7 @@
 
     <views default="cam0">
         <perspective id="cam0" near="0.1" far="500" angle="57">
-            <from x="100" y="100" z="100"/>
+            <from x="5" y="5" z="5"/>
             <to x="0" y="0" z="0"/>
         </perspective>
         <perspective id="cam1" near="0.1" far="500" angle="57">
@@ -53,6 +53,7 @@
         <texture id="tyre" file="../resources/tyre.png" length_s="100" length_t="100"/>
         <texture id="jante" file="../resources/jante.png" length_s="100" length_t="100"/>
         <texture id="FCP" file="../resources/FCP.png" length_s="3" length_t="3"/>
+        <texture id="chess" file="../resources/terrainmap.jpg" length_s="3" length_t="3"/>
     </textures>
 
     <materials>
@@ -116,6 +117,39 @@
         <primitive id="tri">
             <triangle x1="0" y1="0" z1="0" x2="10" y2="0" z2="0" x3="10" y3="10" z3="0"/>
         </primitive>
+
+
+
+        <primitive id="harambeWillSurvive">
+        <plane dimX="10" dimY="10" partsX="13" partsY="13"/>
+        </primitive>
+
+        <primitive id="harambeWILLLNOTSURVIVE">
+          <patch orderU="1" orderV="1" partsU="16" partsV="13" >
+            <controlpoint x="0" y="2" z="1" />
+            <controlpoint x="0" y="0" z="1" />
+            <controlpoint x="0" y="0" z="1" />
+            <controlpoint x="0" y="0" z="1" />
+          </patch>
+        </primitive>
+          <primitive id="harambeWILLLSURVIVE">
+                  <vehicle />
+          </primitive>
+
+
+        <primitive id="guapa">
+                  <chessboard du="1" dv="2" textureref="chess" su="1" sv="1">
+                      <c1 r="0.7" g="0.1" b="0.2" a="1" />
+                      <c2 r="0.1" g="0.7" b="0.2" a="1" />
+                      <cs r="0.1" g="0.2" b="0.7" a="1" />
+                    </chessboard>
+
+        </primitive>
+
+
+
+
+
     </primitives>
 
     <components>
@@ -164,7 +198,7 @@
             </materials>
             <texture id="sky"/>
             <children>
-                <primitiveref id="base"/>
+                <primitiveref id="harambeWillSurvive"/>
             </children>
         </component>
 
@@ -384,7 +418,7 @@
             </materials>
             <texture id="bola"/>
             <children>
-                <primitiveref id="esfera"/>
+                <primitiveref id="harambeWILLLSURVIVE"/>
             </children>
         </component>
 
@@ -399,7 +433,7 @@
             </materials>
             <texture id="metal"/>
             <children>
-                <primitiveref id="cilindro"/>
+                <primitiveref id="guapa"/>
             </children>
         </component>
 

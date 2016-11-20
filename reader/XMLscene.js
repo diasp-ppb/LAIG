@@ -35,10 +35,12 @@ XMLscene.prototype.init = function(application) {
 
 	this.axis = new CGFaxis(this);
 
+
 	this.lightCount = 0;
 	this.lightsStatus = [];
 
 	this.setUpdatePeriod(17);
+
 };
 
 XMLscene.prototype.initLights = function() {
@@ -66,13 +68,13 @@ XMLscene.prototype.onGraphLoaded = function() {
 	this.gl.clearColor(this.graph.illumination.background[0], this.graph.illumination.background[1], this.graph.illumination.background[2], this.graph.illumination.background[3]);
 
 
-	this.setDefaultAxis();
-	this.setDefaultCamera();
-	this.setDefaultIllumination();
+    this.setDefaultAxis();
+    this.setDefaultCamera();
+    this.setDefaultIllumination();
+
 };
 
 XMLscene.prototype.display = function() {
-	// ---- BEGIN Background, camera and axis setup
 
 	// Clear image and depth buffer everytime we update the scene
 	this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -92,7 +94,6 @@ XMLscene.prototype.display = function() {
 
 	// ---- END Background, camera and axis setup
 
-
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
@@ -106,6 +107,7 @@ XMLscene.prototype.display = function() {
 			this.lights[i].update();
 		}
 		this.graph.display(this);
+
 
 	}
 
