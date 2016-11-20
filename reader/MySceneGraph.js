@@ -724,65 +724,62 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
 
         } else if (primType.nodeName === "vehicle") {
             //read attrs
-          var vehicle = new xmlVehicle(primId,this.scene);
-          arrayVei.push(vehicle);
+            var vehicle = new xmlVehicle(primId, this.scene);
+            arrayVei.push(vehicle);
 
-          } else if (primType.nodeName === "chessboard") {
-              //read attrs
-              var du = this.reader.getInteger(primType, 'du', 1);
-              var dv = this.reader.getFloat(primType, 'dv', 1);
-              var textRef = this.reader.getString(primType,'textureref',1);
-              var su = this.reader.getInteger(primType,'su',1);
-              var sv = this.reader.getInteger(primType,'sv',1);
-
-
-              var color = primType.children;
-              var ncolor = color.length;
-              if (ncolor != 3) {
-                  this.onXMLError(primId + " : wrong number of colors");
-              }
-
-              var C;
-              var color1;
-              var color2;
-              var colorS;
-              for(var c = 0; c < 3 ; c++) {
-              C = color[c];
-              if(C.nodeName === "c1"){
-                  var  r = this.reader.getFloat(C, 'r', 1);
-                  var  g = this.reader.getFloat(C, 'g', 1);
-                  var  b = this.reader.getFloat(C, 'b', 1);
-                  var  a = this.reader.getFloat(C, 'a', 1);
-                  color1 = [r,g,b,a];
-              }
-              else if(C.nodeName === "c2"){
-                var  r = this.reader.getFloat(C, 'r', 1);
-                var  g = this.reader.getFloat(C, 'g', 1);
-                var  b = this.reader.getFloat(C, 'b', 1);
-                var  a = this.reader.getFloat(C, 'a', 1);
-                color2 = [r,g,b,a];
-              }
-              else if(C.nodeName === "cs"){
-                var  r = this.reader.getFloat(C, 'r', 1);
-                var  g = this.reader.getFloat(C, 'g', 1);
-                var  b = this.reader.getFloat(C, 'b', 1);
-                var  a = this.reader.getFloat(C, 'a', 1);
-                colorS = [r,g,b,a];
-              }
-              else {
-                this.onXMLError("Chess color tag  unknown");
-              }
-              }
+        } else if (primType.nodeName === "chessboard") {
+            //read attrs
+            var du = this.reader.getInteger(primType, 'du', 1);
+            var dv = this.reader.getFloat(primType, 'dv', 1);
+            var textRef = this.reader.getString(primType, 'textureref', 1);
+            var su = this.reader.getInteger(primType, 'su', 1);
+            var sv = this.reader.getInteger(primType, 'sv', 1);
 
 
-            var chessboard = new xmlChess(primId,this.scene, du, dv, textRef, su, sv, color1, color2, colorS);
+            var color = primType.children;
+            var ncolor = color.length;
+            if (ncolor != 3) {
+                this.onXMLError(primId + " : wrong number of colors");
+            }
+
+            var C;
+            var color1;
+            var color2;
+            var colorS;
+            for (var c = 0; c < 3; c++) {
+                C = color[c];
+                if (C.nodeName === "c1") {
+                    var r = this.reader.getFloat(C, 'r', 1);
+                    var g = this.reader.getFloat(C, 'g', 1);
+                    var b = this.reader.getFloat(C, 'b', 1);
+                    var a = this.reader.getFloat(C, 'a', 1);
+                    color1 = [r, g, b, a];
+                } else if (C.nodeName === "c2") {
+                    var r = this.reader.getFloat(C, 'r', 1);
+                    var g = this.reader.getFloat(C, 'g', 1);
+                    var b = this.reader.getFloat(C, 'b', 1);
+                    var a = this.reader.getFloat(C, 'a', 1);
+                    color2 = [r, g, b, a];
+                } else if (C.nodeName === "cs") {
+                    var r = this.reader.getFloat(C, 'r', 1);
+                    var g = this.reader.getFloat(C, 'g', 1);
+                    var b = this.reader.getFloat(C, 'b', 1);
+                    var a = this.reader.getFloat(C, 'a', 1);
+                    colorS = [r, g, b, a];
+                } else {
+                    this.onXMLError("Chess color tag  unknown");
+                }
+            }
+
+
+            var chessboard = new xmlChess(primId, this.scene, du, dv, textRef, su, sv, color1, color2, colorS);
             arrayChess.push(chessboard);
-            } else {
+        } else {
             return "invalid primitive type";
         }
     }
     //store all the primitives present in the dsx
-    this.primitives = new xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor, arrayPlane, arrayPatch,arrayVei,arrayChess);
+    this.primitives = new xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor, arrayPlane, arrayPatch, arrayVei, arrayChess);
     return this.primitives.checkDoubleId();
 
 };
@@ -968,7 +965,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
             //if 'children' tag
             else if (child.nodeName === 'children') {
                 //storage for children (starts out empty)
-                var xmlChildren = new xmlCompChildren(new xmlComponents([]), new xmlPrimitives([], [], [], [], [], [], [],[],[]));
+                var xmlChildren = new xmlCompChildren(new xmlComponents([]), new xmlPrimitives([], [], [], [], [], [], [], [], []));
                 //how many children does 'children' have
                 var nChildChildren = child.children.length;
                 //needs to be at least one
@@ -1044,6 +1041,20 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                                                 //if xmlPrim is a tor
                                                 if (xmlPrim != false) {
                                                     xmlChildren.primitives.patch.push(xmlPrim);
+                                                } else {
+                                                    //scan tor
+                                                    xmlPrim = this.primitives.findChessById(id);
+                                                    //if xmlPrim is a tor
+                                                    if (xmlPrim != false) {
+                                                        xmlChildren.primitives.chess.push(xmlPrim);
+                                                    } else {
+                                                        //scan tor
+                                                        xmlPrim = this.primitives.findVehicleById(id);
+                                                        //if xmlPrim is a tor
+                                                        if (xmlPrim != false) {
+                                                            xmlChildren.primitives.veheicle.push(xmlPrim);
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -1051,6 +1062,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                                 }
                             }
                         }
+
                         if (xmlPrim === false) {
                             return 'wrong id for Component child primitive';
                         }

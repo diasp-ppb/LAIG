@@ -108,13 +108,13 @@ XMLscene.prototype.display = function() {
             }
             this.lights[i].update();
         }
-      //  this.graph.display(this);
+        this.graph.display(this);
       //TOD
 
         //this.chessboard.display();
 
 
-      this.vei.display();
+      //this.vei.display();
 
     };
 

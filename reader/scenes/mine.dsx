@@ -117,9 +117,7 @@
         <primitive id="tri">
             <triangle x1="0" y1="0" z1="0" x2="10" y2="0" z2="0" x3="10" y3="10" z3="0"/>
         </primitive>
-        <primitive id="harambe">
-        <plane dimX="ff" dimY="ff" partsX="ii" partsY="ii"/>
-        </primitive>
+
 
 
         <primitive id="harambeWillSurvive">
@@ -200,7 +198,7 @@
             </materials>
             <texture id="sky"/>
             <children>
-                <primitiveref id="base"/>
+                <primitiveref id="harambeWillSurvive"/>
             </children>
         </component>
 
@@ -420,7 +418,7 @@
             </materials>
             <texture id="bola"/>
             <children>
-                <primitiveref id="esfera"/>
+                <primitiveref id="harambeWILLLSURVIVE"/>
             </children>
         </component>
 
@@ -435,7 +433,7 @@
             </materials>
             <texture id="metal"/>
             <children>
-                <primitiveref id="cilindro"/>
+                <primitiveref id="guapa"/>
             </children>
         </component>
 

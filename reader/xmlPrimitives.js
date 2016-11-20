@@ -370,10 +370,10 @@ xmlPrimitives.prototype.findPlaneById = function(id) {
  */
 xmlPrimitives.prototype.findPatchById = function(id) {
     //percorrer o array
-    for (var i = 0; i < this.patch.length; i++) {
+    for (var i = 0; i < this.surfaces.length; i++) {
         //match id
-        if (this.patch[i].id === id) {
-            return this.patch[i];
+        if (this.surfaces[i].id === id) {
+            return this.surfaces[i];
         }
     }
     return false;
@@ -495,16 +495,16 @@ xmlPrimitives.prototype.display = function(scene, texture) {
 
    for(var i = 0; i < n; i ++) {
        xml = this.plane[i];
-       var plane = new Plane(scene, xml.dimX, xml.dimY. xml.partsX,xml.partsY);
+       var plane = new Plane(scene, xml.dimX, xml.dimY, xml.partsX , xml.partsY);
        plane.display();
    }
 
-   n = this.patch.length;
+   n = this.surfaces.length;
 
    for(var i = 0; i < n; i ++) {
-       xml = this.patch[i];
-       var plane = new Patch(scene, xml.orderU,xml.orderV, xml.partsU, xml.partsV, xml.controlPoints);
-       patch.display();
+       xml = this.surfaces[i];
+       var surface = new Patch(scene, xml.orderU,xml.orderV, xml.partsU, xml.partsV, xml.controlPoints);
+       surfaces.display();
    }
 
    n = this.chess.length;
@@ -513,7 +513,7 @@ xmlPrimitives.prototype.display = function(scene, texture) {
    }
 
 
-   n = this.vei.length;
+   n = this.veheicle.length;
    for(var i = 0; i < n; i ++) {
       this.veheicle[i].veheicle.display();
    }

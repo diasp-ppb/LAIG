@@ -14,7 +14,7 @@ this.controlPoints = [							[ this.dimX/2,-this.dimY/2,0,1],
 												[ this.dimX/2,this.dimY/2,0,1],
 												[-this.dimX/2,-this.dimY/2,0,1],
 												[-this.dimX/2, this.dimY/2,0,1],
-												
+
 										 ];
 
 this.patch = new Patch(scene,1,1,this.divX,this.divY,this.controlPoints);
