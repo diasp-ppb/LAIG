@@ -516,76 +516,75 @@ MySceneGraph.prototype.parserTransformations = function(rootElement) {
 };
 
 MySceneGraph.prototype.parserAnimations = function(rootElement) {
-	var elems = rootElement.getElementsByTagName('animations');
-	if (elems === null) {
-		return "'animations' element is missing";
-	}
-	//declare array to store animations
-	var arrayAnimations = [];
-	//'animations' tag
-	var animations = elems[0];
-	//how many 'animation' tags there are
-	var nAnim = animations.children.length;
-	//start parsing each animations
-	for (var i = 0; i < nAnim; i++) {
-		//'animation' tag
-		var anim = animations.children[i];
-		//extract id
-		var animId = this.reader.getString(anim, 'id', 1);
-		//extract span
-		var animSpan = this.reader.getFloat(anim, 'span', 1);
-		//extract type
-		var animType = this.reader.getString(anim, 'type', 1);
-		//if linear animation
-		if (animType === "linear") {
-			//how many control points there are (needs to be at least two!)
-			var nChildAnim = anim.children.length;
-			if (nChildAnim < 2) {
-				return "there needs to be at least two control points for a linear animation!";
-			}
-			//declare array to store control points
-			var arrayControlPoints = [];
-			//go through all control points
-			for (var j = 0; j < nChildAnim; j++) {
-				//get control point tag
-				var controlPointTag = anim.children[j];
-				//get control point
-				var controlPoint = [this.reader.getFloat(controlPointTag, 'xx', 1),
-					this.reader.getFloat(controlPointTag, 'yy', 1),
-					this.reader.getFloat(controlPointTag, 'zz', 1)
-				];
-				arrayControlPoints.push(controlPoint);
-			}
-			//create xmlLinearAnim object
-			var linearAnim = new xmlLinearAnim(animId, animSpan, animType, arrayControlPoints);
-			//store it in the array
-			arrayAnimations.push(linearAnim);
-		}
-		//if circular animation
-		else if (animType === "circular") {
-			//extract center coordinates
-			var animCenterPoint = [this.reader.getFloat(anim, 'centerx', 1),
-				this.reader.getFloat(anim, 'centery', 1),
-				this.reader.getFloat(anim, 'centerz', 1)
-			];
-			//extract radius
-			var animRadius = this.reader.getFloat(anim, 'radius', 1);
-			//extract startang
-			var animStartang = this.reader.getFloat(anim, 'startang', 1);
-			//extract rotang
-			var animRotang = this.reader.getFloat(anim, 'rotang', 1);
-			//create xmlCircularAnim object
-			var circularAnim = new xmlCircularAnim(animId, animSpan, animType, animCenterPoint, animRadius, animStartang, animRotang);
-			//store it in the array
-			arrayAnimations.push(circularAnim);
-		} else {
-			return "invalid animation type";
-		}
-	}
-	this.animations = new xmlAnimations(arrayAnimations);
-	return this.animations.checkDoubleId();
-};
-
+    var elems = rootElement.getElementsByTagName('animations');
+    if (elems === null) {
+        return "'animations' element is missing";
+    }
+    //declare array to store animations
+    var arrayAnimations = [];
+    //'animations' tag
+    var animations = elems[0];
+    //how many 'animation' tags there are
+    var nAnim = animations.children.length;
+    //start parsing each animations
+    for (var i = 0; i < nAnim; i++) {
+        //'animation' tag
+        var anim = animations.children[i];
+        //extract id
+        var animId = this.reader.getString(anim, 'id', 1);
+        //extract span
+        var animSpan = this.reader.getFloat(anim, 'span', 1);
+        //extract type
+        var animType = this.reader.getString(anim, 'type', 1);
+        //if linear animation
+        if (animType === "linear") {
+            //how many control points there are (needs to be at least two!)
+            var nChildAnim = anim.children.length;
+            if (nChildAnim < 2) {
+                return "there needs to be at least two control points for a linear animation!";
+            }
+            //declare array to store control points
+            var arrayControlPoints = [];
+            //go through all control points
+            for (var j = 0; j < nChildAnim; j++) {
+                //get control point tag
+                var controlPointTag = anim.children[j];
+                //get control point
+                var controlPoint = [this.reader.getFloat(controlPointTag, 'xx', 1),
+                    this.reader.getFloat(controlPointTag, 'yy', 1),
+                    this.reader.getFloat(controlPointTag, 'zz', 1)
+                ];
+                arrayControlPoints.push(controlPoint);
+            }
+            //create xmlLinearAnim object
+            var linearAnim = new xmlLinearAnim(animId, animSpan, animType, arrayControlPoints);
+            //store it in the array
+            arrayAnimations.push(linearAnim);
+        }
+        //if circular animation
+        else if (animType === "circular") {
+            //extract center coordinates
+            var animCenterPoint = [this.reader.getFloat(anim, 'centerx', 1),
+                this.reader.getFloat(anim, 'centery', 1),
+                this.reader.getFloat(anim, 'centerz', 1)
+            ];
+            //extract radius
+            var animRadius = this.reader.getFloat(anim, 'radius', 1);
+            //extract startang
+            var animStartang = this.reader.getFloat(anim, 'startang', 1);
+            //extract rotang
+            var animRotang = this.reader.getFloat(anim, 'rotang', 1);
+            //create xmlCircularAnim object
+            var circularAnim = new xmlCircularAnim(animId, animSpan, animType, animCenterPoint, animRadius, animStartang, animRotang);
+            //store it in the array
+            arrayAnimations.push(circularAnim);
+        } else {
+            return "invalid animation type";
+        }
+    }
+    this.animations = new xmlAnimations(arrayAnimations);
+    return this.animations.checkDoubleId();
+}
 
 MySceneGraph.prototype.parserPrimitives = function(rootElement) {
     var elems = rootElement.getElementsByTagName('primitives');
@@ -614,6 +613,8 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
     var arrayPatch = [];
     var arrayVei = [];
     var arrayChess = [];
+
+
     //start parsing each primitive
     for (var i = 0; i < nPrim; i++) {
         //'primitive' tag
@@ -623,7 +624,7 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
         //how many primitive types there are (can only be one!)
         var nChildPrim = prim.children.length;
         if (nChildPrim != 1) {
-            return "either zero or more than one primitive types found (rectangle, triangle, cylinder, sphere, torus )";
+            return "either zero or more than one primitive types found (rectangle, triangle, cylinder, sphere, torus, patch, plane, vehicle, chess)";
         }
         //primitive type (rectangle, triangle, cylinder, sphere, torus )
         var primType = prim.children[0];
@@ -689,6 +690,8 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
             var tor = new xmlTorus(primId, inner, outer, slices, loops);
             //push sphere
             arrayTor.push(tor);
+
+
         } else if (primType.nodeName === "plane") {
             //read attrs
             var dimX = this.reader.getFloat(primType, 'dimX', 1);
@@ -785,7 +788,6 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
     //store all the primitives present in the dsx
     this.primitives = new xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor, arrayPlane, arrayPatch, arrayVei, arrayChess);
     return this.primitives.checkDoubleId();
-
 };
 
 /**
@@ -794,7 +796,6 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
  * @param arrayComponents null if it's the first call
  */
 MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents) {
-<<<<<<< HEAD
     var arrayID = [];
 
     //get all elements that match with 'components'
@@ -833,9 +834,11 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
         var compId = this.reader.getString(comp, 'id', 1);
         //how many chidlren does each component have (there can only be 4!)
         var nChildComp = comp.children.length;
-        if (nChildComp != 4) {
-            return "there can only be 4 children tags within 'component': transformation, materials, texture and children"
+        if (nChildComp != 4 && nChildComp != 5) {
+            return "there can only be 4 children tags within 'component': transformation, materials, texture and children and one optional tag: animation";
         }
+        //xmlAnimations object
+        var animation = null;
         //go through all children tags
         for (var j = 0; j < nChildComp; j++) {
             //get child tag
@@ -883,6 +886,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                             var id = this.reader.getString(childTrans, 'id', 1);
                             //get xmlTransf object by id
                             transformation = this.transformations.findById(id);
+                            if (transformation === false) {
+                                return "transformation of component " + compId + " doesn't exist";
+                            }
                             //set control
                             control = 1;
                         }
@@ -931,31 +937,33 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                 }
             }
             //if 'animation' tag
-          	else if (child.nodeName === 'animation') {
-          				//only does something if it's not the recursive call
-          				if (recursive === false) {
-          					var arrayAnimations = [];
-          					//how many children does 'animation' have
-          					var nChildAnim = child.children.length;
-          					// go through all children tags
-          					for (var i = 0; i < nChildAnim; i++) {
-          						//get child tags
-          						var childAnim = child.children[i];
-          						//if 'animaionref' tag
-          						if (childAnim.nodeName === 'animationref') {
-          							//get id
-          							var id = this.reader.getString(childAnim, 'id', 1);
-          							//get xmlAnim object by id
-          							var anim = this.animations.findById(id);
-          							arrayAnimations.push(anim);
-          						}
-          						else {
-          							return "Wrong tags within animation of component: " + compId;
-          						}
-          					}
-          					animation = new xmlAnimations(arrayAnimations);
-          				}
-          			}
+            else if (child.nodeName === 'animation') {
+                //only does something if it's not the recursive call
+                if (recursive === false) {
+                    var arrayAnimations = [];
+                    //how many children does 'animation' have
+                    var nChildAnim = child.children.length;
+                    // go through all children tags
+                    for (var i = 0; i < nChildAnim; i++) {
+                        //get child tags
+                        var childAnim = child.children[i];
+                        //if 'animaionref' tag
+                        if (childAnim.nodeName === 'animationref') {
+                            //get id
+                            var id = this.reader.getString(childAnim, 'id', 1);
+                            //get xmlAnim object by id
+                            var anim = this.animations.findById(id);
+                            if (anim === false) {
+                                return "animation of component " + compId + " doesn't exist";
+                            }
+                            arrayAnimations.push(anim);
+                        } else {
+                            return "Wrong tags within animation of component: " + compId;
+                        }
+                    }
+                    animation = new xmlAnimations(arrayAnimations);
+                }
+            }
             //if 'materials' tag
             else if (child.nodeName === 'materials') {
                 //only does something if it's not the recursive call
@@ -977,6 +985,9 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                             var id = this.reader.getString(childMat, 'id', 1);
                             //get xmlMat object by id
                             var mat = this.materials.findById(id);
+                            if (mat === false) {
+                                return "material of component " + compId + " doesn't exist";
+                            }
                             arrayMaterials.push(mat);
                         }
                     }
@@ -991,14 +1002,17 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                     var id = this.reader.getString(child, 'id', 1);
                     //get xmlText
                     texture = this.textures.findById(id);
+                    if (texture === false) {
+                        return "texture of component " + compId + " doesn't exist";
+                    }
                 }
             }
             //if 'children' tag
             else if (child.nodeName === 'children') {
                 //storage for children (starts out empty)
-                var xmlChildren = new xmlCompChildren(new xmlComponents([]), new xmlPrimitives([], [], [], [], [], [], [], [], []));
                 //how many children does 'children' have
                 var nChildChildren = child.children.length;
+                var xmlChildren = new xmlCompChildren(new xmlComponents([]), new xmlPrimitives([], [], [], [], [],[],[],[],[]));
                 //needs to be at least one
                 if (nChildChildren < 1) {
                     return 'A component needs to have at least 1 child';
@@ -1015,7 +1029,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                         var xmlComponent = arrayComponents.findById(id);
                         //check if false
                         if (xmlComponent === false) {
-                            return 'Wrong id for component children!';
+                            return "Wrong id for component children of component " + compId;
                         } else {
                             //get THIS component
                             var thisComp = arrayComponents.findById(compId);
@@ -1093,7 +1107,6 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                                 }
                             }
                         }
-
                         if (xmlPrim === false) {
                             return 'wrong id for Component child primitive';
                         }
@@ -1111,7 +1124,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
         //if this isnt the recursive call
         if (recursive === false) {
             //create xmlComp
-            var component = new xmlComp(compId, transformation, materials, texture, xmlChildren);
+            var component = new xmlComp(compId, transformation, animation, materials, texture, xmlChildren);
             //store it in array (at this point, component still has no components-children)
             arrayComponents.components.push(component);
             arrayID.push(component.id);
@@ -1119,7 +1132,10 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
     }
     if (recursive === false) {
         //parse all components once again, in order to handle componentref. It ain't pretty, BUT IT WORKS!
-        this.parserComponents(rootElement, arrayComponents);
+        var error = this.parserComponents(rootElement, arrayComponents);
+        if (error !== null) {
+            return error;
+        }
     }
     //once all components are loaded, let's find the root of the graph
     //get root id
@@ -1137,338 +1153,6 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
             }
         }
     }
-
-
-
-<<<<<<< HEAD
-	//get all elements that match with 'components'
-	var elems = rootElement.getElementsByTagName('components');
-	//in case there are no such elements
-	if (elems == null) {
-		return "'components' element is missing";
-	}
-	//in case there are is more than 1 'components' tag
-	if (elems.length != 1) {
-		return "either zero or more than one'components' element found";
-	}
-	//'components' tag
-	var components = elems[0];
-	//how many 'component' tags there are
-	var nComp = components.children.length;
-	if (nComp < 1) {
-		return 'There needs to be at least 1 component!';
-	}
-	//true if recursive call, false otherwise
-	var recursive
-		//check if arrayComponents is null
-	if (arrayComponents === null) {
-		arrayComponents = new xmlComponents([]);
-		//indicates this isn't a recursive call
-		recursive = false;
-	} else {
-		//means this is a recursive call
-		recursive = true;
-	}
-	//start parsing each component
-	for (var k = 0; k < nComp; k++) {
-		//'component' tag
-		var comp = components.children[k];
-		//extract id
-		var compId = this.reader.getString(comp, 'id', 1);
-		//how many chidlren does each component have (there can only be 4!)
-		var nChildComp = comp.children.length;
-		if (nChildComp != 4 && nChildComp != 5) {
-			return "there can only be 4 children tags within 'component': transformation, materials, texture and children and one optional tag: animation";
-		}
-		//xmlAnimations object
-		var animation = null;
-		//go through all children tags
-		for (var j = 0; j < nChildComp; j++) {
-			//get child tag
-
-			var child = comp.children[j];
-
-			//xmlTransf object
-
-			var transformation;
-
-			//xmlMaterials object
-
-			var materials;
-
-			//xmlText object
-
-			var texture;
-
-			//if 'transformation' tag
-
-			if (child.nodeName === 'transformation') {
-
-				if (recursive === false) {
-					var arrayOperations = [];
-					var control = 1;
-
-					var nChildTrans = child.children.length;
-
-					if (nChildTrans == 0) {
-						control = 0;
-						var translate = [0, 0, 0];
-						var op = new xmlTransfOp('translate', translate);
-						arrayOperations.push(op);
-					}
-					for (var i = 0; i < nChildTrans; i++) {
-
-						var childTrans = child.children[i];
-
-						if (childTrans.nodeName === 'transformationref') {
-							//if there is more than 1 transformationref tag (including different tags)
-							if (nChildTrans != 1) {
-								return "there can only be one 'transformationref'. There can be no other tags in the presence of this one"
-							}
-							//get id
-							var id = this.reader.getString(childTrans, 'id', 1);
-							//get xmlTransf object by id
-							transformation = this.transformations.findById(id);
-							if (transformation === false) {
-								return "transformation of component " + compId + " doesn't exist";
-							}
-							//set control
-							control = 1;
-						}
-						//if it's an explicit transformations
-						else {
-							//unset control
-							control = 0;
-							//if 'translate' tag
-							if (childTrans.nodeName === 'translate') {
-								var translate = [this.reader.getFloat(childTrans, "x", 1),
-									this.reader.getFloat(childTrans, "y", 1),
-									this.reader.getFloat(childTrans, "z", 1)
-								];
-								//create operation object with type = 'translate'
-								var op = new xmlTransfOp('translate', translate);
-								arrayOperations.push(op);
-							}
-							//if 'rotate' tags
-							else if (childTrans.nodeName === 'rotate') {
-								var rotate = [this.reader.getItem(childTrans, "axis", ["x", "y", "z"], 1),
-									this.reader.getFloat(childTrans, "angle", 1)
-								];
-								//create operation object with type = 'rotate'
-								var op = new xmlTransfOp('rotate', rotate);
-								arrayOperations.push(op);
-							}
-							//if 'scale' tags
-							else if (childTrans.nodeName === 'scale') {
-								var scale = [this.reader.getFloat(childTrans, "x", 1),
-									this.reader.getFloat(childTrans, "y", 1),
-									this.reader.getFloat(childTrans, "z", 1)
-								];
-								//create operation object with type = 'scale'
-								var op = new xmlTransfOp('scale', scale);
-								arrayOperations.push(op);
-							}
-							//else it's error
-							else {
-								return "Wrong tags withing 'transformation'";
-							}
-						}
-					}
-					if (control != 1) {
-						var transformation = new xmlTransf(null, arrayOperations);
-					}
-				}
-			}
-			//if 'animation' tag
-			else if (child.nodeName === 'animation') {
-				//only does something if it's not the recursive call
-				if (recursive === false) {
-					var arrayAnimations = [];
-					//how many children does 'animation' have
-					var nChildAnim = child.children.length;
-					// go through all children tags
-					for (var i = 0; i < nChildAnim; i++) {
-						//get child tags
-						var childAnim = child.children[i];
-						//if 'animaionref' tag
-						if (childAnim.nodeName === 'animationref') {
-							//get id
-							var id = this.reader.getString(childAnim, 'id', 1);
-							//get xmlAnim object by id
-							var anim = this.animations.findById(id);
-							if (anim === false) {
-								return "animation of component " + compId + " doesn't exist";
-							}
-							arrayAnimations.push(anim);
-						}
-						else {
-							return "Wrong tags within animation of component: " + compId;
-						}
-					}
-					animation = new xmlAnimations(arrayAnimations);
-				}
-			}
-			//if 'materials' tag
-			else if (child.nodeName === 'materials') {
-				//only does something if it's not the recursive call
-				if (recursive === false) {
-					var arrayMaterials = [];
-					//how many children does 'materials' have
-					var nChildMat = child.children.length;
-					//needs to be at least one
-					if (nChildMat < 1) {
-						return 'A component needs to have at least 1 material';
-					}
-					//go through all children tags
-					for (var i = 0; i < nChildMat; i++) {
-						//get child tags
-						var childMat = child.children[i];
-						//if 'material' tag
-						if (childMat.nodeName === 'material') {
-							//get id
-							var id = this.reader.getString(childMat, 'id', 1);
-							//get xmlMat object by id
-							var mat = this.materials.findById(id);
-							if (mat === false) {
-								return "material of component " + compId + " doesn't exist";
-							}
-							arrayMaterials.push(mat);
-						}
-					}
-					materials = new xmlMaterials(arrayMaterials);
-				}
-			}
-			//if 'texture' tag
-			else if (child.nodeName === 'texture') {
-				//only does something if it's not the recursive call
-				if (recursive === false) {
-					//get id
-					var id = this.reader.getString(child, 'id', 1);
-					//get xmlText
-					texture = this.textures.findById(id);
-					if (texture === false) {
-						return "texture of component " + compId + " doesn't exist";
-					}
-				}
-			}
-			//if 'children' tag
-			else if (child.nodeName === 'children') {
-				//storage for children (starts out empty)
-				var xmlChildren = new xmlCompChildren(new xmlComponents([]), new xmlPrimitives([], [], [], [], []));
-				//how many children does 'children' have
-				var nChildChildren = child.children.length;
-				//needs to be at least one
-				if (nChildChildren < 1) {
-					return 'A component needs to have at least 1 child';
-				}
-				//go through all children tags
-				for (var i = 0; i < nChildChildren; i++) {
-					//get child tags
-					var childChildren = child.children[i];
-					//if 'componentref' tag
-					if (childChildren.nodeName === 'componentref' && recursive === true) {
-						//get id
-						var id = this.reader.getString(childChildren, 'id', 1);
-						//get xmlComp
-						var xmlComponent = arrayComponents.findById(id);
-						//check if false
-						if (xmlComponent === false) {
-							return "Wrong id for component children of component " + compId;
-						} else {
-							//get THIS component
-							var thisComp = arrayComponents.findById(compId);
-							//give THIS component his new son (yes, it's components.components)
-							thisComp.children.components.components.push(xmlComponent);
-						}
-					} else if (childChildren.nodeName === 'componentref' && recursive === false) {
-						//do nothing, but this needs to be here or it will break
-					} else if (childChildren.nodeName === 'primitiveref' && recursive === true) {
-						//do nothing, but this needs to be here or it will break
-					} else if (childChildren.nodeName === 'primitiveref' && recursive === false) {
-						//get id
-						var id = this.reader.getString(childChildren, 'id', 1);
-						//get xmlPrim
-						var xmlPrim;
-						//scan rect
-						xmlPrim = this.primitives.findRectById(id);
-						//if xmlPrim is a rect
-						if (xmlPrim != false) {
-							xmlChildren.primitives.rect.push(xmlPrim);
-						} else {
-							//scan tri
-							xmlPrim = this.primitives.findTriById(id);
-							//if xmlPrim is a tri
-							if (xmlPrim != false) {
-								xmlChildren.primitives.tri.push(xmlPrim);
-							} else {
-								//scan cyl
-								xmlPrim = this.primitives.findCylById(id);
-								//if xmlPrim is a cyl
-								if (xmlPrim != false) {
-									xmlChildren.primitives.cyl.push(xmlPrim);
-								} else {
-									//scan sph
-									xmlPrim = this.primitives.findSphById(id);
-									//if xmlPrim is a sph
-									if (xmlPrim != false) {
-										xmlChildren.primitives.sph.push(xmlPrim);
-									} else {
-										//scan tor
-										xmlPrim = this.primitives.findTorById(id);
-										//if xmlPrim is a tor
-										if (xmlPrim != false) {
-											xmlChildren.primitives.tor.push(xmlPrim);
-										}
-									}
-								}
-							}
-						}
-						if (xmlPrim === false) {
-							return 'wrong id for Component child primitive';
-						}
-						//at this point, all child primitives are already stored
-					} else {
-						return 'wrong tags for Components children';
-					}
-				}
-			}
-			//else error
-			else {
-				return "Wrong tags withing 'component'";
-			}
-		}
-		//if this isnt the recursive call
-		if (recursive === false) {
-			//create xmlComp
-			var component = new xmlComp(compId, transformation, animation, materials, texture, xmlChildren);
-			//store it in array (at this point, component still has no components-children)
-			arrayComponents.components.push(component);
-			arrayID.push(component.id);
-		}
-	}
-	if (recursive === false) {
-		//parse all components once again, in order to handle componentref. It ain't pretty, BUT IT WORKS!
-		var error = this.parserComponents(rootElement, arrayComponents);
-		if (error !== null) {
-			return error;
-		}
-	}
-	//once all components are loaded, let's find the root of the graph
-	//get root id
-	var rootId = this.xmlSceneTag.root;
-	//get root (xmlComp object)
-	this.graphRoot = arrayComponents.findById(rootId);
-	if (this.graphRoot === false) {
-		return 'Root id is wrong!';
-	}
-	//check for double ids
-	for (var i = 0; i < arrayID.length - 1; i++) {
-		for (var j = i + 1; j < arrayID.length; j++) {
-			if (arrayID[i] === arrayID[j]) {
-				return 'Found multiple components with the same id: ' + arrayID[i];
-			}
-		}
-	}
 };
 
 /*
@@ -1493,7 +1177,7 @@ MySceneGraph.prototype.display = function(scene) {
  * @param currTime The current time in milliseconds
  */
 MySceneGraph.prototype.update = function(currTime) {
-	this.graphRoot.update(currTime);
+    this.graphRoot.update(currTime);
 };
 
 /**

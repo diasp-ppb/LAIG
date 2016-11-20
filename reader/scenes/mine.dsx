@@ -170,6 +170,7 @@
                 <componentref id="bola"/>
                 <componentref id="pt"/>
                 <componentref id="bandeira"/>
+                  <primitiveref id="guapa"/>
             </children>
         </component>
 
@@ -447,7 +448,7 @@
             </materials>
             <texture id="FCP"/>
             <children>
-                <primitiveref id="tri"/>
+                <primitiveref id="guapa"/>
             </children>
         </component>
 

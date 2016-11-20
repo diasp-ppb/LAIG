@@ -1,5 +1,5 @@
 <dsx>
-    <scene root="carro" axis_length="20.0"/>
+    <scene root="base" axis_length="20.0"/>
 
     <views default="cam0">
         <perspective id="cam0" near="0.1" far="500" angle="57">
@@ -49,14 +49,7 @@
     <textures>
         <texture id="metal" file="../resources/metal.png" length_s="10" length_t="10"/>
         <texture id="grass" file="../resources/grass.png" length_s="50" length_t="50"/>
-        <texture id="red" file="../resources/red.png" length_s="1" length_t="1"/>
-        <texture id="yellow" file="../resources/yellow.png" length_s="1" length_t="1"/>
         <texture id="sky" file="../resources/sky.png" length_s="100" length_t="100"/>
-        <texture id="palha" file="../resources/palha.png" length_s="100" length_t="100"/>
-        <texture id="bola" file="../resources/foolball.png" length_s="10" length_t="10"/>
-        <texture id="tyre" file="../resources/tyre.png" length_s="100" length_t="100"/>
-        <texture id="jante" file="../resources/jante.png" length_s="100" length_t="100"/>
-        <texture id="FCP" file="../resources/FCP.png" length_s="3" length_t="3"/>
     </textures>
 
     <materials>
@@ -126,9 +119,45 @@
         <primitive id="tri">
             <triangle x1="0" y1="0" z1="0" x2="10" y2="0" z2="0" x3="10" y3="10" z3="0"/>
         </primitive>
+
+        <primitive id="tank">
+          <vehicle/>
+        </primitive>
+
+        <primitive id="plane">
+        <plane dimX="10" dimY="10" partsX="13" partsY="13"/>
+        </primitive>
     </primitives>
 
     <components>
+
+              <component id="base">
+                  <transformation>
+                  </transformation>
+                  <materials>
+                      <material id="metal"/>
+                  </materials>
+                  <texture id="metal"/>
+                  <children>
+                      <componentref id="carro"/>
+                      <componentref id="chao"/>
+                  </children>
+              </component>
+
+              <component id="chao">
+                  <transformation>
+                  </transformation>
+                  <materials>
+                      <material id="metal"/>
+                  </materials>
+                  <texture id="sky"/>
+                  <children>
+                        <primitiveref id="plane"/>
+
+                  </children>
+              </component>
+
+
 
         <component id="carro">
             <transformation>
@@ -137,141 +166,47 @@
                 <animationref id="ani1"/>
                 <animationref id="ani2"/>
                 <animationref id="ani3"/>
-<animationref id="ani4"/>
-<animationref id="ani5"/>
+                <animationref id="ani4"/>
+                <animationref id="ani5"/>
             </animation>
             <materials>
                 <material id="metal"/>
             </materials>
             <texture id="metal"/>
             <children>
-                <componentref id="corpoComboio"/>
-                <componentref id="pneuSet"/>
-                <componentref id="cabine"/>
+                  <primitiveref id="tank"/>
+                <componentref id="carro2"/>
             </children>
         </component>
 
-        <component id="cabine">
-            <transformation>
-                <scale x="1" y="0.25" z="1.5"/>
-                <translate x="0" y="10" z="-2"/>
-                <rotate axis="x" angle="-90"/>
-            </transformation>
-            <materials>
-                <material id="metal"/>
-                <material id="baco"/>
-                <material id="green"/>
-            </materials>
-            <texture id="yellow"/>
-            <children>
-                <primitiveref id="cilindro"/>
-            </children>
-        </component>
 
-        <component id="corpoComboio">
+        <component id="carro2">
             <transformation>
-                <scale x="1" y="1" z="1.8"/>
-                <translate x="0" y="0" z="-5"/>
+              <translate x="8" y="0" z="8"/>
             </transformation>
             <materials>
                 <material id="metal"/>
-                <material id="baco"/>
-                <material id="green"/>
             </materials>
             <texture id="metal"/>
             <children>
-                <primitiveref id="cilindro"/>
+                <primitiveref id="tank"/>
+                <componentref id="carro3"/>
             </children>
         </component>
 
-        <component id="pneuSet">
+        <component id="carro3">
             <transformation>
-                <rotate axis="y" angle="-90"/>
-                <scale x="1" y="1" z="0.15"/>
-                <translate x="-5" y="-2" z="-20"/>
+              <translate x="-16" y="0" z="0"/>
             </transformation>
             <materials>
                 <material id="metal"/>
             </materials>
-            <texture id="red"/>
+            <texture id="metal"/>
             <children>
-                <componentref id="pneu1"/>
-                <componentref id="pneu2"/>
-                <componentref id="pneu3"/>
-                <componentref id="pneu4"/>
+                <primitiveref id="tank"/>
             </children>
         </component>
 
-        <component id="pneu1">
-            <transformation>
-                <rotate axis="y" angle="-180"/>
-            </transformation>
-            <materials>
-                <material id="metal"/>
-            </materials>
-            <texture id="jante"/>
-            <children>
-                <primitiveref id="cilindro"/>
-                <componentref id="borracha1"/>
-            </children>
-        </component>
-
-        <component id="borracha1">
-            <transformation>
-                <scale x="0.35" y="0.35" z="10"/>
-            </transformation>
-            <materials>
-                <material id="baco"/>
-            </materials>
-            <texture id="tyre"/>
-            <children>
-                <primitiveref id="torus"/>
-            </children>
-        </component>
-
-        <component id="pneu2">
-            <transformation>
-                <translate x="0" y="0" z="40"/>
-
-            </transformation>
-            <materials>
-                <material id="metal"/>
-            </materials>
-            <texture id="jante"/>
-            <children>
-                <primitiveref id="cilindro"/>
-                <componentref id="borracha1"/>
-            </children>
-        </component>
-
-        <component id="pneu3">
-            <transformation>
-                <translate x="10" y="0" z="40"/>
-            </transformation>
-            <materials>
-                <material id="metal"/>
-            </materials>
-            <texture id="jante"/>
-            <children>
-                <primitiveref id="cilindro"/>
-                <componentref id="borracha1"/>
-            </children>
-        </component>
-
-        <component id="pneu4">
-            <transformation>
-                <translate x="10" y="0" z="0"/>
-                <rotate axis="y" angle="-180"/>
-            </transformation>
-            <materials>
-                <material id="metal"/>
-            </materials>
-            <texture id="jante"/>
-            <children>
-                <primitiveref id="cilindro"/>
-                <componentref id="borracha1"/>
-            </children>
-        </component>
 
     </components>
 </dsx>
