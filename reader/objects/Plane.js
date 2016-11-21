@@ -10,10 +10,10 @@ this.divX = divX;
 this.divY = divY;
 
 
-this.controlPoints = [	[ this.dimX/2,-this.dimY/2,0,1],
-												[ this.dimX/2,this.dimY/2,0,1],
-												[-this.dimX/2,-this.dimY/2,0,1],
-												[-this.dimX/2, this.dimY/2,0,1],
+this.controlPoints = [	[ -this.dimX/2,-this.dimY/2,0,1],
+												[ -this.dimX/2, this.dimY/2,0,1],
+												[this.dimX/2,-this.dimY/2,0,1],
+												[this.dimX/2, this.dimY/2,0,1],
 
 										 ];
 

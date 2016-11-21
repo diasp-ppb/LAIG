@@ -24,7 +24,7 @@ void main() {
       aTextureCoord.y >= iV)
     gl_Position =
         uPMatrix * uMVMatrix * vec4(aVertexPosition.x, aVertexPosition.y,
-                                    aVertexPosition.z + 0.5, 1.0);
+                                    aVertexPosition.z + 0.1, 1.0);
   else
     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
 
