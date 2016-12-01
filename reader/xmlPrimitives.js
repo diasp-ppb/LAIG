@@ -503,8 +503,7 @@ xmlPrimitives.prototype.display = function(scene, texture) {
 
    for(var i = 0; i < n; i ++) {
        xml = this.surfaces[i];
-       var surface = new Patch(scene, xml.orderU,xml.orderV, xml.partsU, xml.partsV, xml.controlPoints);
-       surfaces.display();
+       xml.surface.display();
    }
 
    n = this.chess.length;
@@ -686,13 +685,29 @@ xmlTorus.prototype.consoleDebug = function() {
  * @param controlPoints
  */
 
-function xmlPatch(id,orderU,orderV,partsU,partsV, controlPoints){
+function xmlPatch(id,orderU,orderV,partsU,partsV, controlPoints, scene){
   this.id = id;
   this.orderU = orderU;
   this.orderV = orderV;
   this.partsU = partsU;
   this.partsV = partsV;
   this.controlPoints = controlPoints;
+  console.log(this.controlPoints);
+  //this.surface = new Patch(scene, orderU,orderV, partsU, partsV, controlPoints);
+
+  this.controlPoints2 =[
+
+    [ -0.75, -1.75, 0.0, 1 ],
+    [ -0.75,  2.5,  0.0, 1 ],
+    [ 0,      -3.5, 2.0, 1 ],
+    [ 0,      -0.5, 2.0, 1 ],
+    [ 0.75,  -1.75, 0.0, 1 ],
+    [ 0.75,   2.5,  0.0, 1 ]
+  ];
+
+
+  this.surface = new Patch(scene,orderU,orderV,partsU,partsV,controlPoints);
+ /* Patch(scene, degree1, degree2 , partsU, partsV, controlPoints) */
 }
 
 /**

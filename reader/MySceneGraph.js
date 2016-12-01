@@ -723,10 +723,11 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
                 var x = this.reader.getFloat(control, 'x', 1);
                 var y = this.reader.getFloat(control, 'y', 1);
                 var z = this.reader.getFloat(control, 'z', 1);
-                controlpoints.push([x, y, z]);
+
+                controlpoints.push([x,y,z,1]);
             }
 
-            var patch = new xmlPatch(primId, orderU, orderV, partsU, partsV, controlpoints);
+            var patch = new xmlPatch(primId, orderU, orderV, partsU, partsV, controlpoints,this.scene);
             arrayPatch.push(patch);
 
         } else if (primType.nodeName === "vehicle") {
@@ -1085,7 +1086,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                                                 xmlPrim = this.primitives.findPatchById(id);
                                                 //if xmlPrim is a tor
                                                 if (xmlPrim != false) {
-                                                    xmlChildren.primitives.patch.push(xmlPrim);
+                                                    xmlChildren.primitives.surfaces.push(xmlPrim);
                                                 } else {
                                                     //scan tor
                                                     xmlPrim = this.primitives.findChessById(id);
