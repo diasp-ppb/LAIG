@@ -29,14 +29,6 @@
       <to x="ff" y="ff" z="ff"/>
     </perspective>
 
-    <!-- animacao para transicao entre dois pontos de vista -->
-    <!-- animacao deve ser declarada apenas DEPOIS de todas as perspectivas -->
-    <!-- span - duracao em segundos da animacao -->
-    <!-- clock - TRUE if animation is clock-wise, FALSE otherwise -->
-    <perspectiveAnimation id="ss" span="ff" clock="tt">
-      <perspectiveref id="ss"/>
-      <perspectiveref id="ss"/>
-    </perspectiveAnimation>
   </views>
 
   <illumination doublesided="tt" local="tt">
@@ -124,7 +116,17 @@
       <controlpoint xx="ff" yy="ff" zz="ff"/>
       <controlpoint xx="ff" yy="ff" zz="ff"/>
     </animation>
+
     <animation id="ss" span="ff" type="circular" centerx="ff" centery="ff" centerz="ff" radius="ff" startang="ff" rotang="ff"/>
+
+    <!-- animacao para transicao entre dois pontos de vista -->
+    <!-- span - duracao em segundos da animacao -->
+    <!-- clock - TRUE if animation is clock-wise, FALSE otherwise -->
+    <animation id="ss" span="ff" type="perspective" clock="tt">
+      <perspectiveref id="ss"/>
+      <perspectiveref id="ss"/>
+    </animation>
+
   </animations>
 
   <primitives>
