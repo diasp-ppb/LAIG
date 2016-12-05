@@ -141,6 +141,10 @@
 
         </primitive>
 
+				<primitive id="teste123485">
+                  <gameBoard />
+          </primitive>
+
         <primitive id="guapa2">
                   <chessboard du="8" dv="8" textureref="metal" su="5" sv="5">
                       <c1 r="0.7" g="0.1" b="0.2" a="1" />
@@ -169,6 +173,7 @@
                 <componentref id="sky2"/>
                 <componentref id="chess"/>
                 <componentref id="chess2"/>
+								<componentref id="gameBoardTest" />
             </children>
         </component>
 
@@ -182,6 +187,19 @@
             <texture id="none"/>
             <children>
                 <primitiveref id="guapa"/>
+            </children>
+        </component>
+				
+				   <component id="gameBoardTest">
+            <transformation>
+                  <translate x="5" y="1" z="5"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="teste123485"/>
             </children>
         </component>
 

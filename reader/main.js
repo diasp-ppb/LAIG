@@ -11,7 +11,7 @@ function getUrlVars() {
   return vars;
 }
 
-serialInclude(['../lib/CGF.js','./objects/Vehicle.js','./objects/Chessboard.js','./surfaces/Patch.js','./surfaces/Plane.js','./objects/Torus.js','./objects/Cylinder.js','./objects/Sphere.js','./objects/Triangle.js','./objects/Rectangle.js','Interface.js', 'XMLscene.js', 'MySceneGraph.js', 'xmlPrimitives.js', 'xmlSceneTag.js', 'xmlPerspective.js', 'xmlViews.js', 'xmlIllumination.js', 'xmlLights.js', 'xmlTextures.js', 'xmlMaterials.js', 'xmlTransformations.js', 'xmlComponents.js', 'xmlAnimations.js',
+serialInclude(['../lib/CGF.js','./objects/Vehicle.js','./objects/Chessboard.js','./objects/GameBoard.js', './surfaces/Patch.js','./surfaces/Plane.js','./objects/Torus.js','./objects/Cylinder.js','./objects/Sphere.js','./objects/Triangle.js','./objects/Rectangle.js','Interface.js', 'XMLscene.js', 'MySceneGraph.js', 'xmlPrimitives.js', 'xmlSceneTag.js', 'xmlPerspective.js', 'xmlViews.js', 'xmlIllumination.js', 'xmlLights.js', 'xmlTextures.js', 'xmlMaterials.js', 'xmlTransformations.js', 'xmlComponents.js', 'xmlAnimations.js',
 
 main=function()
 {

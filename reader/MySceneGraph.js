@@ -123,6 +123,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.animations.consoleDebug();
 	this.primitives.consoleDebug();
 	this.graphRoot.consoleDebug();*/
+	this.graphRoot.consoleDebug();
 
     this.loadedOk = true;
 
@@ -612,6 +613,7 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
     var arrayPlane = [];
     var arrayPatch = [];
     var arrayVei = [];
+		var arrayGameBoard = [];
     var arrayChess = [];
 
 
@@ -723,19 +725,22 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
                 var x = this.reader.getFloat(control, 'x', 1);
                 var y = this.reader.getFloat(control, 'y', 1);
                 var z = this.reader.getFloat(control, 'z', 1);
-
-                controlpoints.push([x,y,z,1]);
+                controlpoints.push([x, y, z]);
             }
 
-            var patch = new xmlPatch(primId, orderU, orderV, partsU, partsV, controlpoints,this.scene);
+            var patch = new xmlPatch(primId, orderU, orderV, partsU, partsV, controlpoints);
             arrayPatch.push(patch);
 
         } else if (primType.nodeName === "vehicle") {
             //read attrs
             var vehicle = new xmlVehicle(primId, this.scene);
             arrayVei.push(vehicle);
-
-        } else if (primType.nodeName === "chessboard") {
+						
+        } else if (primType.nodeName === "gameBoard") {
+						var gameBoard = new xmlGameBoard(primId, this.scene);
+						arrayGameBoard.push(gameBoard);
+						
+					}	else if (primType.nodeName === "chessboard") {
             //read attrs
             var du = this.reader.getInteger(primType, 'du', 1);
             var dv = this.reader.getFloat(primType, 'dv', 1);
@@ -787,7 +792,7 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement) {
         }
     }
     //store all the primitives present in the dsx
-    this.primitives = new xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor, arrayPlane, arrayPatch, arrayVei, arrayChess);
+    this.primitives = new xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor, arrayPlane, arrayPatch, arrayVei, arrayChess, arrayGameBoard);
     return this.primitives.checkDoubleId();
 };
 
@@ -1013,7 +1018,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                 //storage for children (starts out empty)
                 //how many children does 'children' have
                 var nChildChildren = child.children.length;
-                var xmlChildren = new xmlCompChildren(new xmlComponents([]), new xmlPrimitives([], [], [], [], [],[],[],[],[]));
+                var xmlChildren = new xmlCompChildren(new xmlComponents([]), new xmlPrimitives([], [], [], [], [],[],[],[],[], []));
                 //needs to be at least one
                 if (nChildChildren < 1) {
                     return 'A component needs to have at least 1 child';
@@ -1086,7 +1091,7 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                                                 xmlPrim = this.primitives.findPatchById(id);
                                                 //if xmlPrim is a tor
                                                 if (xmlPrim != false) {
-                                                    xmlChildren.primitives.surfaces.push(xmlPrim);
+                                                    xmlChildren.primitives.patch.push(xmlPrim);
                                                 } else {
                                                     //scan tor
                                                     xmlPrim = this.primitives.findChessById(id);
@@ -1099,7 +1104,14 @@ MySceneGraph.prototype.parserComponents = function(rootElement, arrayComponents)
                                                         //if xmlPrim is a tor
                                                         if (xmlPrim != false) {
                                                             xmlChildren.primitives.veheicle.push(xmlPrim);
-                                                        }
+                                                        } else {
+																													//scan gameBoard
+																													xmlPrim = this.primitives.findGameBoardById(id);
+																													//if xmlPrim is a gameBoard
+																													if (xmlPrim != false) {
+																														xmlChildren.primitives.gameBoard.push(xmlPrim);
+																													}
+																												}
                                                     }
                                                 }
                                             }

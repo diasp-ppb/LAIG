@@ -6,7 +6,7 @@
  * @param arraySph
  * @param arrayTor
  */
-function xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor,arrayPlane,arraySurf,arrayVeh,arrayChess) {
+function xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor,arrayPlane,arraySurf,arrayVeh,arrayChess, arrayGameBoard) {
     this.rect = arrayRect.slice(0);
     this.tri = arrayTri.slice(0);
     this.cyl = arrayCyl.slice(0);
@@ -16,6 +16,7 @@ function xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor,arrayPl
     this.surfaces = arraySurf.slice(0);
     this.veheicle = arrayVeh.slice(0);
     this.chess = arrayChess.slice(0);
+		this.gameBoard = arrayGameBoard.slice(0);
 };
 
 /**
@@ -134,6 +135,9 @@ xmlPrimitives.prototype.checkDoubleId = function() {
         for (var j = 0; j < this.veheicle.length; j++)
             if (this.plane[i].id === this.veheicle[j].id)
                   return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+				for (var j = 0; j < this.gameBoard.length; j++)
+            if (this.plane[i].id === this.gameBoard[j].id)
+                  return 'Found multiple primitives with the same id: ' + this.plane[i].id;
         for (var j = 0; j < this.chess.length; j++)
             if (this.plane[i].id === this.chess[j].id)
                   return 'Found multiple primitives with the same id: ' + this.plane[i].id;
@@ -165,6 +169,9 @@ xmlPrimitives.prototype.checkDoubleId = function() {
             for (var j = 0; j < this.veheicle.length; j++)
                 if (this.surfaces[i].id === this.veheicle[j].id)
                       return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+					 for (var j = 0; j < this.gameBoard.length; j++)
+						if (this.surfaces[i].id === this.gameBoard[j].id)
+									return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
             for (var j = 0; j < this.chess.length; j++)
                 if (this.surfaces[i].id === this.chess[j].id)
                       return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
@@ -196,6 +203,9 @@ xmlPrimitives.prototype.checkDoubleId = function() {
                     return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
             for (var j = 0; j < this.veheicle.length; j++)
                 if (this.surfaces[i].id === this.veheicle[j].id)
+                      return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+						   for (var j = 0; j < this.gameBoard.length; j++)
+                if (this.surfaces[i].id === this.gameBoard[j].id)
                       return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
             for (var j = 0; j < this.chess.length; j++)
                 if (this.surfaces[i].id === this.chess[j].id)
@@ -229,6 +239,9 @@ xmlPrimitives.prototype.checkDoubleId = function() {
                     for (var j = 0; j < this.veheicle.length; j++)
                         if (this.chess[i].id === this.veheicle[j].id)
                               return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+										for (var j = 0; j < this.gameBoard.length; j++)
+												if (this.chess[i].id === this.gameBoard[j].id)
+															return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
                     for (var j = 0; j < this.surfaces.length; j++)
                         if (this.chess[i].id === this.surfaces[j].id)
                               return 'Found multiple primitives with the same id: ' + this.chess[i].id;
@@ -263,6 +276,10 @@ xmlPrimitives.prototype.consoleDebug = function() {
     console.log("Tor[" + this.tor.length + "]:");
     for (var i = 0; i < this.tor.length; i++) {
         this.tor[i].consoleDebug();
+    }
+		console.log("GameBoard[" + this.gameBoard.length + "]:");
+    for (var i = 0; i < this.gameBoard.length; i++) {
+        this.gameBoard[i].consoleDebug();
     }
     console.log("--- FINISH PRIMITIVES DEBUGGING ---");
 };
@@ -396,6 +413,22 @@ xmlPrimitives.prototype.findVehicleById = function(id) {
 }
 
 /**
+ * Scan gameboard array to find match with parameter id and return it
+ * @param id Id to match with
+ * @return Matched element. False otherwise
+ */
+xmlPrimitives.prototype.findGameBoardById = function(id) {
+    //percorrer o array
+    for (var i = 0; i < this.gameBoard.length; i++) {
+        //match id
+        if (this.gameBoard[i].id === id) {
+            return this.gameBoard[i];
+        }
+    }
+    return false;
+}
+
+/**
  * Scan Chessboard array to find match with parameter id and return it
  * @param id Id to match with
  * @return Matched element. False otherwise
@@ -427,6 +460,9 @@ xmlPrimitives.prototype.findById = function(id) {
         found = this.findPatchById(id);
     if (false == found)
         found = this.findVehicleById(id);
+		if (false === found) {
+				found = this.findGameBoardById(id);
+		}
     if (false == found)
         found = this.findChessById(id);
     return found;
@@ -503,7 +539,8 @@ xmlPrimitives.prototype.display = function(scene, texture) {
 
    for(var i = 0; i < n; i ++) {
        xml = this.surfaces[i];
-       xml.surface.display();
+       var surface = new Patch(scene, xml.orderU,xml.orderV, xml.partsU, xml.partsV, xml.controlPoints);
+       surfaces.display();
    }
 
    n = this.chess.length;
@@ -515,6 +552,11 @@ xmlPrimitives.prototype.display = function(scene, texture) {
    n = this.veheicle.length;
    for(var i = 0; i < n; i ++) {
       this.veheicle[i].veheicle.display();
+   }
+	 
+	 n = this.gameBoard.length;
+   for(var i = 0; i < n; i ++) {
+      this.gameBoard[i].gameBoard.display();
    }
 }
 
@@ -685,29 +727,13 @@ xmlTorus.prototype.consoleDebug = function() {
  * @param controlPoints
  */
 
-function xmlPatch(id,orderU,orderV,partsU,partsV, controlPoints, scene){
+function xmlPatch(id,orderU,orderV,partsU,partsV, controlPoints){
   this.id = id;
   this.orderU = orderU;
   this.orderV = orderV;
   this.partsU = partsU;
   this.partsV = partsV;
   this.controlPoints = controlPoints;
-  console.log(this.controlPoints);
-  //this.surface = new Patch(scene, orderU,orderV, partsU, partsV, controlPoints);
-
-  this.controlPoints2 =[
-
-    [ -0.75, -1.75, 0.0, 1 ],
-    [ -0.75,  2.5,  0.0, 1 ],
-    [ 0,      -3.5, 2.0, 1 ],
-    [ 0,      -0.5, 2.0, 1 ],
-    [ 0.75,  -1.75, 0.0, 1 ],
-    [ 0.75,   2.5,  0.0, 1 ]
-  ];
-
-
-  this.surface = new Patch(scene,orderU,orderV,partsU,partsV,controlPoints);
- /* Patch(scene, degree1, degree2 , partsU, partsV, controlPoints) */
 }
 
 /**
@@ -735,6 +761,25 @@ function xmlVehicle(id,scene){
   this.id = id;
   this.veheicle = new Vehicle(scene);
 }
+
+/**
+ * Class that represents a gameboard primitive
+ * @param id ID
+ * @param scene
+ */
+function xmlGameBoard(id,scene){
+  this.id = id;
+  this.gameBoard = new GameBoard(scene);
+}
+
+/**
+ * Outputs every attr to the console
+ */
+xmlGameBoard.prototype.consoleDebug = function() {
+    console.log("--- START GAMEBOARD DEBUGGING ---");
+    console.log("Id: " + this.id);
+    console.log("--- FINISH GAMEBOARD DEBUGGING ---");
+};
 
 
 /**
