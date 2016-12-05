@@ -125,32 +125,32 @@
         </primitive>
 
         <primitive id="plane">
-          <plane dimX="120"  dimY="120" partsX="13" partsY="13"/>
+            <plane dimX="120" dimY="120" partsX="13" partsY="13"/>
         </primitive>
 
         <primitive id="fundo">
-          <plane dimX="100"  dimY="70" partsX="13" partsY="13"/>
+            <plane dimX="100" dimY="70" partsX="13" partsY="13"/>
         </primitive>
 
         <primitive id="guapa">
-                  <chessboard du="8" dv="8" textureref="metal" su="1" sv="1">
-                      <c1 r="0.7" g="0.1" b="0.2" a="1" />
-                      <c2 r="0.1" g="0.7" b="0.2" a="1" />
-                      <cs r="0.1" g="0.2" b="0.7" a="1" />
-                    </chessboard>
+            <chessboard du="8" dv="8" textureref="metal" su="1" sv="1">
+                <c1 r="0.7" g="0.1" b="0.2" a="1"/>
+                <c2 r="0.1" g="0.7" b="0.2" a="1"/>
+                <cs r="0.1" g="0.2" b="0.7" a="1"/>
+            </chessboard>
 
         </primitive>
 
-				<primitive id="teste123485">
-                  <gameBoard />
-          </primitive>
+        <primitive id="teste123485">
+            <gameBoard/>
+        </primitive>
 
         <primitive id="guapa2">
-                  <chessboard du="8" dv="8" textureref="metal" su="5" sv="5">
-                      <c1 r="0.7" g="0.1" b="0.2" a="1" />
-                      <c2 r="0.1" g="0.7" b="0.2" a="1" />
-                      <cs r="0.1" g="0.2" b="0.7" a="1" />
-                    </chessboard>
+            <chessboard du="8" dv="8" textureref="metal" su="5" sv="5">
+                <c1 r="0.7" g="0.1" b="0.2" a="1"/>
+                <c2 r="0.1" g="0.7" b="0.2" a="1"/>
+                <cs r="0.1" g="0.2" b="0.7" a="1"/>
+            </chessboard>
 
         </primitive>
 
@@ -173,13 +173,13 @@
                 <componentref id="sky2"/>
                 <componentref id="chess"/>
                 <componentref id="chess2"/>
-								<componentref id="gameBoardTest" />
+                <componentref id="gameBoardTest"/>
             </children>
         </component>
 
         <component id="chess">
             <transformation>
-                  <translate x="5" y="1" z="5"/>
+                <translate x="5" y="1" z="5"/>
             </transformation>
             <materials>
                 <material id="baco"/>
@@ -189,10 +189,10 @@
                 <primitiveref id="guapa"/>
             </children>
         </component>
-				
-				   <component id="gameBoardTest">
+
+        <component id="gameBoardTest">
             <transformation>
-                  <translate x="5" y="1" z="5"/>
+                <translate x="5" y="1" z="5"/>
             </transformation>
             <materials>
                 <material id="baco"/>
@@ -203,26 +203,23 @@
             </children>
         </component>
 
-
-
-                <component id="chess2">
-                    <transformation>
-                          <translate x="2" y="1" z="5"/>
-                    </transformation>
-                    <materials>
-                        <material id="baco"/>
-                    </materials>
-                    <texture id="none"/>
-                    <children>
-                        <primitiveref id="guapa2"/>
-                    </children>
-                </component>
-
+        <component id="chess2">
+            <transformation>
+                <translate x="2" y="1" z="5"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="guapa2"/>
+            </children>
+        </component>
 
         <component id="chao">
             <transformation>
-                  <translate x="0" y="-1" z="0"/>
-                  <rotate axis="x" angle="-90"/>
+                <translate x="0" y="-1" z="0"/>
+                <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
                 <material id="baco"/>
@@ -233,11 +230,10 @@
             </children>
         </component>
 
-
         <component id="sky">
             <transformation>
-                  <rotate axis="z" angle="-180"/>
-                  <translate x="0" y="0" z="-50"/>
+                <rotate axis="z" angle="-180"/>
+                <translate x="0" y="0" z="-50"/>
             </transformation>
             <materials>
                 <material id="baco"/>
@@ -250,9 +246,9 @@
 
         <component id="sky2">
             <transformation>
-                  <rotate axis="z" angle="-180"/>
-                  <rotate axis="y" angle="-90"/>
-                  <translate x="0" y="0" z="-50"/>
+                <rotate axis="z" angle="-180"/>
+                <rotate axis="y" angle="-90"/>
+                <translate x="0" y="0" z="-50"/>
             </transformation>
             <materials>
                 <material id="baco"/>
@@ -262,7 +258,6 @@
                 <primitiveref id="plane"/>
             </children>
         </component>
-
 
         <component id="carro">
             <transformation></transformation>

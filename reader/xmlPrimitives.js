@@ -6,282 +6,282 @@
  * @param arraySph
  * @param arrayTor
  */
-function xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor,arrayPlane,arraySurf,arrayVeh,arrayChess, arrayGameBoard) {
-    this.rect = arrayRect.slice(0);
-    this.tri = arrayTri.slice(0);
-    this.cyl = arrayCyl.slice(0);
-    this.sph = arraySph.slice(0);
-    this.tor = arrayTor.slice(0);
-    this.plane = arrayPlane.slice(0);
-    this.surfaces = arraySurf.slice(0);
-    this.veheicle = arrayVeh.slice(0);
-    this.chess = arrayChess.slice(0);
-		this.gameBoard = arrayGameBoard.slice(0);
+function xmlPrimitives(arrayRect, arrayTri, arrayCyl, arraySph, arrayTor, arrayPlane, arraySurf, arrayVeh, arrayChess, arrayGameBoard) {
+	this.rect = arrayRect.slice(0);
+	this.tri = arrayTri.slice(0);
+	this.cyl = arrayCyl.slice(0);
+	this.sph = arraySph.slice(0);
+	this.tor = arrayTor.slice(0);
+	this.plane = arrayPlane.slice(0);
+	this.surfaces = arraySurf.slice(0);
+	this.veheicle = arrayVeh.slice(0);
+	this.chess = arrayChess.slice(0);
+	this.gameBoard = arrayGameBoard.slice(0);
 };
 
 /**
  * Checks if there are multiple objects with the same id
  */
 xmlPrimitives.prototype.checkDoubleId = function() {
-    for (var i = 0; i < this.rect.length; i++) {
-        for (var j = i + 1; j < this.rect.length; j++)
-            if (this.rect[i].id === this.rect[j].id)
-                return 'Found multiple primitives with the same id: ' + this.rect[i].id;
-        for (var j = 0; j < this.tri.length; j++)
-            if (this.rect[i].id === this.tri[j].id)
-                return 'Found multiple primitives with the same id: ' + this.rect[i].id;
-        for (var j = 0; j < this.cyl.length; j++)
-            if (this.rect[i].id === this.cyl[j].id)
-                return 'Found multiple primitives with the same id: ' + this.rect[i].id;
-        for (var j = 0; j < this.sph.length; j++)
-            if (this.rect[i].id === this.sph[j].id)
-                return 'Found multiple primitives with the same id: ' + this.rect[i].id;
-        for (var j = 0; j < this.tor.length; j++)
-            if (this.rect[i].id === this.tor[j].id)
-                return 'Found multiple primitives with the same id: ' + this.rect[i].id;
-    }
-    for (var i = 0; i < this.tri.length; i++) {
-        for (var j = i + 1; j < this.tri.length; j++)
-            if (this.tri[i].id === this.tri[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tri[i].id;
-        for (var j = 0; j < this.rect.length; j++)
-            if (this.tri[i].id === this.rect[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tri[i].id;
-        for (var j = 0; j < this.cyl.length; j++)
-            if (this.tri[i].id === this.cyl[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tri[i].id;
-        for (var j = 0; j < this.sph.length; j++)
-            if (this.tri[i].id === this.sph[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tri[i].id;
-        for (var j = 0; j < this.tor.length; j++)
-            if (this.tri[i].id === this.tor[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tri[i].id;
-    }
-    for (var i = 0; i < this.cyl.length; i++) {
-        for (var j = i + 1; j < this.cyl.length; j++)
-            if (this.cyl[i].id === this.cyl[j].id)
-                return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
-        for (var j = 0; j < this.rect.length; j++)
-            if (this.cyl[i].id === this.rect[j].id)
-                return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
-        for (var j = 0; j < this.tri.length; j++)
-            if (this.cyl[i].id === this.tri[j].id)
-                return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
-        for (var j = 0; j < this.sph.length; j++)
-            if (this.cyl[i].id === this.sph[j].id)
-                return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
-        for (var j = 0; j < this.tor.length; j++)
-            if (this.cyl[i].id === this.tor[j].id)
-                return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
-    }
-    for (var i = 0; i < this.sph.length; i++) {
-        for (var j = i + 1; j < this.sph.length; j++)
-            if (this.sph[i].id === this.sph[j].id)
-                return 'Found multiple primitives with the same id: ' + this.sph[i].id;
-        for (var j = 0; j < this.rect.length; j++)
-            if (this.sph[i].id === this.rect[j].id)
-                return 'Found multiple primitives with the same id: ' + this.sph[i].id;
-        for (var j = 0; j < this.tri.length; j++)
-            if (this.sph[i].id === this.tri[j].id)
-                return 'Found multiple primitives with the same id: ' + this.sph[i].id;
-        for (var j = 0; j < this.cyl.length; j++)
-            if (this.sph[i].id === this.cyl[j].id)
-                return 'Found multiple primitives with the same id: ' + this.sph[i].id;
-        for (var j = 0; j < this.tor.length; j++)
-            if (this.sph[i].id === this.tor[j].id)
-                return 'Found multiple primitives with the same id: ' + this.sph[i].id;
-    }
-    for (var i = 0; i < this.tor.length; i++) {
-        for (var j = i + 1; j < this.tor.length; j++)
-            if (this.tor[i].id === this.tor[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tor[i].id;
-        for (var j = 0; j < this.rect.length; j++)
-            if (this.tor[i].id === this.rect[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tor[i].id;
-        for (var j = 0; j < this.tri.length; j++)
-            if (this.tor[i].id === this.tri[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tor[i].id;
-        for (var j = 0; j < this.cyl.length; j++)
-            if (this.tor[i].id === this.cyl[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tor[i].id;
-        for (var j = 0; j < this.sph.length; j++)
-            if (this.tor[i].id === this.sph[j].id)
-                return 'Found multiple primitives with the same id: ' + this.tor[i].id;
-    }
+	for (var i = 0; i < this.rect.length; i++) {
+		for (var j = i + 1; j < this.rect.length; j++)
+			if (this.rect[i].id === this.rect[j].id)
+				return 'Found multiple primitives with the same id: ' + this.rect[i].id;
+		for (var j = 0; j < this.tri.length; j++)
+			if (this.rect[i].id === this.tri[j].id)
+				return 'Found multiple primitives with the same id: ' + this.rect[i].id;
+		for (var j = 0; j < this.cyl.length; j++)
+			if (this.rect[i].id === this.cyl[j].id)
+				return 'Found multiple primitives with the same id: ' + this.rect[i].id;
+		for (var j = 0; j < this.sph.length; j++)
+			if (this.rect[i].id === this.sph[j].id)
+				return 'Found multiple primitives with the same id: ' + this.rect[i].id;
+		for (var j = 0; j < this.tor.length; j++)
+			if (this.rect[i].id === this.tor[j].id)
+				return 'Found multiple primitives with the same id: ' + this.rect[i].id;
+	}
+	for (var i = 0; i < this.tri.length; i++) {
+		for (var j = i + 1; j < this.tri.length; j++)
+			if (this.tri[i].id === this.tri[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tri[i].id;
+		for (var j = 0; j < this.rect.length; j++)
+			if (this.tri[i].id === this.rect[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tri[i].id;
+		for (var j = 0; j < this.cyl.length; j++)
+			if (this.tri[i].id === this.cyl[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tri[i].id;
+		for (var j = 0; j < this.sph.length; j++)
+			if (this.tri[i].id === this.sph[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tri[i].id;
+		for (var j = 0; j < this.tor.length; j++)
+			if (this.tri[i].id === this.tor[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tri[i].id;
+	}
+	for (var i = 0; i < this.cyl.length; i++) {
+		for (var j = i + 1; j < this.cyl.length; j++)
+			if (this.cyl[i].id === this.cyl[j].id)
+				return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
+		for (var j = 0; j < this.rect.length; j++)
+			if (this.cyl[i].id === this.rect[j].id)
+				return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
+		for (var j = 0; j < this.tri.length; j++)
+			if (this.cyl[i].id === this.tri[j].id)
+				return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
+		for (var j = 0; j < this.sph.length; j++)
+			if (this.cyl[i].id === this.sph[j].id)
+				return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
+		for (var j = 0; j < this.tor.length; j++)
+			if (this.cyl[i].id === this.tor[j].id)
+				return 'Found multiple primitives with the same id: ' + this.cyl[i].id;
+	}
+	for (var i = 0; i < this.sph.length; i++) {
+		for (var j = i + 1; j < this.sph.length; j++)
+			if (this.sph[i].id === this.sph[j].id)
+				return 'Found multiple primitives with the same id: ' + this.sph[i].id;
+		for (var j = 0; j < this.rect.length; j++)
+			if (this.sph[i].id === this.rect[j].id)
+				return 'Found multiple primitives with the same id: ' + this.sph[i].id;
+		for (var j = 0; j < this.tri.length; j++)
+			if (this.sph[i].id === this.tri[j].id)
+				return 'Found multiple primitives with the same id: ' + this.sph[i].id;
+		for (var j = 0; j < this.cyl.length; j++)
+			if (this.sph[i].id === this.cyl[j].id)
+				return 'Found multiple primitives with the same id: ' + this.sph[i].id;
+		for (var j = 0; j < this.tor.length; j++)
+			if (this.sph[i].id === this.tor[j].id)
+				return 'Found multiple primitives with the same id: ' + this.sph[i].id;
+	}
+	for (var i = 0; i < this.tor.length; i++) {
+		for (var j = i + 1; j < this.tor.length; j++)
+			if (this.tor[i].id === this.tor[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tor[i].id;
+		for (var j = 0; j < this.rect.length; j++)
+			if (this.tor[i].id === this.rect[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tor[i].id;
+		for (var j = 0; j < this.tri.length; j++)
+			if (this.tor[i].id === this.tri[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tor[i].id;
+		for (var j = 0; j < this.cyl.length; j++)
+			if (this.tor[i].id === this.cyl[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tor[i].id;
+		for (var j = 0; j < this.sph.length; j++)
+			if (this.tor[i].id === this.sph[j].id)
+				return 'Found multiple primitives with the same id: ' + this.tor[i].id;
+	}
 
 
-    for (var i = 0; i < this.plane.length; i++) {
-        for (var j = i + 1; j < this.plane.length; j++)
-            if (this.plane[i].id === this.plane[j].id)
-                return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-        for (var j = 0; j < this.rect.length; j++)
-            if (this.plane[i].id === this.rect[j].id)
-                return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-        for (var j = 0; j < this.tri.length; j++)
-            if (this.plane[i].id === this.tri[j].id)
-                return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-        for (var j = 0; j < this.cyl.length; j++)
-            if (this.plane[i].id === this.cyl[j].id)
-                return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-        for (var j = 0; j < this.sph.length; j++)
-            if (this.plane[i].id === this.sph[j].id)
-                return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-        for (var j = 0; j < this.tor.length; j++)
-            if (this.plane[i].id === this.tor[j].id)
-              return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-        for (var j = 0; j < this.surfaces.length; j++)
-            if (this.plane[i].id === this.surfaces[j].id)
-                return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-        for (var j = 0; j < this.veheicle.length; j++)
-            if (this.plane[i].id === this.veheicle[j].id)
-                  return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-				for (var j = 0; j < this.gameBoard.length; j++)
-            if (this.plane[i].id === this.gameBoard[j].id)
-                  return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-        for (var j = 0; j < this.chess.length; j++)
-            if (this.plane[i].id === this.chess[j].id)
-                  return 'Found multiple primitives with the same id: ' + this.plane[i].id;
-    }
+	for (var i = 0; i < this.plane.length; i++) {
+		for (var j = i + 1; j < this.plane.length; j++)
+			if (this.plane[i].id === this.plane[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+		for (var j = 0; j < this.rect.length; j++)
+			if (this.plane[i].id === this.rect[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+		for (var j = 0; j < this.tri.length; j++)
+			if (this.plane[i].id === this.tri[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+		for (var j = 0; j < this.cyl.length; j++)
+			if (this.plane[i].id === this.cyl[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+		for (var j = 0; j < this.sph.length; j++)
+			if (this.plane[i].id === this.sph[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+		for (var j = 0; j < this.tor.length; j++)
+			if (this.plane[i].id === this.tor[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+		for (var j = 0; j < this.surfaces.length; j++)
+			if (this.plane[i].id === this.surfaces[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+		for (var j = 0; j < this.veheicle.length; j++)
+			if (this.plane[i].id === this.veheicle[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+		for (var j = 0; j < this.gameBoard.length; j++)
+			if (this.plane[i].id === this.gameBoard[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+		for (var j = 0; j < this.chess.length; j++)
+			if (this.plane[i].id === this.chess[j].id)
+				return 'Found multiple primitives with the same id: ' + this.plane[i].id;
+	}
 
 
-        for (var i = 0; i < this.surfaces.length; i++) {
-            for (var j = i + 1; j < this.surfaces.length; j++)
-                if (this.surfaces[i].id === this.surfaces[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.rect.length; j++)
-                if (this.surfaces[i].id === this.rect[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.tri.length; j++)
-                if (this.surfaces[i].id === this.tri[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.cyl.length; j++)
-                if (this.surfaces[i].id === this.cyl[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.sph.length; j++)
-                if (this.surfaces[i].id === this.sph[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.tor.length; j++)
-                if (this.surfaces[i].id === this.tor[j].id)
-                  return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.plane.length; j++)
-                if (this.surfaces[i].id === this.plane[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.veheicle.length; j++)
-                if (this.surfaces[i].id === this.veheicle[j].id)
-                      return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-					 for (var j = 0; j < this.gameBoard.length; j++)
-						if (this.surfaces[i].id === this.gameBoard[j].id)
-									return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.chess.length; j++)
-                if (this.surfaces[i].id === this.chess[j].id)
-                      return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-        }
-
-
-
-        for (var i = 0; i < this.surfaces.length; i++) {
-            for (var j = i + 1; j < this.surfaces.length; j++)
-                if (this.surfaces[i].id === this.surfaces[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.rect.length; j++)
-                if (this.surfaces[i].id === this.rect[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.tri.length; j++)
-                if (this.surfaces[i].id === this.tri[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.cyl.length; j++)
-                if (this.surfaces[i].id === this.cyl[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.sph.length; j++)
-                if (this.surfaces[i].id === this.sph[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.tor.length; j++)
-                if (this.surfaces[i].id === this.tor[j].id)
-                  return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.plane.length; j++)
-                if (this.surfaces[i].id === this.plane[j].id)
-                    return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.veheicle.length; j++)
-                if (this.surfaces[i].id === this.veheicle[j].id)
-                      return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-						   for (var j = 0; j < this.gameBoard.length; j++)
-                if (this.surfaces[i].id === this.gameBoard[j].id)
-                      return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-            for (var j = 0; j < this.chess.length; j++)
-                if (this.surfaces[i].id === this.chess[j].id)
-                      return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-        }
+	for (var i = 0; i < this.surfaces.length; i++) {
+		for (var j = i + 1; j < this.surfaces.length; j++)
+			if (this.surfaces[i].id === this.surfaces[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.rect.length; j++)
+			if (this.surfaces[i].id === this.rect[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.tri.length; j++)
+			if (this.surfaces[i].id === this.tri[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.cyl.length; j++)
+			if (this.surfaces[i].id === this.cyl[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.sph.length; j++)
+			if (this.surfaces[i].id === this.sph[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.tor.length; j++)
+			if (this.surfaces[i].id === this.tor[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.plane.length; j++)
+			if (this.surfaces[i].id === this.plane[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.veheicle.length; j++)
+			if (this.surfaces[i].id === this.veheicle[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.gameBoard.length; j++)
+			if (this.surfaces[i].id === this.gameBoard[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.chess.length; j++)
+			if (this.surfaces[i].id === this.chess[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+	}
 
 
 
-                for (var i = 0; i < this.chess.length; i++) {
-                    for (var j = i + 1; j < this.chess.length; j++)
-                        if (this.chess[i].id === this.chess[j].id)
-                            return 'Found multiple primitives with the same id: ' + this.chess[i].id;
-                    for (var j = 0; j < this.rect.length; j++)
-                        if (this.chess[i].id === this.rect[j].id)
-                            return 'Found multiple primitives with the same id: ' + this.chess[i].id;
-                    for (var j = 0; j < this.tri.length; j++)
-                        if (this.chess[i].id === this.tri[j].id)
-                            return 'Found multiple primitives with the same id: ' + this.chess[i].id;
-                    for (var j = 0; j < this.cyl.length; j++)
-                        if (this.chess[i].id === this.cyl[j].id)
-                            return 'Found multiple primitives with the same id: ' + this.chess[i].id;
-                    for (var j = 0; j < this.sph.length; j++)
-                        if (this.chess[i].id === this.sph[j].id)
-                            return 'Found multiple primitives with the same id: ' + this.chess[i].id;
-                    for (var j = 0; j < this.tor.length; j++)
-                        if (this.chess[i].id === this.tor[j].id)
-                          return 'Found multiple primitives with the same id: ' + this.chess[i].id;
-                    for (var j = 0; j < this.plane.length; j++)
-                        if (this.chess[i].id === this.plane[j].id)
-                            return 'Found multiple primitives with the same id: ' + this.chess[i].id;
-                    for (var j = 0; j < this.veheicle.length; j++)
-                        if (this.chess[i].id === this.veheicle[j].id)
-                              return 'Found multiple primitives with the same id: ' + this.chess[i].id;
-										for (var j = 0; j < this.gameBoard.length; j++)
-												if (this.chess[i].id === this.gameBoard[j].id)
-															return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
-                    for (var j = 0; j < this.surfaces.length; j++)
-                        if (this.chess[i].id === this.surfaces[j].id)
-                              return 'Found multiple primitives with the same id: ' + this.chess[i].id;
-                }
+	for (var i = 0; i < this.surfaces.length; i++) {
+		for (var j = i + 1; j < this.surfaces.length; j++)
+			if (this.surfaces[i].id === this.surfaces[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.rect.length; j++)
+			if (this.surfaces[i].id === this.rect[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.tri.length; j++)
+			if (this.surfaces[i].id === this.tri[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.cyl.length; j++)
+			if (this.surfaces[i].id === this.cyl[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.sph.length; j++)
+			if (this.surfaces[i].id === this.sph[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.tor.length; j++)
+			if (this.surfaces[i].id === this.tor[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.plane.length; j++)
+			if (this.surfaces[i].id === this.plane[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.veheicle.length; j++)
+			if (this.surfaces[i].id === this.veheicle[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.gameBoard.length; j++)
+			if (this.surfaces[i].id === this.gameBoard[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.chess.length; j++)
+			if (this.surfaces[i].id === this.chess[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+	}
 
 
 
-    return null;
+	for (var i = 0; i < this.chess.length; i++) {
+		for (var j = i + 1; j < this.chess.length; j++)
+			if (this.chess[i].id === this.chess[j].id)
+				return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+		for (var j = 0; j < this.rect.length; j++)
+			if (this.chess[i].id === this.rect[j].id)
+				return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+		for (var j = 0; j < this.tri.length; j++)
+			if (this.chess[i].id === this.tri[j].id)
+				return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+		for (var j = 0; j < this.cyl.length; j++)
+			if (this.chess[i].id === this.cyl[j].id)
+				return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+		for (var j = 0; j < this.sph.length; j++)
+			if (this.chess[i].id === this.sph[j].id)
+				return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+		for (var j = 0; j < this.tor.length; j++)
+			if (this.chess[i].id === this.tor[j].id)
+				return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+		for (var j = 0; j < this.plane.length; j++)
+			if (this.chess[i].id === this.plane[j].id)
+				return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+		for (var j = 0; j < this.veheicle.length; j++)
+			if (this.chess[i].id === this.veheicle[j].id)
+				return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+		for (var j = 0; j < this.gameBoard.length; j++)
+			if (this.chess[i].id === this.gameBoard[j].id)
+				return 'Found multiple primitives with the same id: ' + this.surfaces[i].id;
+		for (var j = 0; j < this.surfaces.length; j++)
+			if (this.chess[i].id === this.surfaces[j].id)
+				return 'Found multiple primitives with the same id: ' + this.chess[i].id;
+	}
+
+
+
+	return null;
 };
 
 /**
  * Outputs every attr to the console
  */
 xmlPrimitives.prototype.consoleDebug = function() {
-    console.log("--- START PRIMITIVES DEBUGGING ---");
-    console.log("Rect[" + this.rect.length + "]:");
-    for (var i = 0; i < this.rect.length; i++) {
-        this.rect[i].consoleDebug();
-    }
-    console.log("Tri[" + this.tri.length + "]:");
-    for (var i = 0; i < this.tri.length; i++) {
-        this.tri[i].consoleDebug();
-    }
-    console.log("Cyl[" + this.cyl.length + "]:");
-    for (var i = 0; i < this.cyl.length; i++) {
-        this.cyl[i].consoleDebug();
-    }
-    console.log("Sph[" + this.sph.length + "]:");
-    for (var i = 0; i < this.sph.length; i++) {
-        this.sph[i].consoleDebug();
-    }
-    console.log("Tor[" + this.tor.length + "]:");
-    for (var i = 0; i < this.tor.length; i++) {
-        this.tor[i].consoleDebug();
-    }
-		console.log("GameBoard[" + this.gameBoard.length + "]:");
-    for (var i = 0; i < this.gameBoard.length; i++) {
-        this.gameBoard[i].consoleDebug();
-    }
-    console.log("--- FINISH PRIMITIVES DEBUGGING ---");
+	console.log("--- START PRIMITIVES DEBUGGING ---");
+	console.log("Rect[" + this.rect.length + "]:");
+	for (var i = 0; i < this.rect.length; i++) {
+		this.rect[i].consoleDebug();
+	}
+	console.log("Tri[" + this.tri.length + "]:");
+	for (var i = 0; i < this.tri.length; i++) {
+		this.tri[i].consoleDebug();
+	}
+	console.log("Cyl[" + this.cyl.length + "]:");
+	for (var i = 0; i < this.cyl.length; i++) {
+		this.cyl[i].consoleDebug();
+	}
+	console.log("Sph[" + this.sph.length + "]:");
+	for (var i = 0; i < this.sph.length; i++) {
+		this.sph[i].consoleDebug();
+	}
+	console.log("Tor[" + this.tor.length + "]:");
+	for (var i = 0; i < this.tor.length; i++) {
+		this.tor[i].consoleDebug();
+	}
+	console.log("GameBoard[" + this.gameBoard.length + "]:");
+	for (var i = 0; i < this.gameBoard.length; i++) {
+		this.gameBoard[i].consoleDebug();
+	}
+	console.log("--- FINISH PRIMITIVES DEBUGGING ---");
 };
 
 /**
@@ -290,14 +290,14 @@ xmlPrimitives.prototype.consoleDebug = function() {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findRectById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.rect.length; i++) {
-        //match id
-        if (this.rect[i].id === id) {
-            return this.rect[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.rect.length; i++) {
+		//match id
+		if (this.rect[i].id === id) {
+			return this.rect[i];
+		}
+	}
+	return false;
 }
 
 /**
@@ -306,14 +306,14 @@ xmlPrimitives.prototype.findRectById = function(id) {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findTriById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.tri.length; i++) {
-        //match id
-        if (this.tri[i].id === id) {
-            return this.tri[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.tri.length; i++) {
+		//match id
+		if (this.tri[i].id === id) {
+			return this.tri[i];
+		}
+	}
+	return false;
 }
 
 /**
@@ -322,14 +322,14 @@ xmlPrimitives.prototype.findTriById = function(id) {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findCylById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.cyl.length; i++) {
-        //match id
-        if (this.cyl[i].id === id) {
-            return this.cyl[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.cyl.length; i++) {
+		//match id
+		if (this.cyl[i].id === id) {
+			return this.cyl[i];
+		}
+	}
+	return false;
 }
 
 /**
@@ -338,14 +338,14 @@ xmlPrimitives.prototype.findCylById = function(id) {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findSphById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.sph.length; i++) {
-        //match id
-        if (this.sph[i].id === id) {
-            return this.sph[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.sph.length; i++) {
+		//match id
+		if (this.sph[i].id === id) {
+			return this.sph[i];
+		}
+	}
+	return false;
 }
 
 /**
@@ -354,14 +354,14 @@ xmlPrimitives.prototype.findSphById = function(id) {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findTorById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.tor.length; i++) {
-        //match id
-        if (this.tor[i].id === id) {
-            return this.tor[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.tor.length; i++) {
+		//match id
+		if (this.tor[i].id === id) {
+			return this.tor[i];
+		}
+	}
+	return false;
 }
 
 /**
@@ -370,14 +370,14 @@ xmlPrimitives.prototype.findTorById = function(id) {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findPlaneById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.plane.length; i++) {
-        //match id
-        if (this.plane[i].id === id) {
-            return this.plane[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.plane.length; i++) {
+		//match id
+		if (this.plane[i].id === id) {
+			return this.plane[i];
+		}
+	}
+	return false;
 }
 
 /**
@@ -386,14 +386,14 @@ xmlPrimitives.prototype.findPlaneById = function(id) {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findPatchById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.surfaces.length; i++) {
-        //match id
-        if (this.surfaces[i].id === id) {
-            return this.surfaces[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.surfaces.length; i++) {
+		//match id
+		if (this.surfaces[i].id === id) {
+			return this.surfaces[i];
+		}
+	}
+	return false;
 }
 
 /**
@@ -402,14 +402,14 @@ xmlPrimitives.prototype.findPatchById = function(id) {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findVehicleById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.veheicle.length; i++) {
-        //match id
-        if (this.veheicle[i].id === id) {
-            return this.veheicle[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.veheicle.length; i++) {
+		//match id
+		if (this.veheicle[i].id === id) {
+			return this.veheicle[i];
+		}
+	}
+	return false;
 }
 
 /**
@@ -418,14 +418,14 @@ xmlPrimitives.prototype.findVehicleById = function(id) {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findGameBoardById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.gameBoard.length; i++) {
-        //match id
-        if (this.gameBoard[i].id === id) {
-            return this.gameBoard[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.gameBoard.length; i++) {
+		//match id
+		if (this.gameBoard[i].id === id) {
+			return this.gameBoard[i];
+		}
+	}
+	return false;
 }
 
 /**
@@ -434,130 +434,130 @@ xmlPrimitives.prototype.findGameBoardById = function(id) {
  * @return Matched element. False otherwise
  */
 xmlPrimitives.prototype.findChessById = function(id) {
-    //percorrer o array
-    for (var i = 0; i < this.chess.length; i++) {
-        //match id
-        if (this.chess[i].id === id) {
-            return this.chess[i];
-        }
-    }
-    return false;
+	//percorrer o array
+	for (var i = 0; i < this.chess.length; i++) {
+		//match id
+		if (this.chess[i].id === id) {
+			return this.chess[i];
+		}
+	}
+	return false;
 }
 
 xmlPrimitives.prototype.findById = function(id) {
-    var found = this.findRectById(id);
-    if (false == found)
-        found = this.findTriById(id);
-    if (false == found)
-        found = this.findCylById(id);
-    if (false == found)
-        found = this.findSphById(id);
-    if (false == found)
-        found = this.findTorById(id);
-    if (false == found)
-        found = this.findPlaneById(id);
-    if (false == found)
-        found = this.findPatchById(id);
-    if (false == found)
-        found = this.findVehicleById(id);
-		if (false === found) {
-				found = this.findGameBoardById(id);
-		}
-    if (false == found)
-        found = this.findChessById(id);
-    return found;
+	var found = this.findRectById(id);
+	if (false == found)
+		found = this.findTriById(id);
+	if (false == found)
+		found = this.findCylById(id);
+	if (false == found)
+		found = this.findSphById(id);
+	if (false == found)
+		found = this.findTorById(id);
+	if (false == found)
+		found = this.findPlaneById(id);
+	if (false == found)
+		found = this.findPatchById(id);
+	if (false == found)
+		found = this.findVehicleById(id);
+	if (false === found) {
+		found = this.findGameBoardById(id);
+	}
+	if (false == found)
+		found = this.findChessById(id);
+	return found;
 }
 
 xmlPrimitives.prototype.display = function(scene, texture) {
-    var n = this.rect.length;
+	var n = this.rect.length;
 
-    var xml;
-    for (var i = 0; i < n; i++) {
+	var xml;
+	for (var i = 0; i < n; i++) {
 
-        //create rect
-        xml = this.rect[i];
-        var rec = new Rectangle(scene, xml.point1, xml.point2);
-        rec.setTexturaRatio(texture.length_s, texture.length_t);
-        rec.display(scene);
-        //display rect
-    }
+		//create rect
+		xml = this.rect[i];
+		var rec = new Rectangle(scene, xml.point1, xml.point2);
+		rec.setTexturaRatio(texture.length_s, texture.length_t);
+		rec.display(scene);
+		//display rect
+	}
 
-    n = this.tri.length;
+	n = this.tri.length;
 
-    for (var i = 0; i < n; i++) {
-        //create
-        xml = this.tri[i];
-        var tri = new Triangle(scene, xml.point1, xml.point2, xml.point3);
-        tri.setTexturaRatio(texture.length_s, texture.length_t);
-        //display
-        tri.display(scene);
-    }
+	for (var i = 0; i < n; i++) {
+		//create
+		xml = this.tri[i];
+		var tri = new Triangle(scene, xml.point1, xml.point2, xml.point3);
+		tri.setTexturaRatio(texture.length_s, texture.length_t);
+		//display
+		tri.display(scene);
+	}
 
-    n = this.cyl.length;
+	n = this.cyl.length;
 
-    for (var i = 0; i < n; i++) {
-        //create
-        xml = this.cyl[i];
+	for (var i = 0; i < n; i++) {
+		//create
+		xml = this.cyl[i];
 
-        var cyl = new Cylinder(scene, xml.slices, xml.stacks, xml.base, xml.top, xml.height);
-        //display
-        cyl.display(scene);
-    }
-
-
-    n = this.sph.length;
-
-    for (var i = 0; i < n; i++) {
-        //create
-        xml = this.sph[i];
-
-        var sph = new Sphere(scene, xml.slices, xml.stacks, xml.radius);
-        //display
-        sph.display(scene);
-    }
+		var cyl = new Cylinder(scene, xml.slices, xml.stacks, xml.base, xml.top, xml.height);
+		//display
+		cyl.display(scene);
+	}
 
 
-    n = this.tor.length;
+	n = this.sph.length;
 
-    for (var i = 0; i < n; i++) {
-        //create(scene, inner, outer, slices, loops)
-        xml = this.tor[i];
-        var tor = new Torus(scene, xml.inner, xml.outer, xml.slices, xml.loops);
-        //display
-        tor.display(scene);
-    }
+	for (var i = 0; i < n; i++) {
+		//create
+		xml = this.sph[i];
 
-   n = this.plane.length;
-
-   for(var i = 0; i < n; i ++) {
-       xml = this.plane[i];
-       var plane = new Plane(scene, xml.dimX, xml.dimY, xml.partsX , xml.partsY);
-       plane.display();
-   }
-
-   n = this.surfaces.length;
-
-   for(var i = 0; i < n; i ++) {
-       xml = this.surfaces[i];
-       var surface = new Patch(scene, xml.orderU,xml.orderV, xml.partsU, xml.partsV, xml.controlPoints);
-       surfaces.display();
-   }
-
-   n = this.chess.length;
-   for(var i = 0; i < n; i ++) {
-      this.chess[i].chessboard.display();
-   }
+		var sph = new Sphere(scene, xml.slices, xml.stacks, xml.radius);
+		//display
+		sph.display(scene);
+	}
 
 
-   n = this.veheicle.length;
-   for(var i = 0; i < n; i ++) {
-      this.veheicle[i].veheicle.display();
-   }
-	 
-	 n = this.gameBoard.length;
-   for(var i = 0; i < n; i ++) {
-      this.gameBoard[i].gameBoard.display();
-   }
+	n = this.tor.length;
+
+	for (var i = 0; i < n; i++) {
+		//create(scene, inner, outer, slices, loops)
+		xml = this.tor[i];
+		var tor = new Torus(scene, xml.inner, xml.outer, xml.slices, xml.loops);
+		//display
+		tor.display(scene);
+	}
+
+	n = this.plane.length;
+
+	for (var i = 0; i < n; i++) {
+		xml = this.plane[i];
+		var plane = new Plane(scene, xml.dimX, xml.dimY, xml.partsX, xml.partsY);
+		plane.display();
+	}
+
+	n = this.surfaces.length;
+
+	for (var i = 0; i < n; i++) {
+		xml = this.surfaces[i];
+		var surface = new Patch(scene, xml.orderU, xml.orderV, xml.partsU, xml.partsV, xml.controlPoints);
+		surfaces.display();
+	}
+
+	n = this.chess.length;
+	for (var i = 0; i < n; i++) {
+		this.chess[i].chessboard.display();
+	}
+
+
+	n = this.veheicle.length;
+	for (var i = 0; i < n; i++) {
+		this.veheicle[i].veheicle.display();
+	}
+
+	n = this.gameBoard.length;
+	for (var i = 0; i < n; i++) {
+		this.gameBoard[i].gameBoard.display();
+	}
 }
 
 /**
@@ -567,29 +567,29 @@ xmlPrimitives.prototype.display = function(scene, texture) {
  * @param poin2 Array of 2 coordinates x, y
  */
 function xmlRectangle(id, point1, point2) {
-    this.id = id;
-    this.point1 = point1.slice(0);
-    this.point2 = point2.slice(0);
+	this.id = id;
+	this.point1 = point1.slice(0);
+	this.point2 = point2.slice(0);
 };
 
 /**
  * Outputs every attr to the console
  */
 xmlRectangle.prototype.consoleDebug = function() {
-    console.log("--- START RECTANGLE DEBUGGING ---");
-    console.log("Id: " + this.id);
-    var ss; //string variable that helps avoiding the console.log newline
-    ss = "Point1[" + this.point1.length + "]:";
-    for (var i = 0; i < this.point1.length; i++) {
-        ss += " " + this.point1[i];
-    }
-    console.log(ss);
-    ss = "Point2[" + this.point2.length + "]:";
-    for (var i = 0; i < this.point2.length; i++) {
-        ss += " " + this.point2[i];
-    }
-    console.log(ss);
-    console.log("--- FINISH RECTANGLE DEBUGGING ---");
+	console.log("--- START RECTANGLE DEBUGGING ---");
+	console.log("Id: " + this.id);
+	var ss; //string variable that helps avoiding the console.log newline
+	ss = "Point1[" + this.point1.length + "]:";
+	for (var i = 0; i < this.point1.length; i++) {
+		ss += " " + this.point1[i];
+	}
+	console.log(ss);
+	ss = "Point2[" + this.point2.length + "]:";
+	for (var i = 0; i < this.point2.length; i++) {
+		ss += " " + this.point2[i];
+	}
+	console.log(ss);
+	console.log("--- FINISH RECTANGLE DEBUGGING ---");
 };
 
 /**
@@ -600,35 +600,35 @@ xmlRectangle.prototype.consoleDebug = function() {
  * @param poin3 Array of 3 coordinates x, y, z
  */
 function xmlTriangle(id, point1, point2, point3) {
-    this.id = id;
-    this.point1 = point1.slice(0);
-    this.point2 = point2.slice(0);
-    this.point3 = point3.slice(0);
+	this.id = id;
+	this.point1 = point1.slice(0);
+	this.point2 = point2.slice(0);
+	this.point3 = point3.slice(0);
 };
 
 /**
  * Outputs every attr to the console
  */
 xmlTriangle.prototype.consoleDebug = function() {
-    console.log("--- START TRIANGLE DEBUGGING ---");
-    console.log("Id: " + this.id);
-    var ss; //string variable that helps avoiding the console.log newline
-    ss = "Point1[" + this.point1.length + "]:";
-    for (var i = 0; i < this.point1.length; i++) {
-        ss += " " + this.point1[i];
-    }
-    console.log(ss);
-    ss = "Point2[" + this.point2.length + "]:";
-    for (var i = 0; i < this.point2.length; i++) {
-        ss += " " + this.point2[i];
-    }
-    console.log(ss);
-    ss = "Point3[" + this.point3.length + "]:";
-    for (var i = 0; i < this.point3.length; i++) {
-        ss += " " + this.point3[i];
-    }
-    console.log(ss);
-    console.log("--- FINISH TRIANGLE DEBUGGING ---");
+	console.log("--- START TRIANGLE DEBUGGING ---");
+	console.log("Id: " + this.id);
+	var ss; //string variable that helps avoiding the console.log newline
+	ss = "Point1[" + this.point1.length + "]:";
+	for (var i = 0; i < this.point1.length; i++) {
+		ss += " " + this.point1[i];
+	}
+	console.log(ss);
+	ss = "Point2[" + this.point2.length + "]:";
+	for (var i = 0; i < this.point2.length; i++) {
+		ss += " " + this.point2[i];
+	}
+	console.log(ss);
+	ss = "Point3[" + this.point3.length + "]:";
+	for (var i = 0; i < this.point3.length; i++) {
+		ss += " " + this.point3[i];
+	}
+	console.log(ss);
+	console.log("--- FINISH TRIANGLE DEBUGGING ---");
 };
 
 /**
@@ -641,26 +641,26 @@ xmlTriangle.prototype.consoleDebug = function() {
  * @param stacks
  */
 function xmlCylinder(id, base, top, height, slices, stacks) {
-    this.id = id;
-    this.base = base;
-    this.top = top;
-    this.height = height;
-    this.slices = slices;
-    this.stacks = stacks;
+	this.id = id;
+	this.base = base;
+	this.top = top;
+	this.height = height;
+	this.slices = slices;
+	this.stacks = stacks;
 };
 
 /**
  * Outputs every attr to the console
  */
 xmlCylinder.prototype.consoleDebug = function() {
-    console.log("--- START CYLINDER DEBUGGING ---");
-    console.log("Id: " + this.id);
-    console.log("Base: " + this.base);
-    console.log("Top: " + this.top);
-    console.log("Height: " + this.height);
-    console.log("Slices: " + this.slices);
-    console.log("Stacks: " + this.stacks);
-    console.log("--- FINISH CYLINDER DEBUGGING ---");
+	console.log("--- START CYLINDER DEBUGGING ---");
+	console.log("Id: " + this.id);
+	console.log("Base: " + this.base);
+	console.log("Top: " + this.top);
+	console.log("Height: " + this.height);
+	console.log("Slices: " + this.slices);
+	console.log("Stacks: " + this.stacks);
+	console.log("--- FINISH CYLINDER DEBUGGING ---");
 };
 
 /**
@@ -671,22 +671,22 @@ xmlCylinder.prototype.consoleDebug = function() {
  * @param stacks
  */
 function xmlSphere(id, radius, slices, stacks) {
-    this.id = id;
-    this.radius = radius;
-    this.slices = slices;
-    this.stacks = stacks;
+	this.id = id;
+	this.radius = radius;
+	this.slices = slices;
+	this.stacks = stacks;
 };
 
 /**
  * Outputs every attr to the console
  */
 xmlSphere.prototype.consoleDebug = function() {
-    console.log("--- START SPHERE DEBUGGING ---");
-    console.log("Id: " + this.id);
-    console.log("Radius: " + this.radius);
-    console.log("Slices: " + this.slices);
-    console.log("Stacks: " + this.stacks);
-    console.log("--- FINISH SPHERE DEBUGGING ---");
+	console.log("--- START SPHERE DEBUGGING ---");
+	console.log("Id: " + this.id);
+	console.log("Radius: " + this.radius);
+	console.log("Slices: " + this.slices);
+	console.log("Stacks: " + this.stacks);
+	console.log("--- FINISH SPHERE DEBUGGING ---");
 };
 
 /**
@@ -698,24 +698,24 @@ xmlSphere.prototype.consoleDebug = function() {
  * @param loops
  */
 function xmlTorus(id, inner, outer, slices, loops) {
-    this.id = id;
-    this.inner = inner;
-    this.outer = outer;
-    this.slices = slices;
-    this.loops = loops;
+	this.id = id;
+	this.inner = inner;
+	this.outer = outer;
+	this.slices = slices;
+	this.loops = loops;
 };
 
 /**
  * Outputs every attr to the console
  */
 xmlTorus.prototype.consoleDebug = function() {
-    console.log("--- START TORUS DEBUGGING ---");
-    console.log("Id: " + this.id);
-    console.log("Inner: " + this.inner);
-    console.log("Outer: " + this.outer);
-    console.log("Slices: " + this.slices);
-    console.log("Loops: " + this.loops);
-    console.log("--- FINISH TORUS DEBUGGING ---");
+	console.log("--- START TORUS DEBUGGING ---");
+	console.log("Id: " + this.id);
+	console.log("Inner: " + this.inner);
+	console.log("Outer: " + this.outer);
+	console.log("Slices: " + this.slices);
+	console.log("Loops: " + this.loops);
+	console.log("--- FINISH TORUS DEBUGGING ---");
 };
 /**
  * Class that represents a patch primitive
@@ -727,13 +727,13 @@ xmlTorus.prototype.consoleDebug = function() {
  * @param controlPoints
  */
 
-function xmlPatch(id,orderU,orderV,partsU,partsV, controlPoints){
-  this.id = id;
-  this.orderU = orderU;
-  this.orderV = orderV;
-  this.partsU = partsU;
-  this.partsV = partsV;
-  this.controlPoints = controlPoints;
+function xmlPatch(id, orderU, orderV, partsU, partsV, controlPoints) {
+	this.id = id;
+	this.orderU = orderU;
+	this.orderV = orderV;
+	this.partsU = partsU;
+	this.partsV = partsV;
+	this.controlPoints = controlPoints;
 }
 
 /**
@@ -744,12 +744,12 @@ function xmlPatch(id,orderU,orderV,partsU,partsV, controlPoints){
  * @param partsX
  * @param partsY
  */
-function xmlPlane(id, dimX,dimY,partsX,partsY){
-  this.id = id;
-  this.dimX = dimX;
-  this.dimY = dimY;
-  this.partsX = partsX;
-  this.partsY = partsY;
+function xmlPlane(id, dimX, dimY, partsX, partsY) {
+	this.id = id;
+	this.dimX = dimX;
+	this.dimY = dimY;
+	this.partsX = partsX;
+	this.partsY = partsY;
 }
 
 /**
@@ -757,9 +757,9 @@ function xmlPlane(id, dimX,dimY,partsX,partsY){
  * @param id ID
  * @param scene
  */
-function xmlVehicle(id,scene){
-  this.id = id;
-  this.veheicle = new Vehicle(scene);
+function xmlVehicle(id, scene) {
+	this.id = id;
+	this.veheicle = new Vehicle(scene);
 }
 
 /**
@@ -767,18 +767,18 @@ function xmlVehicle(id,scene){
  * @param id ID
  * @param scene
  */
-function xmlGameBoard(id,scene){
-  this.id = id;
-  this.gameBoard = new GameBoard(scene);
+function xmlGameBoard(id, scene) {
+	this.id = id;
+	this.gameBoard = new GameBoard(scene);
 }
 
 /**
  * Outputs every attr to the console
  */
 xmlGameBoard.prototype.consoleDebug = function() {
-    console.log("--- START GAMEBOARD DEBUGGING ---");
-    console.log("Id: " + this.id);
-    console.log("--- FINISH GAMEBOARD DEBUGGING ---");
+	console.log("--- START GAMEBOARD DEBUGGING ---");
+	console.log("Id: " + this.id);
+	console.log("--- FINISH GAMEBOARD DEBUGGING ---");
 };
 
 
@@ -790,8 +790,7 @@ xmlGameBoard.prototype.consoleDebug = function() {
  * @param partsX
  * @param partsY
  */
-function xmlChess(id,scene,divU,divV,textureref, sU, sV, color1, color2, color3)
-{
-  this.id = id;
-  this.chessboard = new Chessboard(scene,divU, divV, textureref, sU, sV, color1, color2, color3);
+function xmlChess(id, scene, divU, divV, textureref, sU, sV, color1, color2, color3) {
+	this.id = id;
+	this.chessboard = new Chessboard(scene, divU, divV, textureref, sU, sV, color1, color2, color3);
 }
