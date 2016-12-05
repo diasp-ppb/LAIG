@@ -1,5 +1,5 @@
 <dsx>
-    <scene root="base" axis_length="20.0"/>
+    <scene root="gameBoardTest" axis_length="20.0"/>
 
     <views default="cam0">
         <perspective id="cam0" near="0.1" far="500" angle="57">
@@ -141,9 +141,11 @@
 
         </primitive>
 
-        <primitive id="teste123485">
-            <gameBoard/>
-        </primitive>
+
+
+                <primitive id="teste123485">
+                    <gameBoard/>
+                </primitive>
 
         <primitive id="guapa2">
             <chessboard du="8" dv="8" textureref="metal" su="5" sv="5">
