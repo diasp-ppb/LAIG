@@ -34,6 +34,8 @@ function MySceneGraph(filename, scene) {
 	this.animations = null;
 	//Storage for primitives
 	this.primitives = null;
+	//Storage for perspective animations
+	this.perspAnimations = null;
 	//Storage for graph root (which is a component)
 	this.graphRoot = null;
 }
@@ -123,7 +125,7 @@ MySceneGraph.prototype.onXMLReady = function() {
   this.animations.consoleDebug();
 	this.primitives.consoleDebug();
 	this.graphRoot.consoleDebug();*/
-	this.graphRoot.consoleDebug();
+	this.perspAnimations.consoleDebug();
 
 	this.loadedOk = true;
 
@@ -523,6 +525,10 @@ MySceneGraph.prototype.parserAnimations = function(rootElement) {
 	}
 	//declare array to store animations
 	var arrayAnimations = [];
+	// declare array to store persp animations
+	var arrayPerspAnimations = [];
+	// declare aux array for pers animations
+	var arrayPerspAnimationsInfo = [];
 	//'animations' tag
 	var animations = elems[0];
 	//how many 'animation' tags there are
@@ -579,11 +585,44 @@ MySceneGraph.prototype.parserAnimations = function(rootElement) {
 			var circularAnim = new xmlCircularAnim(animId, animSpan, animType, animCenterPoint, animRadius, animStartang, animRotang);
 			//store it in the array
 			arrayAnimations.push(circularAnim);
+		}
+		// if perspective animation
+		else if (animType === 'perspective') {
+			// extract clock
+			var clock = this.reader.getBoolean(anim, 'clock', 1);
+			// how many perspectiverefs there are (needs to be 2!)
+			var nPerspectiveRef = anim.children.length;
+			if (nPerspectiveRef !== 2) {
+				return "there needs to be exactly 2 perspective references in a perspective animation!";
+			}
+			// declare array to store perspectives
+			var arrayPersp = [];
+			// go through all persp references
+			for (var j = 0; j < nPerspectiveRef; j++) {
+				// get perspective ref tag
+				var perspRefTag = anim.children[j];
+				// get perspective id
+				var perspId = this.reader.getString(perspRefTag, 'id', 1);
+				// find by id
+				var persp = this.views.findById(perspId);
+				// check valid id
+				if (persp === false) {
+					return "Wrong perspectiveref " + perspId + " in animation " + animId;
+				}
+				// store perspective in array
+				// TODO only works with 1 perspectiveAnimations declares. There shouldnt be a need for more anyway
+				arrayPerspAnimations.push(persp);
+				arrayPerspAnimationsInfo.push(animId);
+				arrayPerspAnimationsInfo.push(animSpan);
+				arrayPerspAnimationsInfo.push(animType);
+				arrayPerspAnimationsInfo.push(clock);
+			}
 		} else {
 			return "invalid animation type";
 		}
 	}
 	this.animations = new xmlAnimations(arrayAnimations);
+	this.perspAnimations = new perspectiveAnimation(arrayPerspAnimationsInfo[0], arrayPerspAnimationsInfo[1], arrayPerspAnimationsInfo[2], arrayPerspAnimationsInfo[3], arrayPerspAnimations[0], arrayPerspAnimations[1]);
 	return this.animations.checkDoubleId();
 }
 
@@ -1181,7 +1220,7 @@ MySceneGraph.prototype.onXMLError = function(message) {
  * @param scene Scene
  */
 MySceneGraph.prototype.display = function(scene) {
-
+	this.perspAnimations.apply(scene);
 	this.graphRoot.display(scene, "none", "none");
 };
 

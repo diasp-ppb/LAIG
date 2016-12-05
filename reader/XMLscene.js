@@ -122,9 +122,10 @@ XMLscene.prototype.setCamera = function(perspective) {
 	this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far,
 		vec3.fromValues(perspective.from[0], perspective.from[1], perspective.from[2]),
 		vec3.fromValues(perspective.to[0], perspective.to[1], perspective.to[2]));
-	//TODO DUVIDA se é target ou se é o vector director
+		
 	this.interface.setActiveCamera(this.camera);
 };
+
 XMLscene.prototype.setDefaultAxis = function() {
 	this.axis = new CGFaxis(this, this.graph.xmlSceneTag.axis_length);
 };

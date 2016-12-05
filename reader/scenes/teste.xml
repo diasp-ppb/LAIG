@@ -101,6 +101,10 @@
             <controlpoint xx="0" yy="0" zz="0"/>
             <controlpoint xx="20" yy="0" zz="0"/>
         </animation>
+        <animation id="olaaa" span="5" type="perspective" clock="1">
+          <perspectiveref id="cam0"/>
+          <perspectiveref id="cam1"/>
+        </animation>
     </animations>
 
     <primitives>

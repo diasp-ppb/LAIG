@@ -119,7 +119,10 @@
 
     <animation id="ss" span="ff" type="circular" centerx="ff" centery="ff" centerz="ff" radius="ff" startang="ff" rotang="ff"/>
 
-    <!-- animacao para transicao entre dois pontos de vista -->
+    <!-- animacao para transicao entre dois (e apenas dois!) pontos de vista -->
+    <!-- idealmente, ambas as perspective estao a mesma distancia do tabuleiro e estao no mesmo plano Oxz -->
+    <!-- aka, o tabuleiro esta no centro. Alem disso, convem ambas estarem a olhar para o tabuleiro -->
+    <!-- se as perspectives nao seguirem essas regras, serao aplicados os valores da pesperctive 1 -->
     <!-- span - duracao em segundos da animacao -->
     <!-- clock - TRUE if animation is clock-wise, FALSE otherwise -->
     <animation id="ss" span="ff" type="perspective" clock="tt">
