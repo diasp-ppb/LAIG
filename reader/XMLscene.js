@@ -41,6 +41,8 @@ XMLscene.prototype.init = function(application) {
 
 	this.setUpdatePeriod(17);
 
+	this.setPickEnabled(true);
+
 };
 
 XMLscene.prototype.initLights = function() {
@@ -76,6 +78,10 @@ XMLscene.prototype.onGraphLoaded = function() {
 
 XMLscene.prototype.display = function() {
 
+	this.logPicking();
+	this.clearPickRegistration();
+
+
 	// Clear image and depth buffer everytime we update the scene
 	this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 	this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -97,6 +103,9 @@ XMLscene.prototype.display = function() {
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
+
+
+
 	if (this.graph.loadedOk) {
 		for (var i = 0; i < this.lightCount; i++) {
 			if (this.lightsStatus[i])
@@ -205,3 +214,21 @@ XMLscene.prototype.setDefaultIllumination = function() {
 		this.interface.addLights(this.graph.lights.spot[i].id, this.lightCount);
 	}
 };
+
+
+XMLscene.prototype.logPicking = function ()
+{
+	if (this.pickMode == false) {
+		if (this.pickResults != null && this.pickResults.length > 0) {
+			for (var i=0; i< this.pickResults.length; i++) {
+				var obj = this.pickResults[i][0];
+				if (obj)
+				{
+					var customId = this.pickResults[i][1];				
+					console.log("Picked object: " + obj + ", with pick id " + customId);
+				}
+			}
+			this.pickResults.splice(0,this.pickResults.length);
+		}		
+	}
+}
