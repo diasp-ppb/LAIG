@@ -479,6 +479,8 @@ function xmlCircularAnim(id, span, type, centerPoint, radius, startang, rotang) 
 
 	// set angle in radians
 	this.angle = this.circle.getAngle(this.position);
+
+	this.done = false;
 }
 xmlCircularAnim.prototype = Object.create(xmlAnim.prototype);
 
@@ -505,6 +507,9 @@ xmlCircularAnim.prototype.update = function(currTime) {
 		// set new angle
 		this.angle = this.circle.getAngle(this.position);
 		// if overtime >= 0 means animation is over
+		if (overtime >= 0) {
+			this.done = true;
+		}
 		return overtime;
 	}
 };

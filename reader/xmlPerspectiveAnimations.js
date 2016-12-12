@@ -14,15 +14,16 @@ function perspectiveAnimation(id, span, type, clock, persp1, persp2) {
 	this.clock = clock;
 	this.persp1 = persp1;
 	this.persp2 = persp2;
+	this.currPersp = persp1.clone();
 
-  // current angle and rotationa angle (in radians!)
-  this.currang = 0;
+	// current angle and rotationa angle (in degree!)
+	this.startang = -1 * Math.atan2(this.persp1.from[2], this.persp1.from[0]) * 180 / Math.PI;
 
-  if (clock === false) {
-    this.rotang = Math.PI;
-  } else {
-    this.rotang = -1 * Math.PI;
-  }
+	if (clock === false) {
+		this.rotang = 180;
+	} else {
+		this.rotang = -180;
+	}
 
 	// distance between the perspectives
 	// d = sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
@@ -37,12 +38,14 @@ function perspectiveAnimation(id, span, type, clock, persp1, persp2) {
 	// animation center
 	// midpoint = [(x1 + x2) / 2 , (y1 + y2) / 2, (z1 + z2) / 2]
 	var center = [(this.persp1.from[0] + this.persp2.from[0]) / 2,
-		(this.persp1.from[1] - this.persp2.from[1]) / 2,
-		(this.persp1.from[2] - this.persp2.from[2]) / 2
+		(this.persp1.from[1] + this.persp2.from[1]) / 2,
+		(this.persp1.from[2] + this.persp2.from[2]) / 2
 	];
 
+	this.center = center.slice(0);
+
 	// set animation
-	this.animation = new xmlCircularAnim(null, this.span, this.type, center, radius, this.currang, this.rotang);
+	this.animation = new xmlCircularAnim(null, this.span, this.type, center, radius, this.startang, this.rotang);
 }
 
 /**
@@ -51,7 +54,23 @@ function perspectiveAnimation(id, span, type, clock, persp1, persp2) {
  * @return TRUE if animation is over, FALSE otherwise
  */
 perspectiveAnimation.prototype.update = function(currTime) {
-	this.animation.update(currTime);
+	if (this.animation.done === false) {
+		// update animation
+		this.animation.update(currTime);
+
+		// update current perspective
+		//var perspFrom = [0, 0, 0];
+		//this.animation.getAbsolutePos(perspFrom);
+
+		var animPosition = this.animation.position.slice(0);
+		this.currPersp.from[0] = animPosition[0] + this.center[0];
+		this.currPersp.from[1] = animPosition[1] + this.center[1];
+		this.currPersp.from[2] = animPosition[2] + this.center[2];
+
+		//this.currPersp.from[0] = perspFrom[0];
+		//this.currPersp.from[1] = perspFrom[1];
+		//this.currPersp.from[2] = perspFrom[2];
+	}
 };
 
 /**
@@ -60,16 +79,8 @@ perspectiveAnimation.prototype.update = function(currTime) {
  */
 perspectiveAnimation.prototype.apply = function(scene) {
 
-	// translate
-	var perspFrom = [0, 0, 0];
-	this.animation.getAbsolutePos(perspFrom);
-
-  // set camera
-  scene.camera = new CGFcamera(this.persp1.angle, this.persp1.near, this.persp1.far,
-		vec3.fromValues(perspFrom[0], perspFrom[1], perspFrom[2]),
-		vec3.fromValues(this.persp1.to[0], this.persp1.to[1], this.persp1.to[2]));
-
-	scene.interface.setActiveCamera(scene.camera);
+	scene.allowMoveCamera = this.animation.done;
+	scene.setCamera(this.currPersp);
 };
 
 /**
@@ -81,11 +92,11 @@ perspectiveAnimation.prototype.consoleDebug = function() {
 	console.log("Span: " + this.span);
 	console.log("Type: " + this.type);
 	console.log("Clock: " + this.clock);
-  console.log("Current Angle: " + this.currang);
-  console.log("Rotation Angle: " + this.rotang);
-  console.log("Perspective 1:");
-  this.persp1.consoleDebug();
-  console.log("Perspective 2:");
-  this.persp2.consoleDebug();
+	console.log("Start Angle: " + this.startang);
+	console.log("Rotation Angle: " + this.rotang);
+	console.log("Perspective 1:");
+	this.persp1.consoleDebug();
+	console.log("Perspective 2:");
+	this.persp2.consoleDebug();
 	console.log("--- FINISH PerspectiveAnimation DEBUGGING ---");
 };

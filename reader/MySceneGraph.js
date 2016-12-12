@@ -1229,6 +1229,7 @@ MySceneGraph.prototype.display = function(scene) {
  * @param currTime The current time in milliseconds
  */
 MySceneGraph.prototype.update = function(currTime) {
+	this.perspAnimations.update(currTime);
 	this.graphRoot.update(currTime);
 };
 
