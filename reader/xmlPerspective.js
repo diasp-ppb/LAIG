@@ -18,6 +18,16 @@ function xmlPerspective(id, near, far, angle, arrayFrom, arrayTo)
 }
 
 /**
+ * Clones this Object
+ * @return Cloned Object
+ */
+xmlPerspective.prototype.clone = function() {
+  // get ang in degree
+	var ang = this.angle * (180 / Math.PI);
+	return new xmlPerspective(this.id, this.near, this.far, ang, this.from, this.to);
+};
+
+/**
 * Outputs every attr to the console
 */
 xmlPerspective.prototype.consoleDebug = function(){

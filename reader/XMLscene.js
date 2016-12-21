@@ -1,6 +1,7 @@
 function XMLscene(MyInterface) {
 	CGFscene.call(this);
 	this.interface = MyInterface;
+	this.allowMoveCamera = true;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -75,9 +76,9 @@ XMLscene.prototype.onGraphLoaded = function() {
 	this.gl.clearColor(this.graph.illumination.background[0], this.graph.illumination.background[1], this.graph.illumination.background[2], this.graph.illumination.background[3]);
 
 
-    this.setDefaultAxis();
-    this.setDefaultCamera();
-    this.setDefaultIllumination();
+	this.setDefaultAxis();
+	this.setDefaultCamera();
+	this.setDefaultIllumination();
 
 
 
@@ -141,13 +142,15 @@ XMLscene.prototype.display = function() {
  * @param perspective camera caracteristic
  */
 XMLscene.prototype.setCamera = function(perspective) {
-
-	this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far,
-		vec3.fromValues(perspective.from[0], perspective.from[1], perspective.from[2]),
-		vec3.fromValues(perspective.to[0], perspective.to[1], perspective.to[2]));
-	//TODO DUVIDA se é target ou se é o vector director
-	this.interface.setActiveCamera(this.camera);
+	if (this.allowMoveCamera === false) {
+		this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far,
+			vec3.fromValues(perspective.from[0], perspective.from[1], perspective.from[2]),
+			vec3.fromValues(perspective.to[0], perspective.to[1], perspective.to[2]));
+	} else {
+		this.interface.setActiveCamera(this.camera);
+	}
 };
+
 XMLscene.prototype.setDefaultAxis = function() {
 	this.axis = new CGFaxis(this, this.graph.xmlSceneTag.axis_length);
 };
@@ -156,12 +159,21 @@ XMLscene.prototype.setNextCamera = function() {
 	this.setCamera(this.graph.views.getNextPerspective());
 };
 
+XMLscene.prototype.playPerspectiveAnimation = function() {
+	this.graph.activatePerspAnim();
+};
+
 XMLscene.prototype.nextMaterial = function() {
 	this.graph.nextMaterial(this);
 };
 
 XMLscene.prototype.setDefaultCamera = function() {
-	this.setCamera(this.graph.views.getDefaultCamera());
+
+	var perspective = this.graph.views.getDefaultCamera();
+	this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far,
+		vec3.fromValues(perspective.from[0], perspective.from[1], perspective.from[2]),
+		vec3.fromValues(perspective.to[0], perspective.to[1], perspective.to[2]));
+	this.interface.setActiveCamera(this.camera);
 };
 /**
 Set ligth configuration readed from xml file;

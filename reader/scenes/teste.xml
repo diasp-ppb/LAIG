@@ -3,15 +3,11 @@
 
     <views default="cam0">
         <perspective id="cam0" near="0.1" far="500" angle="57">
-            <from x="5" y="5" z="0"/>
-            <to x="0" y="0" z="0"/>
-        </perspective>
-        <perspective id="cam1" near="0.1" far="500" angle="57">
             <from x="10" y="10" z="10"/>
             <to x="0" y="0" z="0"/>
         </perspective>
-        <perspective id="cam3" near="0.1" far="500" angle="57">
-            <from x="-10" y="10" z="10"/>
+        <perspective id="cam1" near="0.1" far="500" angle="57">
+            <from x="-10" y="10" z="-10"/>
             <to x="0" y="0" z="0"/>
         </perspective>
     </views>
@@ -100,6 +96,10 @@
         <animation id="ani5" span="0.6" type="linear">
             <controlpoint xx="0" yy="0" zz="0"/>
             <controlpoint xx="20" yy="0" zz="0"/>
+        </animation>
+        <animation id="olaaa" span="3" type="perspective" clock="1">
+          <perspectiveref id="cam0"/>
+          <perspectiveref id="cam1"/>
         </animation>
     </animations>
 
