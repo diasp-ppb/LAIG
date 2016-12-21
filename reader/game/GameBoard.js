@@ -4,7 +4,7 @@ function GameBoard(scene) {
     this.cells = [];
     this.createCells();
     this.pick = -1;
-    
+
 
     this.materialBase = new CGFappearance(scene);
     //set emission
@@ -48,7 +48,7 @@ GameBoard.prototype.display = function() {
 
     var n = this.cells.length;
 
-    for (i = 0; i < n; i++) {
+    for (var i = 0; i < n; i++) {
         var nn = this.cells[i].length;
         for (var t = 0; t < nn; t++) {
             this.cells[i][t].display(this.materialBase,this.materialSelected,this.pick);
@@ -68,6 +68,7 @@ GameBoard.prototype.createLine = function(x, y, numCells,id) {
     var line = [];
     for (var i = 0; i < numCells; i++) {
         hex = new GameCell(i + id, this.scene, x, y);
+        console.log(i+id);
         x += 0.177;
         line.push(hex);
     }
@@ -112,5 +113,3 @@ GameBoard.prototype.createCells = function() {
 GameBoard.prototype.updatePick = function(id){
     this.pick = id;
 }
-
-

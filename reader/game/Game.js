@@ -13,8 +13,6 @@ Game.prototype.constructor = Game;
 
 
 Game.prototype.display = function(){
-
-	
 	this.playBoard.display();	
 };
 
