@@ -31,12 +31,14 @@ Interface.prototype.init = function(application) {
 Interface.prototype.processKeyDown = function(event) {
   switch (event.keyCode) {
     case 86: { // V
-      this.scene.setNextCamera();
+      //this.scene.setNextCamera();
+      this.scene.playPerspectiveAnimation();
     }
     break;
 
     case 118: { // v
-      this.scene.setNextCamera();
+      //this.scene.setNextCamera();
+      this.scene.playPerspectiveAnimation();
     }
     break;
 

@@ -15,8 +15,11 @@ function perspectiveAnimation(id, span, type, clock, persp1, persp2) {
 	this.persp1 = persp1;
 	this.persp2 = persp2;
 	this.currPersp = persp1.clone();
+	// true - animation is playing, false - animation is not playing. It's different from done
+	this.onhold = true;
+	this.backwards = false;
 
-	// current angle and rotationa angle (in degree!)
+	// startang and rotang (in degree!)
 	this.startang = -1 * Math.atan2(this.persp1.from[2], this.persp1.from[0]) * 180 / Math.PI;
 
 	if (clock === false) {
@@ -33,7 +36,7 @@ function perspectiveAnimation(id, span, type, clock, persp1, persp2) {
 		(this.persp2.from[2] - this.persp1.from[2]) * (this.persp2.from[2] - this.persp1.from[2]));
 
 	// animation radius (assumes board is in the middle of both perspectives)
-	var radius = distance / 2;
+	this.radius = distance / 2;
 
 	// animation center
 	// midpoint = [(x1 + x2) / 2 , (y1 + y2) / 2, (z1 + z2) / 2]
@@ -45,7 +48,7 @@ function perspectiveAnimation(id, span, type, clock, persp1, persp2) {
 	this.center = center.slice(0);
 
 	// set animation
-	this.animation = new xmlCircularAnim(null, this.span, this.type, center, radius, this.startang, this.rotang);
+	this.animation = new xmlCircularAnim(null, this.span, this.type, this.center, this.radius, this.startang, this.rotang);
 }
 
 /**
@@ -54,7 +57,7 @@ function perspectiveAnimation(id, span, type, clock, persp1, persp2) {
  * @return TRUE if animation is over, FALSE otherwise
  */
 perspectiveAnimation.prototype.update = function(currTime) {
-	if (this.animation.done === false) {
+	if (this.animation.done === false && this.onhold === false) {
 		// update animation
 		this.animation.update(currTime);
 
@@ -79,8 +82,52 @@ perspectiveAnimation.prototype.update = function(currTime) {
  */
 perspectiveAnimation.prototype.apply = function(scene) {
 
-	scene.allowMoveCamera = this.animation.done;
-	scene.setCamera(this.currPersp);
+	if (this.onhold === false) {
+		scene.allowMoveCamera = this.animation.done;
+		this.onhold = this.animation.done;
+		scene.setCamera(this.currPersp);
+	}
+};
+
+/**
+ * Activates animation
+ */
+perspectiveAnimation.prototype.activate = function() {
+
+	// activate it
+	this.onhold = false;
+
+	// but only reset if animation is already over
+	if (this.animation.done === true) {
+		this.reset();
+	}
+};
+
+/**
+ * Resets this animation (but in the opposite direction)
+ */
+perspectiveAnimation.prototype.reset = function() {
+
+	if (this.backwards === false) {
+		// reset curr perpsective
+		this.currPersp = this.persp2.clone();
+
+		// reset animation
+		this.animation = new xmlCircularAnim(null, this.span, this.type, this.center, this.radius, this.startang + 180, this.rotang);
+
+		// set backwards
+		this.backwards = true;
+	} else {
+		// reset curr perpsective
+		this.currPersp = this.persp1.clone();
+
+		// reset animation
+		this.animation = new xmlCircularAnim(null, this.span, this.type, this.center, this.radius, this.startang, this.rotang);
+
+		// set backwards
+		this.backwards = false;
+	}
+
 };
 
 /**

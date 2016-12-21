@@ -123,9 +123,9 @@ MySceneGraph.prototype.onXMLReady = function() {
 	this.materials.consoleDebug();
 	this.transformations.consoleDebug();
   this.animations.consoleDebug();
+	this.perspAnimations.consoleDebug();
 	this.primitives.consoleDebug();
 	this.graphRoot.consoleDebug();*/
-	this.perspAnimations.consoleDebug();
 
 	this.loadedOk = true;
 
@@ -1222,6 +1222,13 @@ MySceneGraph.prototype.onXMLError = function(message) {
 MySceneGraph.prototype.display = function(scene) {
 	this.perspAnimations.apply(scene);
 	this.graphRoot.display(scene, "none", "none");
+};
+
+/**
+ * Activates animation
+ */
+MySceneGraph.prototype.activatePerspAnim = function() {
+	this.perspAnimations.activate();
 };
 
 /**

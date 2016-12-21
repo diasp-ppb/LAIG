@@ -136,12 +136,21 @@ XMLscene.prototype.setNextCamera = function() {
 	this.setCamera(this.graph.views.getNextPerspective());
 };
 
+XMLscene.prototype.playPerspectiveAnimation = function() {
+	this.graph.activatePerspAnim();
+};
+
 XMLscene.prototype.nextMaterial = function() {
 	this.graph.nextMaterial(this);
 };
 
 XMLscene.prototype.setDefaultCamera = function() {
-	this.setCamera(this.graph.views.getDefaultCamera());
+
+	var perspective = this.graph.views.getDefaultCamera();
+	this.camera = new CGFcamera(perspective.angle, perspective.near, perspective.far,
+		vec3.fromValues(perspective.from[0], perspective.from[1], perspective.from[2]),
+		vec3.fromValues(perspective.to[0], perspective.to[1], perspective.to[2]));
+	this.interface.setActiveCamera(this.camera);
 };
 /**
 Set ligth configuration readed from xml file;
