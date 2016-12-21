@@ -47,7 +47,7 @@ XMLscene.prototype.init = function(application) {
 
 	//this.game = "none";
 
-	  this.game = new Game(this);
+	this.game = new Game(this);
 
 };
 
@@ -130,9 +130,10 @@ XMLscene.prototype.display = function() {
 		this.graph.display(this);
 
 
-		this.game.display();
+		
 	}
-
+	
+	this.game.display();
 	
 
 };

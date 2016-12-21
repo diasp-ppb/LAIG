@@ -2,9 +2,9 @@ function GameBoard(scene) {
     CGFobject.call(this, scene);
     this.scene = scene;
     this.cells = [];
-    
+    this.createCells();
     this.pick = -1;
-    this.registCells =  false;
+ 
 
 
     this.materialBase = new CGFappearance(scene);
@@ -49,10 +49,10 @@ GameBoard.prototype.display = function() {
 
     var n = this.cells.length;
 
-    for (i = 0; i < n; i++) {
+    for (var i = 0; i < n; i++) {
         var nn = this.cells[i].length;
         for (var t = 0; t < nn; t++) {
-            this.cells[i][t].display(this.materialBase,this.materialSelected,this.pick,this.registCells);
+            this.cells[i][t].display(this.materialBase,this.materialSelected,this.pick);
         }
     }
 
@@ -69,6 +69,7 @@ GameBoard.prototype.createLine = function(x, y, numCells,id) {
     var line = [];
     for (var i = 0; i < numCells; i++) {
         hex = new GameCell(i + id, this.scene, x, y);
+        console.log(i+id);
         x += 0.177;
         line.push(hex);
     }
@@ -90,31 +91,26 @@ GameBoard.prototype.createCells = function() {
     this.cells.push(this.createLine(x, y, 7, 12));
     y -= dec;
     x = -0.58;
-    this.cells.push(this.createLine(x, y, 8, 20));
+    this.cells.push(this.createLine(x, y, 8, 19));
     y -= dec;
     x = -0.68;
-    this.cells.push(this.createLine(x, y, 9, 29));
+    this.cells.push(this.createLine(x, y, 9, 28));
     y -= dec;
     x = -0.58;
-    this.cells.push(this.createLine(x, y, 8, 38));
+    this.cells.push(this.createLine(x, y, 8, 37));
     y -= dec;
     x = -0.48;
-    this.cells.push(this.createLine(x, y, 7, 46));
+    this.cells.push(this.createLine(x, y, 7, 45));
     y -= dec;
     x = -0.38;
-    this.cells.push(this.createLine(x, y, 6, 53));
+    this.cells.push(this.createLine(x, y, 6, 52));
     y -= dec;
     x = -0.29;
-    this.cells.push(this.createLine(x, y, 5, 59));
+    this.cells.push(this.createLine(x, y, 5, 58));
 
 };
 
 
 GameBoard.prototype.updatePick = function(id){
     this.pick = id;
-}
-
-
-GameBoard.prototype.registCells = function(b){
-   this.registCells = b;
 }
