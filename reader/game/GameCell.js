@@ -7,7 +7,7 @@ function GameCell(id, scene, x, y) {
 	this.x = x;
 	this.y = y;
 
-	console.log(this.id);
+	
 
 };
 
@@ -15,11 +15,20 @@ GameCell.prototype = Object.create(CGFobject.prototype);
 GameCell.prototype.constructor = GameCell;
 
 
-GameCell.prototype.display = function() {
+GameCell.prototype.display = function(materialBase, materialSelected,id,registActive) {
+
+	if(id == this.id){
+		materialSelected.apply();
+	}
 	this.scene.pushMatrix();
 	this.scene.translate(this.x, this.y, 0);
 	this.scene.rotate(Math.PI * 30 / 180, 0, 0, 1);
+	if(registActive)
 	this.scene.registerForPick(this.id, this);
 	this.cell.display();
 	this.scene.popMatrix();
+
+	if(id == this.id)
+	materialBase.apply();
+
 };

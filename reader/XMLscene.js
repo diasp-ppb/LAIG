@@ -43,6 +43,11 @@ XMLscene.prototype.init = function(application) {
 
 	this.setPickEnabled(true);
 
+
+	//this.game = "none";
+
+	  this.game = new Game(this);
+
 };
 
 XMLscene.prototype.initLights = function() {
@@ -74,8 +79,14 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.setDefaultCamera();
     this.setDefaultIllumination();
 
-};
 
+
+
+
+  
+
+};
+	
 XMLscene.prototype.display = function() {
 
 	this.logPicking();
@@ -118,7 +129,10 @@ XMLscene.prototype.display = function() {
 		this.graph.display(this);
 
 
+		this.game.display();
 	}
+
+	
 
 };
 
@@ -225,7 +239,8 @@ XMLscene.prototype.logPicking = function ()
 				if (obj)
 				{
 					var customId = this.pickResults[i][1];				
-					console.log("Picked object: " + obj + ", with pick id " + customId);
+					this.game.updateBoardPick(customId);
+					console.log(customId);
 				}
 			}
 			this.pickResults.splice(0,this.pickResults.length);
