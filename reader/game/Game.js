@@ -4,7 +4,8 @@ function Game(scene){
 
 	this.scene = scene;
 	this.playBoard = new GameBoard(this.scene);
-	
+
+
 };
 
 
@@ -13,7 +14,7 @@ Game.prototype.constructor = Game;
 
 
 Game.prototype.display = function(){
-	this.playBoard.display();	
+	this.playBoard.display();
 };
 
 
