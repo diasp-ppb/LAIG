@@ -21,7 +21,7 @@ function GameBoard(scene,x,y) {
 
     this.resetRegisterPick();
 
-
+    /* materials */
     this.materialBase = new CGFappearance(scene);
     //set emission
     this.materialBase.setEmission(0, 0, 0, 1);
@@ -34,6 +34,37 @@ function GameBoard(scene,x,y) {
     //set shininess
     this.materialBase.setShininess(70);
 
+    this.materialBase.loadTexture('../resources/madeira.jpg');
+
+
+    this.materialBack = new CGFappearance(scene);
+    //set emission
+    this.materialBack.setEmission(0, 0, 0, 1);
+    //set ambient
+    this.materialBack.setAmbient(0.5, 0.6, 0.5, 1);
+    //set diffuse
+    this.materialBack.setDiffuse(0.5, 0.6, 0.5, 1);
+    //set specular
+    this.materialBack.setSpecular(0.2, 0.0, 0.0, 1);
+    //set shininess
+    this.materialBack.setShininess(70);
+
+    this.materialBack.loadTexture('../resources/madeira-escura.jpg');
+
+
+    this.materialBorder = new CGFappearance(scene);
+    //set emission
+    this.materialBorder.setEmission(0, 0, 0, 1);
+    //set ambient
+    this.materialBorder.setAmbient(0.5, 0.6, 0.5, 1);
+    //set diffuse
+    this.materialBorder.setDiffuse(0.5, 0.6, 0.5, 1);
+    //set specular
+    this.materialBorder.setSpecular(0.2, 0.0, 0.0, 1);
+    //set shininess
+    this.materialBorder.setShininess(70);
+
+    this.materialBorder.loadTexture('../resources/marmore.jpg');
 
     this.materialSelected = new CGFappearance(scene);
     //set emission
@@ -47,6 +78,9 @@ function GameBoard(scene,x,y) {
     //set shininess
     this.materialSelected.setShininess(150);
 
+    /** Cosmetics*/
+    this.back = new Cylinder(scene, 30, 3, 0.8, 0.8, 0.05);
+    this.border = new Torus(scene, 0.8, 0.9, 30, 8);
 
 
 
@@ -63,9 +97,13 @@ GameBoard.prototype.display = function() {
     this.scene.pushMatrix();
 
 
-    this.materialBase.apply();
+
+    this.cosmeticsObjDisplay();
+
 
     this.scene.translate(-0.25, 0, 0);
+
+    this.materialBase.apply();
 
     var n = this.cells.length;
     for (var i = 0; i < n; i++) {
@@ -172,4 +210,21 @@ GameBoard.prototype.getPosition = function(id){
 
   return null;
 
+}
+
+
+GameBoard.prototype.cosmeticsObjDisplay = function(){
+
+    this.scene.pushMatrix();
+
+    this.scene.translate(this.posX-0.2, this.posY-0.6,-0.05);
+
+    this.materialBack.apply();
+    this.back.display();
+
+    this.materialBorder.apply();
+    this.border.display();
+
+
+    this.scene.popMatrix();
 }

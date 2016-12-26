@@ -8,7 +8,7 @@ function Game(scene) {
     this.sideBoard = new GameBoard(this.scene, 0, 0);
     this.sideBoard.pickLock = false;
 
-    this.playBoard = new GameBoard(this.scene, 4, 0);
+    this.playBoard = new GameBoard(this.scene, 2, 0);
 
 
     this.pieces = [];
@@ -28,7 +28,7 @@ function Game(scene) {
     //set shininess
     this.black.setShininess(220);
 
-
+    this.offsetPieces
 
 };
 
