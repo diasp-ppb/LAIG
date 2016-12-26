@@ -45,8 +45,6 @@ XMLscene.prototype.init = function(application) {
 	this.setPickEnabled(true);
 
 
-	//this.game = "none";
-
 	this.game = new Game(this);
 
 };
@@ -84,14 +82,14 @@ XMLscene.prototype.onGraphLoaded = function() {
 
 
 
-  
+
 
 };
-	
+
 XMLscene.prototype.display = function() {
 
 	this.logPicking();
-	this.clearPickRegistration();
+
 
 
 	// Clear image and depth buffer everytime we update the scene
@@ -130,11 +128,11 @@ XMLscene.prototype.display = function() {
 		this.graph.display(this);
 
 
-		
+
 	}
-	
+
 	this.game.display();
-	
+
 
 };
 
@@ -251,12 +249,13 @@ XMLscene.prototype.logPicking = function ()
 				var obj = this.pickResults[i][0];
 				if (obj)
 				{
-					var customId = this.pickResults[i][1];				
+					var customId = this.pickResults[i][1];
 					this.game.updateBoardPick(customId);
+					console.log(this.game.playBoard.getPosition(customId));
 					console.log(customId);
 				}
 			}
 			this.pickResults.splice(0,this.pickResults.length);
-		}		
+		}
 	}
 }
