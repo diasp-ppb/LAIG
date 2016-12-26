@@ -4,6 +4,8 @@ function GameBoard(scene) {
     this.cells = [];
     this.createCells();
 
+
+
     /* to lockpicking */
     this.pickLock = true;
     /** Selected cell storage */
@@ -39,6 +41,11 @@ function GameBoard(scene) {
     //set shininess
     this.materialSelected.setShininess(150);
 
+
+
+
+
+
 };
 
 GameBoard.prototype = Object.create(CGFobject.prototype);
@@ -58,7 +65,7 @@ GameBoard.prototype.display = function() {
     for (var i = 0; i < n; i++) {
         var nn = this.cells[i].length;
         for (var t = 0; t < nn; t++) {
-            this.cells[i][t].display(this.materialBase, this.materialSelected, this.pick,this.pickLock);
+            this.cells[i][t].display(this.materialBase, this.materialSelected, this.pick, this.pickLock);
         }
     }
 
@@ -70,7 +77,6 @@ GameBoard.prototype.display = function() {
 };
 
 GameBoard.prototype.createLine = function(x, y, numCells, id) {
-    var hex;
 
     var line = [];
     for (var i = 0; i < numCells; i++) {
@@ -82,6 +88,10 @@ GameBoard.prototype.createLine = function(x, y, numCells, id) {
 
     return line;
 }
+
+
+
+
 
 GameBoard.prototype.createCells = function() {
 
@@ -129,13 +139,31 @@ GameBoard.prototype.resetRegisterPick = function() {
     var lastCell = 61 + 1;
 
     for (var i = 0; i < lastCell; i++) {
-      this.registerPick.push(true);
+        this.registerPick.push(true);
     }
 }
 
 /**
 Update already picked cell
 */
-GameBoard.prototype.lockCell = function(id){
-  this.registerPick[id] = false;
+GameBoard.prototype.lockCell = function(id) {
+    this.registerPick[id] = false;
+}
+
+
+GameBoard.prototype.getPosition = function(id){
+  var n = this.cells.length;
+  for (var i = 0; i < n; i++) {
+      var nn = this.cells[i].length;
+      for (var t = 0; t < nn; t++) {
+          if(this.cells[i][t].id == id)
+          {
+              return  [i,t];
+          }
+      }
+  }
+
+
+  return null;
+
 }

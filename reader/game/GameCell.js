@@ -9,6 +9,8 @@ function GameCell(id, scene, x, y) {
 
 
 
+
+
 };
 
 GameCell.prototype = Object.create(CGFobject.prototype);
@@ -20,13 +22,15 @@ GameCell.prototype.display = function(materialBase, materialSelected, id, pickLo
     if (id == this.id) {
         materialSelected.apply();
     }
+
     this.scene.pushMatrix();
     this.scene.translate(this.x, this.y, 0);
     this.scene.rotate(Math.PI * 30 / 180, 0, 0, 1);
 
     if (pickLock) {
-    this.scene.registerForPick(this.id, this);
-	  }
+        this.scene.registerForPick(this.id, this);
+    }
+
     this.cell.display();
     this.scene.popMatrix();
 
