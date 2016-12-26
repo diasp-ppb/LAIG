@@ -7,9 +7,9 @@ function GameCell(id, scene, x, y) {
 	this.x = x;
 	this.y = y;
 
-	
 
-};
+
+}
 
 GameCell.prototype = Object.create(CGFobject.prototype);
 GameCell.prototype.constructor = GameCell;

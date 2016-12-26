@@ -6,8 +6,9 @@
 function Interface() {
   //call CGFinterface constructor
   CGFinterface.call(this);
-  this.lights;
-};
+  //this.lights;
+  this.pentalath = new Pentalath();
+}
 
 Interface.prototype = Object.create(CGFinterface.prototype);
 Interface.prototype.constructor = Interface;
@@ -52,15 +53,25 @@ Interface.prototype.processKeyDown = function(event) {
     }
     break;
 
+    case 81: { // Q
+      this.pentalath.makeRequest("quit");
+    }
+    break;
+
+    case 113: { // q
+      Pentalath.makeRequest("quit");
+    }
+    break;
+
     default:
     break;
 
   }
-}
+};
 
 Interface.prototype.addLights = function (ligthID,i){
 
   //console.log(ligthID);
   this.lights.add(this.scene.lightsStatus,i).name(ligthID);
 
-}
+};

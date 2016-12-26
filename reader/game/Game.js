@@ -4,8 +4,10 @@ function Game(scene){
 
 	this.scene = scene;
 	this.playBoard = new GameBoard(this.scene);
-	
-};
+
+	this.pentalath = new Pentalath();
+
+}
 
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -13,7 +15,7 @@ Game.prototype.constructor = Game;
 
 
 Game.prototype.display = function(){
-	this.playBoard.display();	
+	this.playBoard.display();
 };
 
 
@@ -21,4 +23,5 @@ Game.prototype.display = function(){
 
 Game.prototype.updateBoardPick = function(id){
 	this.playBoard.updatePick(id);
+	this.pentalath.makeRequest("id(" + id + ")");
 };

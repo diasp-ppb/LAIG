@@ -16,7 +16,7 @@ function GameBoard(scene) {
     //set specular
     this.materialBase.setSpecular(0.2,0.0,0.0,1);
     //set shininess
-    this.materialBase.setShininess(70); 
+    this.materialBase.setShininess(70);
 
 
     this.materialSelected = new CGFappearance(scene);
@@ -29,9 +29,11 @@ function GameBoard(scene) {
     //set specular
     this.materialBase.setSpecular(0.2,0.0,0.0,1);
     //set shininess
-    this.materialBase.setShininess(70); 
+    this.materialBase.setShininess(70);
 
-};
+    console.log(this.cells);
+
+}
 
 GameBoard.prototype = Object.create(CGFobject.prototype);
 GameBoard.prototype.constructor = GameBoard;
@@ -74,7 +76,7 @@ GameBoard.prototype.createLine = function(x, y, numCells,id) {
     }
 
     return line;
-}
+};
 
 GameBoard.prototype.createCells = function() {
 
@@ -112,4 +114,4 @@ GameBoard.prototype.createCells = function() {
 
 GameBoard.prototype.updatePick = function(id){
     this.pick = id;
-}
+};
