@@ -17,7 +17,7 @@ function Piece(id,scene, color, x, y, z) {
     this.y = y;
     this.z = z;
 
-
+    this.moved = false;
 
 }
 

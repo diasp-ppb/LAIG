@@ -3,14 +3,19 @@ function Game(scene) {
     CGFobject.call(this, scene);
 
     this.scene = scene;
-    this.playBoard = new GameBoard(this.scene);
+
+
+    this.sideBoard = new GameBoard(this.scene, 0, 0);
+    this.sideBoard.pickLock = false;
+
+    this.playBoard = new GameBoard(this.scene, 4, 0);
 
 
     this.pieces = [];
     this.createPieces();
 
 
-    // TODO CHANGE COLO
+    // TODO CHANGE COLOR
     this.black = new CGFappearance(scene);
     //set emission
     this.black.setEmission(0, 0, 0, 1);
@@ -36,6 +41,7 @@ Game.prototype.display = function() {
 
     this.scene.clearPickRegistration();
     this.displayPieces();
+    this.sideBoard.display();
     this.playBoard.display();
 };
 
@@ -44,6 +50,9 @@ Game.prototype.display = function() {
 
 Game.prototype.updateBoardPick = function(id) {
     this.playBoard.updatePick(id);
+
+		/** TODO TEMP*/
+		this.switchPieceBoard(id);
 };
 
 
@@ -109,4 +118,30 @@ Game.prototype.displayPieces = function() {
         }
     }
     this.scene.popMatrix();
+}
+
+Game.prototype.getPiece = function(id) {
+    var n = this.pieces.length;
+    for (var i = 0; i < n; i++) {
+        var nn = this.pieces[i].length;
+        for (var t = 0; t < nn; t++) {
+            var piece = this.pieces[i][t];
+            if (piece.id == id) {
+                return piece;
+            }
+        }
+    }
+}
+
+/** id range 1 - 61*/
+Game.prototype.switchPieceBoard = function(id) {
+    var piece = this.getPiece(id);
+
+    var postion = this.playBoard.getPosition(id);
+
+		var cell = this.playBoard.cells[postion[0]][postion[1]];
+
+		piece.x = cell.x;
+		piece.y = cell.y;
+
 }

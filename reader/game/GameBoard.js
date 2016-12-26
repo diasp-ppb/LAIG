@@ -1,8 +1,14 @@
-function GameBoard(scene) {
+function GameBoard(scene,x,y) {
     CGFobject.call(this, scene);
     this.scene = scene;
     this.cells = [];
+
+    this.posX = x;
+    this.posY = y;
+
     this.createCells();
+
+
 
 
 
@@ -96,32 +102,32 @@ GameBoard.prototype.createLine = function(x, y, numCells, id) {
 GameBoard.prototype.createCells = function() {
 
     var dec = 0.156;
-    var y = 0;
-    var x = -0.29;
+    var y = 0 + this.posY;
+    var x = -0.29 + this.posX;
     this.cells.push(this.createLine(x, y, 5, 1));
-    y -= dec;
-    x = -0.38;
+    y -= dec ;
+    x = -0.38 + this.posX;
     this.cells.push(this.createLine(x, y, 6, 6));
     y -= dec;
-    x = -0.48;
+    x = -0.48 + this.posX;
     this.cells.push(this.createLine(x, y, 7, 12));
     y -= dec;
-    x = -0.58;
+    x = -0.58 + this.posX;
     this.cells.push(this.createLine(x, y, 8, 19));
     y -= dec;
-    x = -0.68;
+    x = -0.68 + this.posX;
     this.cells.push(this.createLine(x, y, 9, 27));
     y -= dec;
-    x = -0.58;
+    x = -0.58 + this.posX;
     this.cells.push(this.createLine(x, y, 8, 36));
     y -= dec;
-    x = -0.48;
+    x = -0.48 + this.posX;
     this.cells.push(this.createLine(x, y, 7, 44));
     y -= dec;
-    x = -0.38;
+    x = -0.38 + this.posX;
     this.cells.push(this.createLine(x, y, 6, 51));
     y -= dec;
-    x = -0.29;
+    x = -0.29 + this.posX;
     this.cells.push(this.createLine(x, y, 5, 57));
 
 };
