@@ -53,7 +53,7 @@ Game.prototype.updateBoardPick = function(id) {
     this.playBoard.updatePick(id);
 
     var position = this.playBoard.getPosition(id);
-    var request = "validatePlay(whitePiece," + this.playBoard.toString() + "," + position[1] + "," + position[0] + ")";
+    var request = "validatePlay(something," + this.playBoard.toString() + "," + position[1] + "," + position[0] + ")";
     var reply = this.pentalath.makeRequest(request, this);
 
 		/** TODO TEMP */
