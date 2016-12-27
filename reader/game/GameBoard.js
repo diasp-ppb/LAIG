@@ -1,4 +1,4 @@
-function GameBoard(scene,x,y) {
+function GameBoard(scene, x, y) {
     CGFobject.call(this, scene);
     this.scene = scene;
     this.cells = [];
@@ -24,13 +24,13 @@ function GameBoard(scene,x,y) {
     /* materials */
     this.materialBase = new CGFappearance(scene);
     //set emission
-    this.materialBase.setEmission(0, 0, 0, 1);
+    this.materialBase.setEmission(0.5, 0.5, 0.5, 1);
     //set ambient
-    this.materialBase.setAmbient(0.5, 0.6, 0.5, 1);
+    this.materialBase.setAmbient(0.8, 0.8, 0.8, 1);
     //set diffuse
-    this.materialBase.setDiffuse(0.5, 0.6, 0.5, 1);
+    this.materialBase.setDiffuse(0.8, 0.8, 0.8, 1);
     //set specular
-    this.materialBase.setSpecular(0.2, 0.0, 0.0, 1);
+    this.materialBase.setSpecular(0.4, 0.4, 0.4, 1);
     //set shininess
     this.materialBase.setShininess(70);
 
@@ -41,11 +41,11 @@ function GameBoard(scene,x,y) {
     //set emission
     this.materialBack.setEmission(0, 0, 0, 1);
     //set ambient
-    this.materialBack.setAmbient(0.5, 0.6, 0.5, 1);
+    this.materialBack.setAmbient(0.6, 0.6, 0.6, 1);
     //set diffuse
-    this.materialBack.setDiffuse(0.5, 0.6, 0.5, 1);
+    this.materialBack.setDiffuse(0.5, 0.5, 0.5, 1);
     //set specular
-    this.materialBack.setSpecular(0.2, 0.0, 0.0, 1);
+    this.materialBack.setSpecular(0.0, 0.0, 0.0, 1);
     //set shininess
     this.materialBack.setShininess(70);
 
@@ -56,13 +56,13 @@ function GameBoard(scene,x,y) {
     //set emission
     this.materialBorder.setEmission(0, 0, 0, 1);
     //set ambient
-    this.materialBorder.setAmbient(0.5, 0.6, 0.5, 1);
+    this.materialBorder.setAmbient(0.5, 0.6, 0.7, 1);
     //set diffuse
-    this.materialBorder.setDiffuse(0.5, 0.6, 0.5, 1);
+    this.materialBorder.setDiffuse(0.5, 0.6, 0.7, 1);
     //set specular
-    this.materialBorder.setSpecular(0.2, 0.0, 0.0, 1);
+    this.materialBorder.setSpecular(0.2, 0.2, 0.2, 1);
     //set shininess
-    this.materialBorder.setShininess(70);
+    this.materialBorder.setShininess(50);
 
     this.materialBorder.loadTexture('../resources/marmore.jpg');
 
@@ -79,9 +79,9 @@ function GameBoard(scene,x,y) {
     this.materialSelected.setShininess(150);
 
     /** Cosmetics*/
-    this.back = new Cylinder(scene, 30, 3, 0.8, 0.8, 0.05);
-    this.border = new Torus(scene, 0.8, 0.9, 30, 8);
-
+    this.back = new Cylinder(scene, 6, 3, 0.85, 0.85, 0.05);
+    this.border = new Torus(scene, 0.8, 0.9, 6, 4);
+    this.conector = new Cylinder(scene, 6, 3, 0.06, 0.06, 1.99);
 
 
 
@@ -100,8 +100,9 @@ GameBoard.prototype.display = function() {
 
     this.cosmeticsObjDisplay();
 
-
-    this.scene.translate(-0.25, 0, 0);
+    this.scene.popMatrix();
+    this.scene.pushMatrix();
+  
 
     this.materialBase.apply();
 
@@ -143,7 +144,7 @@ GameBoard.prototype.createCells = function() {
     var y = 0 + this.posY;
     var x = -0.29 + this.posX;
     this.cells.push(this.createLine(x, y, 5, 1));
-    y -= dec ;
+    y -= dec;
     x = -0.38 + this.posX;
     this.cells.push(this.createLine(x, y, 6, 6));
     y -= dec;
@@ -195,35 +196,44 @@ GameBoard.prototype.lockCell = function(id) {
 }
 
 
-GameBoard.prototype.getPosition = function(id){
-  var n = this.cells.length;
-  for (var i = 0; i < n; i++) {
-      var nn = this.cells[i].length;
-      for (var t = 0; t < nn; t++) {
-          if(this.cells[i][t].id == id)
-          {
-              return  [i,t];
-          }
-      }
-  }
+GameBoard.prototype.getPosition = function(id) {
+    var n = this.cells.length;
+    for (var i = 0; i < n; i++) {
+        var nn = this.cells[i].length;
+        for (var t = 0; t < nn; t++) {
+            if (this.cells[i][t].id == id) {
+                return [i, t];
+            }
+        }
+    }
 
 
-  return null;
+    return null;
 
 }
 
 
-GameBoard.prototype.cosmeticsObjDisplay = function(){
+GameBoard.prototype.cosmeticsObjDisplay = function() {
 
     this.scene.pushMatrix();
 
-    this.scene.translate(this.posX-0.2, this.posY-0.6,-0.05);
+    this.scene.translate(this.posX + 0.05, this.posY - 0.6, -0.05);
 
     this.materialBack.apply();
     this.back.display();
 
     this.materialBorder.apply();
     this.border.display();
+
+
+    this.scene.translate(0, 0, -2);
+
+    this.border.display();
+    this.conector.display();
+
+      this.scene.translate(0, 0, -0.01);
+    this.materialBack.apply();
+    this.back.display();
 
 
     this.scene.popMatrix();
