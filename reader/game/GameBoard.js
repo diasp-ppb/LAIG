@@ -1,4 +1,4 @@
-function GameBoard(scene,x,y) {
+function GameBoard(scene, x, y) {
     CGFobject.call(this, scene);
     this.scene = scene;
     this.cells = [];
@@ -81,7 +81,7 @@ function GameBoard(scene,x,y) {
     /** Cosmetics*/
     this.back = new Cylinder(scene, 6, 3, 0.85, 0.85, 0.05);
     this.border = new Torus(scene, 0.8, 0.9, 6, 4);
-
+    this.conector = new Cylinder(scene, 6, 3, 0.06, 0.06, 1.99);
 
 
 
@@ -101,7 +101,7 @@ GameBoard.prototype.display = function() {
     this.cosmeticsObjDisplay();
 
 
-    this.scene.translate(-0.25, 0, 0);
+    //this.scene.translate(-0.25, 0, 0);
 
     this.materialBase.apply();
 
@@ -143,7 +143,7 @@ GameBoard.prototype.createCells = function() {
     var y = 0 + this.posY;
     var x = -0.29 + this.posX;
     this.cells.push(this.createLine(x, y, 5, 1));
-    y -= dec ;
+    y -= dec;
     x = -0.38 + this.posX;
     this.cells.push(this.createLine(x, y, 6, 6));
     y -= dec;
@@ -195,35 +195,44 @@ GameBoard.prototype.lockCell = function(id) {
 }
 
 
-GameBoard.prototype.getPosition = function(id){
-  var n = this.cells.length;
-  for (var i = 0; i < n; i++) {
-      var nn = this.cells[i].length;
-      for (var t = 0; t < nn; t++) {
-          if(this.cells[i][t].id == id)
-          {
-              return  [i,t];
-          }
-      }
-  }
+GameBoard.prototype.getPosition = function(id) {
+    var n = this.cells.length;
+    for (var i = 0; i < n; i++) {
+        var nn = this.cells[i].length;
+        for (var t = 0; t < nn; t++) {
+            if (this.cells[i][t].id == id) {
+                return [i, t];
+            }
+        }
+    }
 
 
-  return null;
+    return null;
 
 }
 
 
-GameBoard.prototype.cosmeticsObjDisplay = function(){
+GameBoard.prototype.cosmeticsObjDisplay = function() {
 
     this.scene.pushMatrix();
 
-    this.scene.translate(this.posX-0.2, this.posY-0.6,-0.05);
+    this.scene.translate(this.posX + 0.05, this.posY - 0.6, -0.05);
 
     this.materialBack.apply();
     this.back.display();
 
     this.materialBorder.apply();
     this.border.display();
+
+
+    this.scene.translate(0, 0, -2);
+
+    this.border.display();
+    this.conector.display();
+
+      this.scene.translate(0, 0, -0.01);
+    this.materialBack.apply();
+    this.back.display();
 
 
     this.scene.popMatrix();
