@@ -8,6 +8,9 @@ function Game(scene) {
     this.sideBoard = new GameBoard(this.scene, 0, 0);
     this.sideBoard.pickLock = false;
 
+    this.sideBoardWhite = new GameBoard(this.scene, 4, 0);
+    this.sideBoardWhite.pickLock = false;
+
     this.playBoard = new GameBoard(this.scene, 2, 0);
 
 
@@ -74,6 +77,7 @@ Game.prototype.display = function() {
     this.scene.clearPickRegistration();
     this.displayPieces();
     this.sideBoard.display();
+    this.sideBoardWhite.display();
     this.playBoard.display();
 };
 
@@ -103,7 +107,7 @@ Game.prototype.createPieces = function() {
     var dec = 0.156;
     var y = 0;
     var x = -0.29;
-    var z = 0.0;
+    var z = 0.01;
     this.pieces.push(this.createLinePieces(x, y, z, 5, 1));
     y -= dec;
     x = -0.38;

@@ -87,7 +87,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 };
 
 XMLscene.prototype.display = function() {
-
+  this.clearPickRegistration();
 	this.logPicking();
 
 
@@ -125,13 +125,15 @@ XMLscene.prototype.display = function() {
 			}
 			this.lights[i].update();
 		}
-		this.graph.display(this);
+	//	this.graph.display(this);
 
+		//this.loadIdentity();
+		this.game.display();
 
 
 	}
 
-	this.game.display();
+
 
 
 };
