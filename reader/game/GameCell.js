@@ -3,7 +3,7 @@ function GameCell(id, scene, x, y) {
 
     this.id = id;
     this.scene = scene;
-    this.cell = new Cylinder(this.scene, 6, 1, 0.1, 0.1, 0.1);
+    this.cell = new Cylinder(this.scene, 6, 1, 0.1, 0.1, 0.001);
     this.x = x;
     this.y = y;
 

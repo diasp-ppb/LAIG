@@ -24,13 +24,13 @@ function GameBoard(scene,x,y) {
     /* materials */
     this.materialBase = new CGFappearance(scene);
     //set emission
-    this.materialBase.setEmission(0, 0, 0, 1);
+    this.materialBase.setEmission(0.5, 0.5, 0.5, 1);
     //set ambient
-    this.materialBase.setAmbient(0.5, 0.6, 0.5, 1);
+    this.materialBase.setAmbient(0.8, 0.8, 0.8, 1);
     //set diffuse
-    this.materialBase.setDiffuse(0.5, 0.6, 0.5, 1);
+    this.materialBase.setDiffuse(0.8, 0.8, 0.8, 1);
     //set specular
-    this.materialBase.setSpecular(0.2, 0.0, 0.0, 1);
+    this.materialBase.setSpecular(0.4, 0.4, 0.4, 1);
     //set shininess
     this.materialBase.setShininess(70);
 
@@ -41,11 +41,11 @@ function GameBoard(scene,x,y) {
     //set emission
     this.materialBack.setEmission(0, 0, 0, 1);
     //set ambient
-    this.materialBack.setAmbient(0.5, 0.6, 0.5, 1);
+    this.materialBack.setAmbient(0.6, 0.6, 0.6, 1);
     //set diffuse
-    this.materialBack.setDiffuse(0.5, 0.6, 0.5, 1);
+    this.materialBack.setDiffuse(0.5, 0.5, 0.5, 1);
     //set specular
-    this.materialBack.setSpecular(0.2, 0.0, 0.0, 1);
+    this.materialBack.setSpecular(0.0, 0.0, 0.0, 1);
     //set shininess
     this.materialBack.setShininess(70);
 
@@ -56,13 +56,13 @@ function GameBoard(scene,x,y) {
     //set emission
     this.materialBorder.setEmission(0, 0, 0, 1);
     //set ambient
-    this.materialBorder.setAmbient(0.5, 0.6, 0.5, 1);
+    this.materialBorder.setAmbient(0.5, 0.6, 0.7, 1);
     //set diffuse
-    this.materialBorder.setDiffuse(0.5, 0.6, 0.5, 1);
+    this.materialBorder.setDiffuse(0.5, 0.6, 0.7, 1);
     //set specular
-    this.materialBorder.setSpecular(0.2, 0.0, 0.0, 1);
+    this.materialBorder.setSpecular(0.2, 0.2, 0.2, 1);
     //set shininess
-    this.materialBorder.setShininess(70);
+    this.materialBorder.setShininess(50);
 
     this.materialBorder.loadTexture('../resources/marmore.jpg');
 
@@ -79,8 +79,8 @@ function GameBoard(scene,x,y) {
     this.materialSelected.setShininess(150);
 
     /** Cosmetics*/
-    this.back = new Cylinder(scene, 30, 3, 0.8, 0.8, 0.05);
-    this.border = new Torus(scene, 0.8, 0.9, 30, 8);
+    this.back = new Cylinder(scene, 6, 3, 0.85, 0.85, 0.05);
+    this.border = new Torus(scene, 0.8, 0.9, 6, 4);
 
 
 
