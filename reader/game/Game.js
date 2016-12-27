@@ -8,14 +8,17 @@ function Game(scene) {
     this.sideBoard = new GameBoard(this.scene, 0, 0);
     this.sideBoard.pickLock = false;
 
-    this.sideBoardWhite = new GameBoard(this.scene, 4, 0);
+
+    var offsetWhiteX = 4;
+    this.sideBoardWhite = new GameBoard(this.scene, offsetWhiteX, 0);
     this.sideBoardWhite.pickLock = false;
 
     this.playBoard = new GameBoard(this.scene, 2, 0);
 
 
-    this.pieces = [];
-    this.createPieces();
+    this.piecesBlack = this.createPieces(1,0,0);
+    this.piecesWhite = this.createPieces(0,offsetWhiteX,0);
+
 
 
     // TODO CHANGE COLOR
@@ -87,15 +90,15 @@ Game.prototype.display = function() {
 Game.prototype.updateBoardPick = function(id) {
     this.playBoard.updatePick(id);
 
-		/** TODO TEMP*/
-		this.switchPieceBoard(id);
+    /** TODO TEMP*/
+    this.switchPieceBoardBlack(id);
 };
 
 
-Game.prototype.createLinePieces = function(x, y, z, num, id) {
+Game.prototype.createLinePieces = function(x, y, z, num, id,color) {
     var line = [];
     for (var i = 0; i < num; i++) {
-        hex = new Piece(i + id, this.scene, 1, x, y, z);
+        hex = new Piece(i + id, this.scene, color, x, y, z);
         console.log(i + id);
         x += 0.177;
         line.push(hex);
@@ -103,65 +106,90 @@ Game.prototype.createLinePieces = function(x, y, z, num, id) {
     return line;
 }
 
-Game.prototype.createPieces = function() {
+Game.prototype.createPieces = function(color,offsetX,offsetY) {
     var dec = 0.156;
-    var y = 0;
-    var x = -0.29;
+    var y = 0+offsetY;
+    var x = -0.29+offsetX;
     var z = 0.01;
-    this.pieces.push(this.createLinePieces(x, y, z, 5, 1));
-    y -= dec;
-    x = -0.38;
-    this.pieces.push(this.createLinePieces(x, y, z, 6, 6));
-    y -= dec;
-    x = -0.48;
-    this.pieces.push(this.createLinePieces(x, y, z, 7, 12));
-    y -= dec;
-    x = -0.58;
-    this.pieces.push(this.createLinePieces(x, y, z, 8, 19));
-    y -= dec;
-    x = -0.68;
-    this.pieces.push(this.createLinePieces(x, y, z, 9, 27));
-    y -= dec;
-    x = -0.58;
-    this.pieces.push(this.createLinePieces(x, y, z, 8, 36));
-    y -= dec;
-    x = -0.48;
-    this.pieces.push(this.createLinePieces(x, y, z, 7, 44));
-    y -= dec;
-    x = -0.38;
-    this.pieces.push(this.createLinePieces(x, y, z, 6, 51));
-    y -= dec;
-    x = -0.29;
-    this.pieces.push(this.createLinePieces(x, y, z, 5, 57));
 
+    var pieces = [];
+    pieces.push(this.createLinePieces(x, y, z, 5, 1,color));
+    y -= dec;
+    x = -0.38+offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 6, 6,color));
+    y -= dec;
+    x = -0.48+offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 7, 12,color));
+    y -= dec;
+    x = -0.58+offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 8, 19,color));
+    y -= dec;
+    x = -0.68+offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 9, 27,color));
+    y -= dec;
+    x = -0.58+offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 8, 36,color));
+    y -= dec;
+    x = -0.48+offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 7, 44,color));
+    y -= dec;
+    x = -0.38+offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 6, 51,color));
+    y -= dec;
+    x = -0.29+offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 5, 57,color));
+
+    return pieces;
 }
+
+
 
 
 Game.prototype.displayPieces = function() {
 
     this.scene.pushMatrix();
 
-
-    this.black.apply();
-
-
-
-    var n = this.pieces.length;
+    var n = this.piecesBlack.length;
     for (var i = 0; i < n; i++) {
-        var nn = this.pieces[i].length;
+        var nn = this.piecesBlack[i].length;
         for (var t = 0; t < nn; t++) {
-            this.pieces[i][t].display(this.white, this.black, this.support);
+            this.piecesBlack[i][t].display(this.white, this.black, this.support);
         }
     }
+
+
+    var n = this.piecesWhite.length;
+    for (var i = 0; i < n; i++) {
+        var nn = this.piecesWhite[i].length;
+        for (var t = 0; t < nn; t++) {
+            this.piecesWhite[i][t].display(this.white, this.black, this.support);
+        }
+    }
+
+
     this.scene.popMatrix();
 }
 
-Game.prototype.getPiece = function(id) {
-    var n = this.pieces.length;
+Game.prototype.getPieceBlack = function(id) {
+    var n = this.piecesBlack.length;
     for (var i = 0; i < n; i++) {
-        var nn = this.pieces[i].length;
+        var nn = this.piecesBlack[i].length;
         for (var t = 0; t < nn; t++) {
-            var piece = this.pieces[i][t];
+            var piece = this.piecesBlack[i][t];
+            if (piece.id == id) {
+                return piece;
+            }
+        }
+    }
+}
+
+
+Game.prototype.getPieceWhite = function(id) {
+    var n = this.piecesWhite.length;
+    for (var i = 0; i < n; i++) {
+        var nn = this.piecesWhite[i].length;
+        for (var t = 0; t < nn; t++) {
+            var piece = this.piecesWhite[i][t];
             if (piece.id == id) {
                 return piece;
             }
@@ -170,14 +198,25 @@ Game.prototype.getPiece = function(id) {
 }
 
 /** id range 1 - 61*/
-Game.prototype.switchPieceBoard = function(id) {
-    var piece = this.getPiece(id);
+Game.prototype.switchPieceBoardBlack = function(id) {
+    var piece = this.getPieceBlack(id);
 
     var postion = this.playBoard.getPosition(id);
 
-		var cell = this.playBoard.cells[postion[0]][postion[1]];
+    var cell = this.playBoard.cells[postion[0]][postion[1]];
 
-		piece.x = cell.x;
-		piece.y = cell.y;
+    piece.x = cell.x;
+    piece.y = cell.y;
+}
+
+Game.prototype.switchPieceBoardWhite = function(id) {
+    var piece = this.getPieceWhite(id);
+
+    var postion = this.playBoard.getPosition(id);
+
+    var cell = this.playBoard.cells[postion[0]][postion[1]];
+
+    piece.x = cell.x;
+    piece.y = cell.y;
 
 }

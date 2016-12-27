@@ -98,11 +98,11 @@ GameBoard.prototype.display = function() {
 
 
 
-  //  this.cosmeticsObjDisplay();
+    this.cosmeticsObjDisplay();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
-  //  this.scene.translate(-0.25, -0.22, 0);
+  
 
     this.materialBase.apply();
 
