@@ -1,6 +1,7 @@
 :-use_module(library(sockets)).
 :-use_module(library(lists)).
 :-use_module(library(codesio)).
+:- ensure_loaded('board.pl').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                        Server                                                   %%%%
@@ -108,6 +109,10 @@ parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
 parse_input(pentalath, pentalath2).
 parse_input(id(ID), pick(ID)).
+parse_input(validatePlay(Piece, Board, X, Y), yes):- printBoard(Board), nl, validatePlay(Piece, Board, X, Y).
+parse_input(validatePlay(_, _, _, _), no).
+% parse_input(validatePlay(Piece, Board, X, Y), yes):- validatePlay(Piece, Board, X, Y).
+
 
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
