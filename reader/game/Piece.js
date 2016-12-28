@@ -4,7 +4,7 @@
 */
 
 
-function Piece(id,scene, color, x, y, z) {
+function Piece(id, scene, color, x, y, z, gameboard) {
     CGFobject.call(this, scene);
 
     this.scene = scene;
@@ -18,13 +18,42 @@ function Piece(id,scene, color, x, y, z) {
     }
     this.base = new Cylinder(this.scene, 12, 1, 0.05, 0.05, 0.025);
     this.body = new Cylinder(this.scene, 4, 1, 0.05, 0.05, 0.05);
-    this.top = new Cylinder(this.scene,8,1,0.03,0.06,0.025);
+    this.top = new Cylinder(this.scene, 8, 1, 0.03, 0.06, 0.025);
 
     this.x = x;
     this.y = y;
     this.z = z;
 
-    this.moved = false;
+    /** create animation */
+    var p = gameboard.getPosition(id);
+    // last position
+    var cell = gameboard.cells[p[0]][p[1]];
+
+    var midpointX = cell.x  - x;
+    var midpointY = cell.y;
+
+
+
+    var positions = [
+        [x, y, z],
+        [midpointX,midpointY,0.15],
+        [cell.x, cell.y, z]
+    ];
+    var angle = [
+        [0, 0, 0],
+        [0,0,  0],
+        [0, 0, 0]
+    ];
+
+    var slopes =  [0, 0, 0];
+
+    var scales = [
+      [1,1,1],
+      [1,1,1],
+      [1,1,1],
+    ];
+
+    this.animation = new KeyFrameAnimation(5, positions, angle, slopes, scales);
 
 }
 
@@ -45,25 +74,42 @@ Piece.prototype.display = function(materialWhite, materialBlack, materialBase) {
 
 
 
-    this.scene.rotate(1.57,1,0,0);
-    this.scene.translate(0,0.07,-0.025);
+    this.scene.rotate(1.57, 1, 0, 0);
+    this.scene.translate(0, 0.07, -0.025);
 
     this.body.display();
 
 
-     this.scene.rotate(1.57,-1,0,0);
-     this.scene.translate(0,-0.025,-0.025);
+    this.scene.rotate(1.57, -1, 0, 0);
+    this.scene.translate(0, -0.025, -0.025);
 
 
-         if (this.color == 0)
-             materialWhite.apply();
-         else if (this.color == 1)
-             materialBlack.apply();
-         else return;
+    if (this.color == 0)
+        materialWhite.apply();
+    else if (this.color == 1)
+        materialBlack.apply();
+    else return;
 
     this.top.display();
 
 
     this.scene.popMatrix();
 
+}
+
+Piece.prototype.update = function(currtime) {
+
+    if (this.animation.active) {
+        this.animation.update(currtime);
+        var newpos = this.animation.getPosition();
+        this.x = newpos[0];
+        this.y = newpos[1];
+        this.z = newpos[2];
+    }
+
+}
+
+Piece.prototype.startAnimation = function() {
+    if (!this.animation.end)
+        this.animation.active = true;
 }
