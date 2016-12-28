@@ -3,38 +3,38 @@ function GameBoard(scene, x, y) {
     this.scene = scene;
     this.cells = [];
 
-    this.posX = x;
-    this.posY = y;
+	this.posX = x;
+	this.posY = y;
 
-    this.createCells();
+	this.createCells();
+
+	this.WIDTH = 9;
 
 
+	/* to lockpicking */
+	this.pickLock = true;
+	/** Selected cell storage */
+	this.pick = -1;
+	/** cells register switch */
+	//this.registerPick;
 
+	this.resetRegisterPick();
 
+	/* materials */
+	this.materialBase = new CGFappearance(scene);
+	//set emission
+	this.materialBase.setEmission(0.5, 0.5, 0.5, 1);
+	//set ambient
+	this.materialBase.setAmbient(0.8, 0.8, 0.8, 1);
+	//set diffuse
+	this.materialBase.setDiffuse(0.8, 0.8, 0.8, 1);
+	//set specular
+	this.materialBase.setSpecular(0.4, 0.4, 0.4, 1);
+	//set shininess
+	this.materialBase.setShininess(70);
 
-    /* to lockpicking */
-    this.pickLock = true;
-    /** Selected cell storage */
-    this.pick = -1;
-    /** cells register switch */
-    this.registerPick;
+	this.materialBase.loadTexture('../resources/madeira.jpg');
 
-    this.resetRegisterPick();
-
-    /* materials */
-    this.materialBase = new CGFappearance(scene);
-    //set emission
-    this.materialBase.setEmission(0.5, 0.5, 0.5, 1);
-    //set ambient
-    this.materialBase.setAmbient(0.8, 0.8, 0.8, 1);
-    //set diffuse
-    this.materialBase.setDiffuse(0.8, 0.8, 0.8, 1);
-    //set specular
-    this.materialBase.setSpecular(0.4, 0.4, 0.4, 1);
-    //set shininess
-    this.materialBase.setShininess(70);
-
-    this.materialBase.loadTexture('../resources/madeira.jpg');
 
 
     this.materialBack = new CGFappearance(scene);
@@ -85,8 +85,7 @@ function GameBoard(scene, x, y) {
 
 
 
-
-};
+}
 
 GameBoard.prototype = Object.create(CGFobject.prototype);
 GameBoard.prototype.constructor = GameBoard;
@@ -94,45 +93,45 @@ GameBoard.prototype.constructor = GameBoard;
 GameBoard.prototype.display = function() {
 
 
-    this.scene.pushMatrix();
+	this.scene.pushMatrix();
 
 
 
-    this.cosmeticsObjDisplay();
+	this.cosmeticsObjDisplay();
 
-    this.scene.popMatrix();
-    this.scene.pushMatrix();
-  
-
-    this.materialBase.apply();
-
-    var n = this.cells.length;
-    for (var i = 0; i < n; i++) {
-        var nn = this.cells[i].length;
-        for (var t = 0; t < nn; t++) {
-            this.cells[i][t].display(this.materialBase, this.materialSelected, this.pick, this.pickLock);
-        }
-    }
+  this.scene.popMatrix();
+  this.scene.pushMatrix();
 
 
+	this.materialBase.apply();
+
+	var n = this.cells.length;
+	for (var i = 0; i < n; i++) {
+		var nn = this.cells[i].length;
+		for (var t = 0; t < nn; t++) {
+			this.cells[i][t].display(this.materialBase, this.materialSelected, this.pick, this.pickLock);
+		}
+	}
 
 
-    this.scene.popMatrix();
+
+
+	this.scene.popMatrix();
 
 };
 
 GameBoard.prototype.createLine = function(x, y, numCells, id) {
 
-    var line = [];
-    for (var i = 0; i < numCells; i++) {
-        hex = new GameCell(i + id, this.scene, x, y);
-        console.log(i + id);
-        x += 0.177;
-        line.push(hex);
-    }
+	var line = [];
+	for (var i = 0; i < numCells; i++) {
+		hex = new GameCell(i + id, this.scene, x, y);
+		console.log(i + id);
+		x += 0.177;
+		line.push(hex);
+	}
 
-    return line;
-}
+	return line;
+};
 
 
 
@@ -173,27 +172,27 @@ GameBoard.prototype.createCells = function() {
 
 
 GameBoard.prototype.updatePick = function(id) {
-    this.pick = id;
-    this.lockCell(id);
-}
+	this.pick = id;
+	this.lockCell(id);
+};
 
 GameBoard.prototype.resetRegisterPick = function() {
-    this.registerPick = [];
+	this.registerPick = [];
 
-    /** +1 to macth cell iD */
-    var lastCell = 61 + 1;
+	/** +1 to macth cell iD */
+	var lastCell = 61 + 1;
 
-    for (var i = 0; i < lastCell; i++) {
-        this.registerPick.push(true);
-    }
-}
+	for (var i = 0; i < lastCell; i++) {
+		this.registerPick.push(true);
+	}
+};
 
 /**
 Update already picked cell
 */
 GameBoard.prototype.lockCell = function(id) {
-    this.registerPick[id] = false;
-}
+	this.registerPick[id] = false;
+};
 
 
 GameBoard.prototype.getPosition = function(id) {
@@ -210,12 +209,12 @@ GameBoard.prototype.getPosition = function(id) {
 
     return null;
 
-}
+};
 
 
 GameBoard.prototype.cosmeticsObjDisplay = function() {
 
-    this.scene.pushMatrix();
+	this.scene.pushMatrix();
 
     this.scene.translate(this.posX + 0.05, this.posY - 0.6, -0.05);
 
@@ -237,4 +236,58 @@ GameBoard.prototype.cosmeticsObjDisplay = function() {
 
 
     this.scene.popMatrix();
-}
+};
+
+
+/**
+ * Turns this board into a string, so it can be sent to the server
+ * This string is a list of lists in prolog
+ *
+ * @return A string
+ */
+GameBoard.prototype.toString = function() {
+
+	// output string. Initial brackets
+	var ss = "[";
+
+	for (var i = 0; i < this.cells.length; i++) {
+
+		// line i. Initial brackets
+		var line = "[";
+
+		for (var j = 0; j < this.cells[i].length; j++) {
+
+			// if last emtpy cell
+			if (j === this.cells[i].length - 1) {
+
+				line += this.cells[i][j].tag;
+
+				// remaining cells
+				var nNullCells = this.WIDTH - this.cells[i].length;
+
+				for (var k = 0; k < nNullCells; k++) {
+					line += ",nullCell";
+				}
+
+			} else {
+				line += this.cells[i][j].tag + ",";
+			}
+
+		}
+
+		// line i. Final brackets
+    if (i === this.cells.length - 1) {
+		    line += "]";
+    } else {
+      line += "],";
+    }
+
+    ss += line;
+
+	}
+
+	// final brackets
+	ss += "]";
+
+	return ss;
+};

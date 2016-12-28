@@ -11,6 +11,11 @@ function Piece(id, scene, color, x, y, z, gameboard) {
     this.id = id;
     this.color = color;
 
+    if (this.color === 0) {
+      this.tag = "whitePiece";
+    } else if (this.color === 1) {
+      this.tag = "blackPiece";
+    }
     this.base = new Cylinder(this.scene, 12, 1, 0.05, 0.05, 0.025);
     this.body = new Cylinder(this.scene, 4, 1, 0.05, 0.05, 0.05);
     this.top = new Cylinder(this.scene, 8, 1, 0.03, 0.06, 0.025);
