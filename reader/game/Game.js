@@ -27,11 +27,11 @@ function Game(scene) {
     this.botDiff = "easy";
 
     // true if it's bot's turn to play
-    this.botTurn = true;
+    this.botTurn = false;
 
     // true if the game is bot vs bot (if this is true, botTurn should also be true)
     // call new RequestPlayBot(this) to start the game
-    this.twoBots = true;
+    this.twoBots = false;
 
 
     this.black = new CGFappearance(scene);
