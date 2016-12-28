@@ -16,9 +16,11 @@ function Game(scene) {
     this.playBoard = new GameBoard(this.scene, 2, 0);
 
 
+    this.scoreBoard = new ScoreBoard(scene);
+
+
     this.piecesBlack = this.createPieces(1, 0, 0);
     this.piecesWhite = this.createPieces(0, offsetWhiteX, 0);
-
 
 
 
@@ -81,6 +83,7 @@ Game.prototype.display = function() {
     this.displayPieces();
     this.sideBoard.display();
     this.sideBoardWhite.display();
+    this.scoreBoard.display();
     this.playBoard.display();
 };
 
@@ -240,5 +243,7 @@ Game.prototype.update = function(currTime) {
             this.piecesWhite[i][t].update(currTime);
         }
     }
+
+    this.scoreBoard.update(currTime);
 
 }
