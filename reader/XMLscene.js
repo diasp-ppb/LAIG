@@ -14,6 +14,7 @@ XMLscene.prototype.constructor = XMLscene;
 XMLscene.prototype.update = function(currTime) {
     if (this.graph.loadedOk) {
         this.graph.update(currTime);
+        this.game.update(currTime);
     }
 };
 
