@@ -92,7 +92,18 @@ Game.prototype.display = function() {
     this.displayPieces();
     this.sideBoard.display();
     this.sideBoardWhite.display();
+
+
+    this.scene.pushMatrix();
+    this.scene.rotate(1.57,1,0,0);
+    this.scene.translate(1.5,0,-7);
     this.scoreBoard.display();
+
+    this.scene.translate(1.5,0,14);
+    this.scene.rotate(3.14,0,1,0);
+    this.scoreBoard.display();
+    
+    this.scene.popMatrix();
     this.playBoard.display();
 };
 

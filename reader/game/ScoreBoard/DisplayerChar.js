@@ -10,7 +10,7 @@ function DisplayerChar(scene, value) {
     // scene obj
     this.width = 0.2;
     this.height = 0.2;
-    this.show = new Rectangle(scene, [this.width/2, this.height/2], [-this.width/2, -this.height/2]);
+
     this.show2 = new Rectangle(scene, [this.width/2, this.height/2], [-this.width/2, -this.height/2]);
     this.font = new Font(scene);
 }
@@ -30,15 +30,6 @@ DisplayerChar.prototype.display = function() {
 
     this.scene.pushMatrix();
     this.scene.rotate(3.14,0,0,1);
-    //this.scene.rotate(1.57,0,0,1);
-
-    var charPosN1 = this.font.charPosition(" ");
-
-    this.scene.activeShader.setUniformsValues({
-        charPosition: charPosN1
-    });
-
-    this.show.display();
 
 
     var charPosN2 = this.font.charPosition(this.value);
