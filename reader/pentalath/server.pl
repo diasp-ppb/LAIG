@@ -42,7 +42,7 @@ server_loop(Socket) :-
 
 		% Generate Response
 		handle_request(Request, MyReply, Status),
-		format('Request: ~q~n',[Request]),
+		%format('Request: ~q~n',[Request]),
 		format('Reply: ~q~n', [MyReply]),
 
 		% Output Response
@@ -104,15 +104,21 @@ print_header_line(_).
 
 % Require your Prolog Files here
 
-parse_input(handshake, handshake).
-parse_input(test(C,N), Res) :- test(C,Res,N).
+% quit
 parse_input(quit, goodbye).
-parse_input(pentalath, pentalath2).
-parse_input(id(ID), pick(ID)).
-parse_input(validatePlay(Piece, Board, X, Y), yes):- printBoard(Board), nl, validatePlay(Piece, Board, X, Y).
-parse_input(validatePlay(_, _, _, _), no).
-% parse_input(validatePlay(Piece, Board, X, Y), yes):- validatePlay(Piece, Board, X, Y).
 
+% validatePlay
+parse_input(validatePlay(Piece, Board, X, Y), yes):-
+	write('Request: validatePlay\n'),
+	printBoard(Board), nl,
+	validatePlay(Piece, Board, X, Y).
 
-test(_,[],N) :- N =< 0.
-test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
+parse_input(validatePlay(_, _, _, _), no):- write('Request: validatePlay\n').
+
+% gameIsRunning
+parse_input(gameIsRunning(Board), yes):-
+	write('Request: gameIsRunning\n'),
+	printBoard(Board), nl,
+	gameIsRunning(Board).
+
+parse_input(gameIsRunning(_), no):- write('Request: gameIsRunning\n').

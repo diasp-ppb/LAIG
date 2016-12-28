@@ -26,6 +26,7 @@ function ServerRequest(type, requestStr) {
 
   // subclasses should override this with their own onload (data.target.response)
   this.request.onload = function(data) {
+    console.log("Request: " + type);
     console.log("Server Reply: " + data.target.response);
   };
 

@@ -89,7 +89,7 @@ Game.prototype.display = function() {
 Game.prototype.updateBoardPick = function(id) {
     this.playBoard.updatePick(id);
 
-    // validate play
+    // validate play (it also checks for game over!)
     new RequestValidatePlay(this, id);
 
 };
@@ -197,6 +197,25 @@ Game.prototype.getPieceWhite = function(id) {
     }
 };
 
+
+/**
+* Switch player turn
+*/
+Game.prototype.switchTurn = function() {
+
+  if (this.currPlayer === "player1") {
+    // switch turn
+    this.currPlayer = "player2";
+  }
+  else if (this.currPlayer === "player2") {
+    // switch turn
+    this.currPlayer = "player1";
+  }
+
+  console.log("Switch turn!");
+};
+
+
 /** id range 1 - 61*/
 Game.prototype.switchPieceBoard = function(id) {
 
@@ -205,14 +224,10 @@ Game.prototype.switchPieceBoard = function(id) {
   if (this.currPlayer === "player1") {
     // get white piece
     piece = this.getPieceWhite(id);
-    // switch turn
-    this.currPlayer = "player2";
   }
   else if (this.currPlayer === "player2") {
     // get black piece
     piece = this.getPieceBlack(id);
-    // switch turn
-    this.currPlayer = "player1";
   }
 
   // get array coordinates of picked cell
@@ -227,7 +242,4 @@ Game.prototype.switchPieceBoard = function(id) {
 
   // set tag (emptyCell, whitePiece or blackPiece)
   cell.tag = piece.tag;
-
-  // switch turn
-  console.log("Switch turn!");
 };
