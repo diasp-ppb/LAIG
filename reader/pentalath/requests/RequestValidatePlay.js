@@ -21,7 +21,7 @@ function RequestValidatePlay(game, pickId) {
     console.log("Server Reply: " + reply);
 
     if (reply === "yes") {
-        game.switchPieceBoardBlack(pickId);
+        game.switchPieceBoard(pickId);
     }
     else {
       // TODO

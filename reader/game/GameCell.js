@@ -7,7 +7,7 @@ function GameCell(id, scene, x, y) {
     this.x = x;
     this.y = y;
 
-    // Piece object
+    // emptyCell, whitePiece or blackPiece
     this.tag = "emptyCell";
 
 

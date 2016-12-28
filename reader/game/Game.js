@@ -19,6 +19,8 @@ function Game(scene) {
     this.piecesBlack = this.createPieces(1,0,0);
     this.piecesWhite = this.createPieces(0,offsetWhiteX,0);
 
+    // player1 or player2
+    this.currPlayer = "player1";
 
 
     // TODO CHANGE COLOR
@@ -89,7 +91,7 @@ Game.prototype.updateBoardPick = function(id) {
 
     // validate play
     new RequestValidatePlay(this, id);
-    
+
 };
 
 
@@ -196,27 +198,36 @@ Game.prototype.getPieceWhite = function(id) {
 };
 
 /** id range 1 - 61*/
-Game.prototype.switchPieceBoardBlack = function(id) {
-    var piece = this.getPieceBlack(id);
+Game.prototype.switchPieceBoard = function(id) {
 
-    var postion = this.playBoard.getPosition(id);
+  var piece;
 
-    var cell = this.playBoard.cells[postion[0]][postion[1]];
+  if (this.currPlayer === "player1") {
+    // get white piece
+    piece = this.getPieceWhite(id);
+    // switch turn
+    this.currPlayer = "player2";
+  }
+  else if (this.currPlayer === "player2") {
+    // get black piece
+    piece = this.getPieceBlack(id);
+    // switch turn
+    this.currPlayer = "player1";
+  }
 
-    piece.x = cell.x;
-    piece.y = cell.y;
-    cell.tag = piece.tag;
-};
+  // get array coordinates of picked cell
+  var position = this.playBoard.getPosition(id);
 
-Game.prototype.switchPieceBoardWhite = function(id) {
-    var piece = this.getPieceWhite(id);
+  // get picked GameCell
+  var cell = this.playBoard.cells[position[0]][position[1]];
 
-    var postion = this.playBoard.getPosition(id);
+  // set piece absolute coordinates to match cell coordinates
+  piece.x = cell.x;
+  piece.y = cell.y;
 
-    var cell = this.playBoard.cells[postion[0]][postion[1]];
+  // set tag (emptyCell, whitePiece or blackPiece)
+  cell.tag = piece.tag;
 
-    piece.x = cell.x;
-    piece.y = cell.y;
-
-    cell.tag = piece.tag;
+  // switch turn
+  console.log("Switch turn!");
 };
