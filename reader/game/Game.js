@@ -16,12 +16,12 @@ function Game(scene) {
     this.playBoard = new GameBoard(this.scene, 2, 0);
 
 
-    this.piecesBlack = this.createPieces(1,0,0);
-    this.piecesWhite = this.createPieces(0,offsetWhiteX,0);
+    this.piecesBlack = this.createPieces(1, 0, 0);
+    this.piecesWhite = this.createPieces(0, offsetWhiteX, 0);
 
 
 
-    // TODO CHANGE COLOR
+
     this.black = new CGFappearance(scene);
     //set emission
     this.black.setEmission(0.3, 0.3, 0.3, 1.0);
@@ -95,10 +95,10 @@ Game.prototype.updateBoardPick = function(id) {
 };
 
 
-Game.prototype.createLinePieces = function(x, y, z, num, id,color) {
+Game.prototype.createLinePieces = function(x, y, z, num, id, color) {
     var line = [];
     for (var i = 0; i < num; i++) {
-        hex = new Piece(i + id, this.scene, color, x, y, z);
+        hex = new Piece(i + id, this.scene, color, x, y, z, this.playBoard);
         console.log(i + id);
         x += 0.177;
         line.push(hex);
@@ -106,38 +106,38 @@ Game.prototype.createLinePieces = function(x, y, z, num, id,color) {
     return line;
 }
 
-Game.prototype.createPieces = function(color,offsetX,offsetY) {
+Game.prototype.createPieces = function(color, offsetX, offsetY) {
     var dec = 0.156;
-    var y = 0+offsetY;
-    var x = -0.29+offsetX;
+    var y = 0 + offsetY;
+    var x = -0.29 + offsetX;
     var z = 0.01;
 
     var pieces = [];
-    pieces.push(this.createLinePieces(x, y, z, 5, 1,color));
+    pieces.push(this.createLinePieces(x, y, z, 5, 1, color));
     y -= dec;
-    x = -0.38+offsetX;
-    pieces.push(this.createLinePieces(x, y, z, 6, 6,color));
+    x = -0.38 + offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 6, 6, color));
     y -= dec;
-    x = -0.48+offsetX;
-    pieces.push(this.createLinePieces(x, y, z, 7, 12,color));
+    x = -0.48 + offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 7, 12, color));
     y -= dec;
-    x = -0.58+offsetX;
-    pieces.push(this.createLinePieces(x, y, z, 8, 19,color));
+    x = -0.58 + offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 8, 19, color));
     y -= dec;
-    x = -0.68+offsetX;
-    pieces.push(this.createLinePieces(x, y, z, 9, 27,color));
+    x = -0.68 + offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 9, 27, color));
     y -= dec;
-    x = -0.58+offsetX;
-    pieces.push(this.createLinePieces(x, y, z, 8, 36,color));
+    x = -0.58 + offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 8, 36, color));
     y -= dec;
-    x = -0.48+offsetX;
-    pieces.push(this.createLinePieces(x, y, z, 7, 44,color));
+    x = -0.48 + offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 7, 44, color));
     y -= dec;
-    x = -0.38+offsetX;
-    pieces.push(this.createLinePieces(x, y, z, 6, 51,color));
+    x = -0.38 + offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 6, 51, color));
     y -= dec;
-    x = -0.29+offsetX;
-    pieces.push(this.createLinePieces(x, y, z, 5, 57,color));
+    x = -0.29 + offsetX;
+    pieces.push(this.createLinePieces(x, y, z, 5, 57, color));
 
     return pieces;
 }
@@ -158,7 +158,7 @@ Game.prototype.displayPieces = function() {
     }
 
 
-    var n = this.piecesWhite.length;
+    n = this.piecesWhite.length;
     for (var i = 0; i < n; i++) {
         var nn = this.piecesWhite[i].length;
         for (var t = 0; t < nn; t++) {
@@ -201,12 +201,14 @@ Game.prototype.getPieceWhite = function(id) {
 Game.prototype.switchPieceBoardBlack = function(id) {
     var piece = this.getPieceBlack(id);
 
-    var postion = this.playBoard.getPosition(id);
 
-    var cell = this.playBoard.cells[postion[0]][postion[1]];
+    piece.startAnimation();
+    //var postion = this.playBoard.getPosition(id);
+
+  /*  var cell = this.playBoard.cells[postion[0]][postion[1]];
 
     piece.x = cell.x;
-    piece.y = cell.y;
+    piece.y = cell.y;*/
 }
 
 Game.prototype.switchPieceBoardWhite = function(id) {
@@ -218,5 +220,25 @@ Game.prototype.switchPieceBoardWhite = function(id) {
 
     piece.x = cell.x;
     piece.y = cell.y;
+
+}
+
+Game.prototype.update = function(currTime) {
+    var n = this.piecesBlack.length;
+    for (var i = 0; i < n; i++) {
+        var nn = this.piecesBlack[i].length;
+        for (var t = 0; t < nn; t++) {
+            this.piecesBlack[i][t].update(currTime);
+        }
+    }
+
+
+    n = this.piecesWhite.length;
+    for (var i = 0; i < n; i++) {
+        var nn = this.piecesWhite[i].length;
+        for (var t = 0; t < nn; t++) {
+            this.piecesWhite[i][t].update(currTime);
+        }
+    }
 
 }
