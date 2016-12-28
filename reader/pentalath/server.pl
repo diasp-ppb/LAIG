@@ -2,6 +2,7 @@
 :-use_module(library(lists)).
 :-use_module(library(codesio)).
 :- ensure_loaded('board.pl').
+:- ensure_loaded('bot.pl').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                        Server                                                   %%%%
@@ -110,7 +111,7 @@ parse_input(quit, goodbye).
 % validatePlay
 parse_input(validatePlay(Piece, Board, X, Y), yes):-
 	write('Request: validatePlay\n'),
-	printBoard(Board), nl,
+	%printBoard(Board), nl,
 	validatePlay(Piece, Board, X, Y).
 
 parse_input(validatePlay(_, _, _, _), no):- write('Request: validatePlay\n').
@@ -118,7 +119,15 @@ parse_input(validatePlay(_, _, _, _), no):- write('Request: validatePlay\n').
 % gameIsRunning
 parse_input(gameIsRunning(Board), yes):-
 	write('Request: gameIsRunning\n'),
-	printBoard(Board), nl,
+	%printBoard(Board), nl,
 	gameIsRunning(Board).
 
 parse_input(gameIsRunning(_), no):- write('Request: gameIsRunning\n').
+
+% playBot
+parse_input(playBot(easy, Board, Player), X-Y):-
+	write('Request: playBotEasyMode\n'),
+	%printBoard(Board), nl,
+	playBotEasyModeServer(Board, Player, X, Y).
+
+parse_input(playBot(easy, _, _), no):- write('Request: playBotEasyMode\n').

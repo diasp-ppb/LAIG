@@ -9,7 +9,7 @@ function RequestGameCheck(game) {
   var type = "gameIsRunning";
 
   // generate request string
-  var requestStr = "gameIsRunning(" + game.playBoard.toString() + ")";
+  var requestStr = "" + type + "(" + game.playBoard.toString() + ")";
 
   // super class constructor
   ServerRequest.call(this, type, requestStr);

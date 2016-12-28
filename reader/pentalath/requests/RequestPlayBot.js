@@ -3,18 +3,14 @@
  * It checks if the play is valid and if the game is over
  *
  * @param game Object of class Game
- * @param pickId Id of picked cell
  */
-function RequestValidatePlay(game, pickId) {
+function RequestPlayBot(game) {
 
   // request type
-  var type = "validatePlay";
-
-  // get coordinates of picked cell
-  var position = game.playBoard.getPosition(pickId);
+  var type = "playBot";
 
   // generate request string
-  var requestStr = "" + type + "(something," + game.playBoard.toString() + "," + position[1] + "," + position[0] + ")";
+  var requestStr = "" + type + "(" + game.botDiff + "," + game.playBoard.toString() + "," + game.currPlayer + ")";
 
   // super class constructor
   ServerRequest.call(this, type, requestStr);
@@ -26,17 +22,14 @@ function RequestValidatePlay(game, pickId) {
     console.log("Request: " + type);
     console.log("Server Reply: " + reply);
 
-    if (reply === "yes") {
+    //get id of piece played by bot (cells[y][x])
+    var id = game.playBoard.cells[reply[2]][reply[0]].id;
+    // place piece
+    game.switchPieceBoard(id);
 
-        // place piece
-        game.switchPieceBoard(pickId);
+    // check for game over
+    new RequestGameCheck(game);
 
-        // check for game over
-        new RequestGameCheck(game);
-    }
-    else {
-      console.log("There's already a piece there, please choose a free cell!");
-    }
   };
 
   // set request onerror
@@ -47,4 +40,4 @@ function RequestValidatePlay(game, pickId) {
   // send request to the server
   this.request.send();
 }
-RequestValidatePlay.prototype = Object.create(ServerRequest.prototype);
+RequestPlayBot.prototype = Object.create(ServerRequest.prototype);

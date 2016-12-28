@@ -76,6 +76,17 @@ findAllPlays(Board, Player, PossiblePlays):-
 getPossiblePlays(Board, Player, PossiblePlays):-
   findAllPlays(Board, Player, PossiblePlays).
 
+
+/**
+* Interface for playing the bot on easy mode, used for LAIG
+*/
+playBotEasyModeServer(Board, Player, X, Y):-
+  getPossiblePlays(Board, Player, PossiblePlays),
+  length(PossiblePlays, MaxRandom),
+  random(0, MaxRandom, RandomN),
+  find(PossiblePlays, RandomN, X-Y).              
+
+
 /**
 * Plays bot on easy mode
 * @param Board Game Board

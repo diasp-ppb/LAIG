@@ -22,6 +22,12 @@ function Game(scene) {
     // player1 or player2
     this.currPlayer = "player1";
 
+    // bot difficulty
+    this.botDiff = "easy";
+
+    // true if it's bot's turn to play
+    this.botTurn = false;
+
 
     // TODO CHANGE COLOR
     this.black = new CGFappearance(scene);
@@ -213,6 +219,16 @@ Game.prototype.switchTurn = function() {
   }
 
   console.log("Switch turn!");
+
+  // if bot just played, it's the player turn
+  if (this.botTurn === true) {
+      this.botTurn = false;
+  }
+  // if it's bot's turn to play
+  else {
+    this.botTurn = true;
+    new RequestPlayBot(this);
+  }
 };
 
 
