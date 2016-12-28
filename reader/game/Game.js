@@ -20,6 +20,18 @@ function Game(scene) {
     this.piecesWhite = this.createPieces(0, offsetWhiteX, 0);
 
 
+    // player1 or player2
+    this.currPlayer = "player1";
+
+    // bot difficulty (easy, hard or none)
+    this.botDiff = "easy";
+
+    // true if it's bot's turn to play
+    this.botTurn = true;
+
+    // true if the game is bot vs bot (if this is true, botTurn should also be true)
+    // call new RequestPlayBot(this) to start the game
+    this.twoBots = true;
 
 
     this.black = new CGFappearance(scene);
@@ -65,10 +77,7 @@ function Game(scene) {
     this.support.setShininess(1000);
 
     this.support.loadTexture('../resources/metal.jpg');
-
-
-
-};
+}
 
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -90,8 +99,9 @@ Game.prototype.display = function() {
 Game.prototype.updateBoardPick = function(id) {
     this.playBoard.updatePick(id);
 
-    /** TODO TEMP*/
-    this.switchPieceBoardBlack(id);
+    // validate play (it also checks for game over!)
+    new RequestValidatePlay(this, id);
+
 };
 
 
@@ -104,7 +114,7 @@ Game.prototype.createLinePieces = function(x, y, z, num, id, color) {
         line.push(hex);
     }
     return line;
-}
+};
 
 Game.prototype.createPieces = function(color, offsetX, offsetY) {
     var dec = 0.156;
@@ -140,7 +150,7 @@ Game.prototype.createPieces = function(color, offsetX, offsetY) {
     pieces.push(this.createLinePieces(x, y, z, 5, 57, color));
 
     return pieces;
-}
+};
 
 
 
@@ -168,7 +178,7 @@ Game.prototype.displayPieces = function() {
 
 
     this.scene.popMatrix();
-}
+};
 
 Game.prototype.getPieceBlack = function(id) {
     var n = this.piecesBlack.length;
@@ -181,7 +191,7 @@ Game.prototype.getPieceBlack = function(id) {
             }
         }
     }
-}
+};
 
 
 Game.prototype.getPieceWhite = function(id) {
@@ -195,33 +205,69 @@ Game.prototype.getPieceWhite = function(id) {
             }
         }
     }
-}
+};
+
+
+/**
+* Switch player turn
+*/
+Game.prototype.switchTurn = function() {
+
+  if (this.currPlayer === "player1") {
+    // switch turn
+    this.currPlayer = "player2";
+  }
+  else if (this.currPlayer === "player2") {
+    // switch turn
+    this.currPlayer = "player1";
+  }
+
+  console.log("Switch turn!");
+
+  if (this.botDiff !== "none") {
+    // if bot just played, it's the player turn
+    if (this.botTurn === true && this.twoBots === false) {
+        this.botTurn = false;
+    }
+    // if it's bot's turn to play
+    else {
+      this.botTurn = true;
+      new RequestPlayBot(this);
+    }
+  }
+};
+
 
 /** id range 1 - 61*/
-Game.prototype.switchPieceBoardBlack = function(id) {
-    var piece = this.getPieceBlack(id);
+Game.prototype.switchPieceBoard = function(id) {
 
+  var piece;
 
-    piece.startAnimation();
-    //var postion = this.playBoard.getPosition(id);
+  if (this.currPlayer === "player1") {
+    // get white piece
+    piece = this.getPieceWhite(id);
+  }
+  else if (this.currPlayer === "player2") {
+    // get black piece
+    piece = this.getPieceBlack(id);
+  }
 
-  /*  var cell = this.playBoard.cells[postion[0]][postion[1]];
+  // get array coordinates of picked cell
+  var position = this.playBoard.getPosition(id);
 
-    piece.x = cell.x;
-    piece.y = cell.y;*/
-}
+  // get picked GameCell
+  var cell = this.playBoard.cells[position[0]][position[1]];
 
-Game.prototype.switchPieceBoardWhite = function(id) {
-    var piece = this.getPieceWhite(id);
+  // set piece absolute coordinates to match cell coordinates
+  piece.x = cell.x;
+  piece.y = cell.y;
 
-    var postion = this.playBoard.getPosition(id);
+  // set tag (emptyCell, whitePiece or blackPiece)
+  cell.tag = piece.tag;
 
-    var cell = this.playBoard.cells[postion[0]][postion[1]];
-
-    piece.x = cell.x;
-    piece.y = cell.y;
-
-}
+  // play animation
+  piece.startAnimation();
+};
 
 Game.prototype.update = function(currTime) {
     var n = this.piecesBlack.length;
@@ -241,4 +287,4 @@ Game.prototype.update = function(currTime) {
         }
     }
 
-}
+};
