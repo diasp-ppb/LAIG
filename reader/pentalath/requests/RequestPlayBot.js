@@ -22,13 +22,19 @@ function RequestPlayBot(game) {
     console.log("Request: " + type);
     console.log("Server Reply: " + reply);
 
-    //get id of piece played by bot (cells[y][x])
-    var id = game.playBoard.cells[reply[2]][reply[0]].id;
-    // place piece
-    game.switchPieceBoard(id);
+    if (reply === "no") {
+      console.log("There are no more available cells for bot to play!");
+    }
+    else {
+      
+      //get id of piece played by bot (cells[y][x])
+      var id = game.playBoard.cells[reply[2]][reply[0]].id;
+      // place piece
+      game.switchPieceBoard(id);
 
-    // check for game over
-    new RequestGameCheck(game);
+      // check for game over
+      new RequestGameCheck(game);
+    }
 
   };
 

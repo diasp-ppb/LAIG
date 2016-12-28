@@ -124,10 +124,18 @@ parse_input(gameIsRunning(Board), yes):-
 
 parse_input(gameIsRunning(_), no):- write('Request: gameIsRunning\n').
 
-% playBot
+% playBotEasyMode
 parse_input(playBot(easy, Board, Player), X-Y):-
 	write('Request: playBotEasyMode\n'),
 	%printBoard(Board), nl,
 	playBotEasyModeServer(Board, Player, X, Y).
 
-parse_input(playBot(easy, _, _), no):- write('Request: playBotEasyMode\n').
+parse_input(playBot(easy, _, _), no):- write('Request: playBotHardMode\n').
+
+% playBotHardMode
+/*parse_input(playBot(hard, Board, Player), X-Y):-
+	write('Request: playBotHardMode\n'),
+	printBoard(Board), nl,
+	playBotHardMode(Board, Player, _, X-Y).
+
+parse_input(playBot(hard, _, _), no):- write('Request: playBotHardMode\n').*/

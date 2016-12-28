@@ -84,7 +84,7 @@ playBotEasyModeServer(Board, Player, X, Y):-
   getPossiblePlays(Board, Player, PossiblePlays),
   length(PossiblePlays, MaxRandom),
   random(0, MaxRandom, RandomN),
-  find(PossiblePlays, RandomN, X-Y).              
+  find(PossiblePlays, RandomN, X-Y).
 
 
 /**
