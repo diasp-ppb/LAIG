@@ -102,14 +102,18 @@ DisplayerString.prototype.constructor = DisplayerString;
 
 function Font(scene) {
 
-    CGFobject.call(this, scene).
+    CGFobject.call(this, scene);
 
-    //TODO SHADER 
 
-    this.font = new CGFTexture(scene,)
+
+    this.shader =  new CGFshader(scene.gl, "../shaders/font.vert", "../shaders/font.frag");
 
     this.material = new CGFappearance(scene);
 
+    this.material.setAmbient(0.1, 0.1, 0.1, 1);
+	  this.material.setDiffuse(0.1, 0.1, 0.1, 1);
+   	this.material.setSpecular(0.1, 0.1, 0.1, 1);
 
-    this.material.setTexture(this.texture);
+
+    this.material.loadTexture("../resources/oolite-font2.png");
 }
