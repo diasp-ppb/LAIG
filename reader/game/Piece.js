@@ -20,8 +20,6 @@ function Piece(id, scene, color, x, y, z, gameboard) {
     this.z = z;
 
     /** create animation */
-
-
     var p = gameboard.getPosition(id);
     // last position
     var cell = gameboard.cells[p[0]][p[1]];
@@ -43,8 +41,14 @@ function Piece(id, scene, color, x, y, z, gameboard) {
     ];
 
     var slopes =  [0, 0, 0];
-    //TODO scales
-    this.animation = new KeyFrameAnimation(5, positions, angle, slopes, null);
+
+    var scales = [
+      [1,1,1],
+      [1,1,1],
+      [1,1,1],
+    ];
+
+    this.animation = new KeyFrameAnimation(5, positions, angle, slopes, scales);
 
 }
 

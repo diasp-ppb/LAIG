@@ -21,7 +21,7 @@ function Game(scene) {
 
 
 
-    // TODO CHANGE COLOR
+
     this.black = new CGFappearance(scene);
     //set emission
     this.black.setEmission(0.3, 0.3, 0.3, 1.0);

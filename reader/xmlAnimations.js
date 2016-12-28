@@ -577,7 +577,7 @@ function KeyFrameAnimation(span, controlPoints, angles, slopes, scales) {
     this.span = span;
     this.angles = angles;
     this.slopes = slopes;
-    //this.scales = scales;
+    this.scales = scales;
 
     this.switchTime = span / (controlPoints.length - 1);
     this.lastCurrTime = -1;
@@ -590,7 +590,7 @@ function KeyFrameAnimation(span, controlPoints, angles, slopes, scales) {
 
     this.currentPos = controlPoints[0];
     this.currentAngle = angles[0];
-  //  this.currentScale = scales[0];
+    this.currentScale = scales[0];
 
 
     this.active = false;
@@ -667,16 +667,33 @@ KeyFrameAnimation.prototype.update = function(currTime) {
 
     /**calculate angle */
 
-    x = h00 * this.angles[this.currentControlPoint][0] +
-        h01 * this.angles[this.currentControlPoint + 1][0];
+    var ang = this.angles[this.currentControlPoint];
+    var ang2 = this.angles[this.currentControlPoint + 1];
+    x = h00 * ang[0] +
+        h01 * ang2[0];
 
-    y = h00 * this.angles[this.currentControlPoint][1] +
-        h01 * this.angles[this.currentControlPoint + 1][1];
+    y = h00 * ang[1] +
+        h01 * ang2[1];
 
-    z = h00 * this.angles[this.currentControlPoint][2] +
-        h01 * this.angles[this.currentControlPoint + 1][2];
+    z = h00 * ang[2] +
+        h01 * ang2[2];
 
     this.currentAngle = [x, y, z];
+    /**calculate scale */
+
+    var sca = this.angles[this.currentControlPoint];
+    var sca2 = this.angles[this.currentControlPoint + 1];
+    x = h00 * sca[0] +
+        h01 * sca2[0];
+
+    y = h00 * sca[1] +
+        h01 * sca2[1];
+
+    z = h00 * sca2[2] +
+        h01 * sca2[2];
+
+    this.currentScale = [x, y, z];
+
 
 }
 
@@ -688,4 +705,8 @@ KeyFrameAnimation.prototype.getPosition = function() {
 
 KeyFrameAnimation.prototype.getAngle = function() {
     return this.currentAngle;
+}
+
+KeyFrameAnimation.prototype.getScale = function() {
+    return this.currentScale;
 }
