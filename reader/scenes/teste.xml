@@ -7,7 +7,7 @@
             <to x="0" y="0" z="0"/>
         </perspective>
         <perspective id="cam1" near="0.1" far="500" angle="57">
-            <from x="0" y="0" z="-4"/>
+            <from x="0" y="-4" z="1"/>
             <to x="0" y="0" z="0"/>
         </perspective>
     </views>
@@ -128,7 +128,7 @@
 
         <component id="base">
             <transformation>
-                <transformationref id="null"/>
+                <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
                 <material id="baco"/>
