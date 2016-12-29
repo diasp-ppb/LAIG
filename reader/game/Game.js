@@ -265,6 +265,9 @@ Game.prototype.switchTurn = function() {
             new RequestPlayBot(this);
         }
     }
+
+    //reset timer
+    this.scoreBoard.resetTimer();
 };
 
 /**
@@ -304,6 +307,8 @@ Game.prototype.popPlay = function() {
 
   // update player turn
   this.currPlayer = play.player;
+  //reset timer
+  this.scoreBoard.resetTimer();
 
   // remove piece from board
   this.removePieceBoard(play.piece);
@@ -340,10 +345,10 @@ Game.prototype.switchPieceBoard = function(id) {
     // get picked GameCell
     var cell = this.playBoard.cells[position[0]][position[1]];
 
-    // set piece absolute coordinates to match cell coordinates
+    /*// set piece absolute coordinates to match cell coordinates
     piece.x = cell.x;
     piece.y = cell.y;
-
+    */
     // set tag (emptyCell, whitePiece or blackPiece)
     cell.tag = piece.tag;
 
@@ -377,8 +382,8 @@ Game.prototype.removePieceBoard = function(piece) {
   }
 
   // set piece absolute coordinates to match cell coordinates
-  piece.x = sideCell.x;
-  piece.y = sideCell.y;
+  //piece.x = sideCell.x;
+  //piece.y = sideCell.y;
 
   // set tag
   mainCell.tag = "emptyCell";
@@ -409,5 +414,5 @@ Game.prototype.update = function(currTime) {
     }
 
 
-   this.scoreBoard.update(currTime);
+   this.scoreBoard.update(currTime,this.currPlayer);
 };

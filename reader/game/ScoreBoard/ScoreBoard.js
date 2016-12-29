@@ -3,10 +3,10 @@ function ScoreBoard(scene) {
     CGFobject.call(this, scene);
 
     this.scene = scene;
-
-
+    //time to a humam player play
+    this.turntime = 30;
     //Timer
-    this.timer = new DisplayerNumber(scene, 30);
+    this.timer = new DisplayerNumber(scene, this.turntime);
     this.t = new DisplayerChar(scene, "T");
     //Counter for 2 players
     this.counterBlack = new DisplayerNumber(scene, 0);
@@ -15,7 +15,7 @@ function ScoreBoard(scene) {
     this.w = new DisplayerChar(scene, "W");
 
     //messages
-    this.msg = new DisplayerString(scene, "FFFFF");
+    this.msg = new DisplayerString(scene, "      ");
     //back
     //  this.backTimer = new Rectangle(scene,[0,0],[2,4]);
 
@@ -54,9 +54,9 @@ ScoreBoard.prototype.display = function() {
 
     this.timer.display(this.font);
     this.scene.translate(0.4, 0, 0);
-    this.counterWhite.display(this.font);
-    this.scene.translate(0.4, 0, 0);
     this.counterBlack.display(this.font);
+    this.scene.translate(0.4, 0, 0);
+    this.counterWhite.display(this.font);
 
 
     this.scene.translate(-1.2, -0.2, 0);
@@ -78,6 +78,38 @@ ScoreBoard.prototype.display = function() {
 };
 
 
-ScoreBoard.prototype.update = function(currTime) {
+ScoreBoard.prototype.update = function(currTime,currentPlayer) {
     this.timer.update(currTime);
+    //check turn end 
+    if(this.timer.value == 0){
+        this.fault(currentPlayer);
+    }
+};
+
+
+ScoreBoard.prototype.winWhite = function(){
+ this.msg.updateString("WINNER W");
+ this.counterWhite.increaseValue();
+};
+
+
+ScoreBoard.prototype.winBlack = function(){
+ this.msg.updateString("WINNER B");
+ this.counterBlack.increaseValue();
+};
+
+ScoreBoard.prototype.fault = function(currentPlayer) {
+ this.msg.updateString(" FAULT");
+ if(currentPlayer == "player2")
+ this.counterWhite.increaseValue();
+ else
+ this.counterBlack.increaseValue();
+
+ this.timer.value = this.turntime;
+};  
+
+
+ScoreBoard.prototype.resetTimer =function (){
+ this.msg.updateString("     ");
+ this.timer.value = this.turntime;
 };

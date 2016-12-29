@@ -58,6 +58,9 @@ DisplayerNumber.prototype.update = function(currTime) {
 
 DisplayerNumber.prototype.increaseValue = function() {
     this.value++;
+    if(this.value > 99)
+       this.value = 99;
+    this.convertValueToString();
 }
 
 DisplayerNumber.prototype.display = function(font) {
