@@ -1,9 +1,9 @@
 <dsx>
-    <scene root="gameBoardTest" axis_length="20.0"/>
+    <scene root="base" axis_length="20.0"/>
 
     <views default="cam0">
         <perspective id="cam0" near="0.1" far="500" angle="57">
-            <from x="10" y="10" z="10"/>
+            <from x="0" y="0" z="4"/>
             <to x="0" y="0" z="0"/>
         </perspective>
         <perspective id="cam1" near="0.1" far="500" angle="57">
@@ -46,6 +46,8 @@
         <texture id="metal" file="../resources/metal.png" length_s="10" length_t="10"/>
         <texture id="grass" file="../resources/grass.png" length_s="50" length_t="50"/>
         <texture id="sky" file="../resources/sky.png" length_s="100" length_t="100"/>
+        <texture id="wood" file="../resources/madeira-escura.jpg" length_s="20" length_t="90"/>
+        <texture id="woodchao" file="../resources/madeira-escura.jpg" length_s="2" length_t="2"/>
     </textures>
 
     <materials>
@@ -98,62 +100,26 @@
             <controlpoint xx="20" yy="0" zz="0"/>
         </animation>
         <animation id="olaaa" span="3" type="perspective" clock="1">
-          <perspectiveref id="cam0"/>
-          <perspectiveref id="cam1"/>
+            <perspectiveref id="cam0"/>
+            <perspectiveref id="cam1"/>
         </animation>
     </animations>
 
     <primitives>
         <primitive id="base">
-            <rectangle x1="-50" y1="-50" x2="50" y2="50"/>
-        </primitive>
-        <primitive id="cilindro">
-            <cylinder top="3" base="3" height="10" slices="15" stacks="13"/>
-        </primitive>
-        <primitive id="esfera">
-            <sphere radius="2" slices="12" stacks="12"/>
-        </primitive>
-        <primitive id="torus">
-            <torus inner="8" outer="10" slices="15" loops="15"/>
-        </primitive>
-        <primitive id="tri">
-            <triangle x1="0" y1="0" z1="0" x2="10" y2="0" z2="0" x3="10" y3="10" z3="0"/>
+            <rectangle x1="-8" y1="-8" x2="8" y2="8"/>
         </primitive>
 
         <primitive id="tank">
             <vehicle/>
         </primitive>
 
-        <primitive id="plane">
-            <plane dimX="120" dimY="120" partsX="13" partsY="13"/>
+        <primitive id="parede">
+            <plane dimX="8" dimY="16" partsX="20" partsY="13"/>
         </primitive>
 
         <primitive id="fundo">
             <plane dimX="100" dimY="70" partsX="13" partsY="13"/>
-        </primitive>
-
-        <primitive id="guapa">
-            <chessboard du="8" dv="8" textureref="metal" su="1" sv="1">
-                <c1 r="0.7" g="0.1" b="0.2" a="1"/>
-                <c2 r="0.1" g="0.7" b="0.2" a="1"/>
-                <cs r="0.1" g="0.2" b="0.7" a="1"/>
-            </chessboard>
-
-        </primitive>
-
-
-
-                <primitive id="teste123485">
-                    <gameBoard/>
-                </primitive>
-
-        <primitive id="guapa2">
-            <chessboard du="8" dv="8" textureref="metal" su="5" sv="5">
-                <c1 r="0.7" g="0.1" b="0.2" a="1"/>
-                <c2 r="0.1" g="0.7" b="0.2" a="1"/>
-                <cs r="0.1" g="0.2" b="0.7" a="1"/>
-            </chessboard>
-
         </primitive>
 
     </primitives>
@@ -169,143 +135,88 @@
             </materials>
             <texture id="sky"/>
             <children>
-                <componentref id="carro"/>
                 <componentref id="chao"/>
-                <componentref id="sky"/>
-                <componentref id="sky2"/>
-                <componentref id="chess"/>
-                <componentref id="chess2"/>
-                <componentref id="gameBoardTest"/>
-            </children>
-        </component>
-
-        <component id="chess">
-            <transformation>
-                <translate x="5" y="1" z="5"/>
-            </transformation>
-            <materials>
-                <material id="baco"/>
-            </materials>
-            <texture id="none"/>
-            <children>
-                <primitiveref id="guapa"/>
-            </children>
-        </component>
-
-        <component id="gameBoardTest">
-            <transformation>
-               
-            </transformation>
-            <materials>
-                <material id="baco"/>
-            </materials>
-            <texture id="none"/>
-            <children>
-                <primitiveref id="teste123485"/>
-            </children>
-        </component>
-
-        <component id="chess2">
-            <transformation>
-                <translate x="2" y="1" z="5"/>
-            </transformation>
-            <materials>
-                <material id="baco"/>
-            </materials>
-            <texture id="none"/>
-            <children>
-                <primitiveref id="guapa2"/>
+                <componentref id="parede1"/>
+                <componentref id="parede2"/>
+                <componentref id="parede3"/>
+                <componentref id="parede4"/>
             </children>
         </component>
 
         <component id="chao">
             <transformation>
-                <translate x="0" y="-1" z="0"/>
+                <translate x="0" y="0" z="-2.1"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="woodchao"/>
+            <children>
+                <primitiveref id="base"/>
+            </children>
+        </component>
+
+        <component id="parede1">
+            <transformation>
+                <translate x="-8" y="0" z="2"/>
+                <rotate axis="y" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="wood"/>
+            <children>
+                <primitiveref id="parede"/>
+            </children>
+        </component>
+
+        <component id="parede2">
+            <transformation>
+                <translate x="8" y="0" z="2"/>
+                <rotate axis="y" angle="-90"/>
+
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="wood"/>
+            <children>
+                <primitiveref id="parede"/>
+            </children>
+        </component>
+
+        <component id="parede3">
+            <transformation>
+                <translate x="0" y="8" z="2"/>
+                <rotate axis="y" angle="90"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="wood"/>
+            <children>
+                <primitiveref id="parede"/>
+            </children>
+        </component>
+
+        <component id="parede4">
+            <transformation>
+                <translate x="0" y="-8" z="2"/>
+                <rotate axis="y" angle="90"/>
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
                 <material id="baco"/>
             </materials>
-            <texture id="grass"/>
+            <texture id="wood"/>
             <children>
-                <primitiveref id="plane"/>
+                <primitiveref id="parede"/>
             </children>
         </component>
 
-        <component id="sky">
-            <transformation>
-                <rotate axis="z" angle="-180"/>
-                <translate x="0" y="0" z="-50"/>
-            </transformation>
-            <materials>
-                <material id="baco"/>
-            </materials>
-            <texture id="sky"/>
-            <children>
-                <primitiveref id="plane"/>
-            </children>
-        </component>
 
-        <component id="sky2">
-            <transformation>
-                <rotate axis="z" angle="-180"/>
-                <rotate axis="y" angle="-90"/>
-                <translate x="0" y="0" z="-50"/>
-            </transformation>
-            <materials>
-                <material id="baco"/>
-            </materials>
-            <texture id="sky"/>
-            <children>
-                <primitiveref id="plane"/>
-            </children>
-        </component>
 
-        <component id="carro">
-            <transformation></transformation>
-            <animation>
-                <animationref id="ani1"/>
-                <animationref id="ani2"/>
-                <animationref id="ani3"/>
-                <animationref id="ani4"/>
-                <animationref id="ani5"/>
-            </animation>
-            <materials>
-                <material id="metal"/>
-            </materials>
-            <texture id="metal"/>
-            <children>
-                <primitiveref id="tank"/>
-                <componentref id="carro2"/>
-            </children>
-        </component>
-
-        <component id="carro2">
-            <transformation>
-                <translate x="8" y="0" z="8"/>
-            </transformation>
-            <materials>
-                <material id="metal"/>
-            </materials>
-            <texture id="metal"/>
-            <children>
-                <primitiveref id="tank"/>
-                <componentref id="carro3"/>
-            </children>
-        </component>
-
-        <component id="carro3">
-            <transformation>
-                <translate x="-16" y="0" z="0"/>
-            </transformation>
-            <materials>
-                <material id="metal"/>
-            </materials>
-            <texture id="metal"/>
-            <children>
-                <primitiveref id="tank"/>
-            </children>
-        </component>
 
     </components>
 </dsx>

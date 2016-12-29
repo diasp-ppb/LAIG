@@ -6,8 +6,7 @@
 function Interface() {
   //call CGFinterface constructor
   CGFinterface.call(this);
-  this.lights;
-};
+}
 
 Interface.prototype = Object.create(CGFinterface.prototype);
 Interface.prototype.constructor = Interface;
@@ -37,19 +36,13 @@ Interface.prototype.processKeyDown = function(event) {
     }
     break;
 
-    case 118: { // v
-      //this.scene.setNextCamera();
-      this.scene.playPerspectiveAnimation();
-    }
-    break;
-
     case 77: { // M
       this.scene.nextMaterial();
     }
     break;
 
-    case 109: { // m
-      this.scene.nextMaterial();
+    case 81: { // Q
+      new RequestServerQuit();
     }
     break;
 
@@ -71,11 +64,11 @@ Interface.prototype.processKeyDown = function(event) {
     break;
 
   }
-}
+};
 
 Interface.prototype.addLights = function (ligthID,i){
 
   //console.log(ligthID);
   this.lights.add(this.scene.lightsStatus,i).name(ligthID);
 
-}
+};
