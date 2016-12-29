@@ -6,6 +6,7 @@
 function Interface() {
   //call CGFinterface constructor
   CGFinterface.call(this);
+  this.demo = false;
 }
 
 Interface.prototype = Object.create(CGFinterface.prototype);
@@ -37,7 +38,20 @@ Interface.prototype.processKeyDown = function(event) {
     break;
 
     case 77: { // M
-      this.scene.nextMaterial();
+      //this.scene.nextMaterial();
+      var filename;
+      if (this.demo === true) {
+        filename = getUrlVars().file || "teste.xml";
+        this.demo = false;
+      } else {
+        filename = getUrlVars().file || "demo.xml";
+        this.demo = true;
+      }
+
+      // create and load graph, and associate it to scene.
+      // Check console for loading errors
+      this.scene.graph = new MySceneGraph(filename, this.scene);
+
     }
     break;
 
