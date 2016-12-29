@@ -24,7 +24,7 @@ function Game(scene) {
     this.currPlayer = "player1";
 
     // bot difficulty (easy, hard or none)
-    this.botDiff = "none";
+    this.botDiff = "easy";
 
     // true if it's bot's turn to play
     this.botTurn = false;
@@ -253,13 +253,20 @@ Game.prototype.storePlay = function(play) {
 /**
 * Pops the last stored play and updates game info accordingly
 *
-* @return Play
+* @return Array of plays (max length = 2)
 */
 Game.prototype.popPlay = function() {
 
   var lastIndex = this.plays.length - 1;
   // splice returns array with poped element
-  var removedPlays = this.plays.splice(lastIndex, 1);
+  var removedPlays;
+  if (this.botDiff === "none") {
+    removedPlays = this.plays.splice(lastIndex);
+  }
+  else {
+    removedPlays = this.plays.splice(lastIndex - 1);
+  }
+
   var play = removedPlays[0];
 
   // update player turn
