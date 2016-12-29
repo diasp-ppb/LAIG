@@ -54,7 +54,8 @@ function Piece(id, scene, color, x, y, z, gameboard) {
     ];
 
     this.animation = new KeyFrameAnimation(5, positions, angle, slopes, scales);
-
+    this.reverseAnimation = new KeyFrameAnimation(5,[positions[2],positions[1],positions[0]],angle,slopes,scales);
+    
 }
 
 Piece.prototype = Object.create(CGFobject.prototype);

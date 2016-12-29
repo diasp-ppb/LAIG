@@ -181,9 +181,11 @@ XMLscene.prototype.setDefaultCamera = function() {
 Set ligth configuration readed from xml file;
 */
 XMLscene.prototype.setDefaultIllumination = function() {
+       
+    
 
-
-
+    this.lightCount = 0;
+    
     this.setGlobalAmbientLight(this.graph.illumination.ambient[0], this.graph.illumination.ambient[1], this.graph.illumination.ambient[2], this.graph.illumination.ambient[3]);
 
     var light;
