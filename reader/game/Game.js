@@ -23,6 +23,8 @@ function Game(scene) {
     this.piecesWhite = this.createPieces(0, offsetWhiteX, 0);
 
 
+
+
     // player1 or player2
     this.currPlayer = "player1";
 
@@ -79,7 +81,7 @@ function Game(scene) {
     this.support.setShininess(1000);
 
     this.support.loadTexture('../resources/metal.jpg');
-}
+};
 
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -90,24 +92,29 @@ Game.prototype.display = function() {
 
     this.scene.clearPickRegistration();
 
+
+ // SCOREBOARDD
     this.scene.pushMatrix();
-
-    this.scene.rotate(-1.57, 1, 0, 0);
-
-    this.displayPieces();
-    this.sideBoard.display();
-    this.sideBoardWhite.display();
-
-
-    this.scene.pushMatrix();
-  //  this.scene.rotate(1.57, 1, 0, 0);
-  //  this.scene.translate(1.5, 0, -7);
+    this.scene.translate(1.5, 0, -7);
     this.scoreBoard.display();
 
     this.scene.translate(0, 0, 14);
     this.scene.rotate(3.14, 0, 1, 0);
     this.scoreBoard.display();
     this.scene.popMatrix();
+
+//BOARDS
+    this.scene.pushMatrix();
+
+    this.scene.rotate(-1.57, 1, 0, 0);
+
+
+    this.displayPieces();
+    this.sideBoard.display();
+    this.sideBoardWhite.display();
+
+
+
     this.playBoard.display();
 
     this.scene.popMatrix();

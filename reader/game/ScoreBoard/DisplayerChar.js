@@ -13,7 +13,7 @@ function DisplayerChar(scene, value) {
 
     this.show2 = new Rectangle(scene, [this.width/2, this.height/2], [-this.width/2, -this.height/2]);
     this.font = new Font(scene);
-}
+};
 
 
 
