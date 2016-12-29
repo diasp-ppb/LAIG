@@ -116,7 +116,7 @@
     <component id= "chao">
       <transformation>
         <translate x="0" y="0" z="0"/>
-        <rotate axis="x" angle="-90"/>
+
       </transformation>
       <materials>
         <material id="baco" />

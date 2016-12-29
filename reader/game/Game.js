@@ -314,5 +314,5 @@ Game.prototype.update = function(currTime) {
     }
 
 
-    this.scoreBoard.update(currTime);
+   this.scoreBoard.update(currTime);
 };

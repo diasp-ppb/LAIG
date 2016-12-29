@@ -17,14 +17,14 @@ DisplayerString.prototype = Object.create(CGFobject.prototype);
 DisplayerString.prototype.constructor = DisplayerString;
 
 
-DisplayerString.prototype.display = function() {
+DisplayerString.prototype.display = function(font) {
     this.scene.pushMatrix();
     var width = 0.2;
     for (var i = 0; i < this.length; i++) {
 
       this.scene.translate(width,0,0);
       this.displayer.value = this.string[i];
-      this.displayer.display();
+      this.displayer.display(font);
     }
     this.scene.popMatrix();
 }

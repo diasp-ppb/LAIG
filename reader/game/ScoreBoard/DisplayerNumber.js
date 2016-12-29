@@ -19,7 +19,7 @@ function DisplayerNumber(scene, value) {
     this.show = new Rectangle(scene, [this.width/2, this.height/2], [-this.width/2, -this.height/2]);
     this.show2 = new Rectangle(scene,[this.width/2, this.height/2], [-this.width/2, -this.height/2]);
 
-    this.font = new Font(scene);
+
 }
 
 
@@ -60,10 +60,9 @@ DisplayerNumber.prototype.increaseValue = function() {
     this.value++;
 }
 
-DisplayerNumber.prototype.display = function() {
+DisplayerNumber.prototype.display = function(font) {
 
-    this.font.material.apply();
-    this.scene.setActiveShader(this.font.shader);
+
 
 
 
@@ -73,9 +72,9 @@ DisplayerNumber.prototype.display = function() {
     var charPosN1;
 
     if (this.n1 != "0")
-        charPosN1 = this.font.charPosition(this.n1);
+        charPosN1 = font.charPosition(this.n1);
     else
-        charPosN1 = this.font.charPosition(" ");
+        charPosN1 = font.charPosition(" ");
 
     this.scene.activeShader.setUniformsValues({
         charPosition: charPosN1
@@ -83,7 +82,7 @@ DisplayerNumber.prototype.display = function() {
     this.show.display();
 
 
-    var charPosN2 = this.font.charPosition(this.n2);
+    var charPosN2 = font.charPosition(this.n2);
     this.scene.activeShader.setUniformsValues({
         charPosition: charPosN2
     });
@@ -93,6 +92,4 @@ DisplayerNumber.prototype.display = function() {
 
 
     this.scene.popMatrix();
-
-    this.scene.setActiveShader(this.scene.defaultShader);
 }

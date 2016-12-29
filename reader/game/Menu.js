@@ -12,9 +12,19 @@ function Menu(scene,id){
 
 };
 
-
+//regist for pick
+//
 Menu.prototype.display= function(){
 
+
+DisplayerString.updateString(this.hh);
+DisplayerString.display();
+
+DisplayerString.updateString(this.bb);
+DisplayerString.display();
+
+DisplayerString.updateString(this.hb);
+DisplayerString.display();
 
 
 };
