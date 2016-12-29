@@ -19,15 +19,6 @@ function perspectiveAnimation(id, span, type, clock, persp1, persp2) {
 	this.onhold = true;
 	this.backwards = false;
 
-	// startang and rotang (in degree!)
-	this.startang = -1 * Math.atan2(this.persp1.from[2], this.persp1.from[0]) * 180 / Math.PI;
-
-	if (clock === false) {
-		this.rotang = 180;
-	} else {
-		this.rotang = -180;
-	}
-
 	// distance between the perspectives
 	// d = sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
 	var distance = Math.sqrt(
@@ -47,6 +38,15 @@ function perspectiveAnimation(id, span, type, clock, persp1, persp2) {
 
 	this.center = center.slice(0);
 
+	// startang and rotang (in degree!)
+	this.startang = (Math.atan2(this.persp1.from[0] - center[0], this.persp1.from[2] - center[2]) * 180 / Math.PI) - 90;
+
+	if (clock === false) {
+		this.rotang = 180;
+	} else {
+		this.rotang = -180;
+	}
+	
 	// set animation
 	this.animation = new xmlCircularAnim(null, this.span, this.type, this.center, this.radius, this.startang, this.rotang);
 }
@@ -66,9 +66,9 @@ perspectiveAnimation.prototype.update = function(currTime) {
 		//this.animation.getAbsolutePos(perspFrom);
 
 		var animPosition = this.animation.position.slice(0);
-		this.currPersp.from[0] = animPosition[0] + this.center[0];
+		this.currPersp.from[0] = animPosition[0]; //+ this.center[0];
 		this.currPersp.from[1] = animPosition[1] + this.center[1];
-		this.currPersp.from[2] = animPosition[2] + this.center[2];
+		this.currPersp.from[2] = animPosition[2]; //+ this.center[2];
 
 		//this.currPersp.from[0] = perspFrom[0];
 		//this.currPersp.from[1] = perspFrom[1];
