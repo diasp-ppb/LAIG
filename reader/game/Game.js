@@ -383,8 +383,10 @@ Game.prototype.removePieceBoard = function(piece) {
   // set tag
   mainCell.tag = "emptyCell";
 
-  // play animation
-  //piece.startAnimation();
+  
+  piece.resetAnimations();
+  // play  reverseanimation
+  piece.startReverseAnimation();
 };
 
 

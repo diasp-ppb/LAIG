@@ -55,7 +55,7 @@ function Piece(id, scene, color, x, y, z, gameboard) {
 
     this.animation = new KeyFrameAnimation(5, positions, angle, slopes, scales);
     this.reverseAnimation = new KeyFrameAnimation(5,[positions[2],positions[1],positions[0]],angle,slopes,scales);
-    
+
 }
 
 Piece.prototype = Object.create(CGFobject.prototype);
@@ -107,6 +107,13 @@ Piece.prototype.update = function(currtime) {
         this.y = newpos[1];
         this.z = newpos[2];
     }
+    else if(this.reverseAnimation.active) {
+        this.reverseAnimation.update(currtime);
+        var newpos = this.reverseAnimation.getPosition();
+        this.x = newpos[0];
+        this.y = newpos[1];
+        this.z = newpos[2];
+    }
 
 }
 
@@ -114,3 +121,16 @@ Piece.prototype.startAnimation = function() {
     if (!this.animation.end)
         this.animation.active = true;
 }
+
+
+Piece.prototype.startReverseAnimation = function() {
+      if (!this.reverseAnimation.end)
+        this.reverseAnimation.active = true
+
+
+};
+
+Piece.prototype.resetAnimations = function(){
+    this.animation.reset();
+    this.reverseAnimation.reset();
+};

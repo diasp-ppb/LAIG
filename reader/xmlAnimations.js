@@ -708,3 +708,12 @@ KeyFrameAnimation.prototype.getAngle = function() {
 KeyFrameAnimation.prototype.getScale = function() {
     return this.currentScale;
 }
+
+
+KeyFrameAnimation.prototype.reset = function () {
+	this.active = false;
+	this.end = false;
+	this.lastCurrTime = -1;
+	this.timeElaped = 0;
+	this.currentControlPoint = 0;
+}
