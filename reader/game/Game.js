@@ -16,8 +16,13 @@ function Game(scene) {
     this.playBoard = new GameBoard(this.scene, 2, 0);
 
 
+    this.scoreBoard = new ScoreBoard(scene);
+
+
     this.piecesBlack = this.createPieces(1, 0, 0);
     this.piecesWhite = this.createPieces(0, offsetWhiteX, 0);
+
+
 
 
     // player1 or player2
@@ -32,7 +37,6 @@ function Game(scene) {
     // true if the game is bot vs bot (if this is true, botTurn should also be true)
     // call new RequestPlayBot(this) to start the game
     this.twoBots = false;
-
 
     this.black = new CGFappearance(scene);
     //set emission
@@ -77,7 +81,7 @@ function Game(scene) {
     this.support.setShininess(1000);
 
     this.support.loadTexture('../resources/metal.jpg');
-}
+};
 
 
 Game.prototype = Object.create(CGFobject.prototype);
@@ -87,10 +91,34 @@ Game.prototype.constructor = Game;
 Game.prototype.display = function() {
 
     this.scene.clearPickRegistration();
+
+
+ // SCOREBOARDD
+    this.scene.pushMatrix();
+    this.scene.translate(1.5, 0, -7);
+    this.scoreBoard.display();
+
+    this.scene.translate(0, 0, 14);
+    this.scene.rotate(3.14, 0, 1, 0);
+    this.scoreBoard.display();
+    this.scene.popMatrix();
+
+//BOARDS
+    this.scene.pushMatrix();
+
+    this.scene.rotate(-1.57, 1, 0, 0);
+
+
     this.displayPieces();
     this.sideBoard.display();
     this.sideBoardWhite.display();
+
+
+
     this.playBoard.display();
+
+    this.scene.popMatrix();
+
 };
 
 
@@ -209,64 +237,62 @@ Game.prototype.getPieceWhite = function(id) {
 
 
 /**
-* Switch player turn
-*/
+ * Switch player turn
+ */
 Game.prototype.switchTurn = function() {
 
-  if (this.currPlayer === "player1") {
-    // switch turn
-    this.currPlayer = "player2";
-  }
-  else if (this.currPlayer === "player2") {
-    // switch turn
-    this.currPlayer = "player1";
-  }
-
-  console.log("Switch turn!");
-
-  if (this.botDiff !== "none") {
-    // if bot just played, it's the player turn
-    if (this.botTurn === true && this.twoBots === false) {
-        this.botTurn = false;
+    if (this.currPlayer === "player1") {
+        // switch turn
+        this.currPlayer = "player2";
+    } else if (this.currPlayer === "player2") {
+        // switch turn
+        this.currPlayer = "player1";
     }
-    // if it's bot's turn to play
-    else {
-      this.botTurn = true;
-      new RequestPlayBot(this);
+
+    console.log("Switch turn!");
+
+    if (this.botDiff !== "none") {
+        // if bot just played, it's the player turn
+        if (this.botTurn === true && this.twoBots === false) {
+            this.botTurn = false;
+        }
+        // if it's bot's turn to play
+        else {
+            this.botTurn = true;
+            new RequestPlayBot(this);
+        }
     }
-  }
 };
 
 
 /** id range 1 - 61*/
 Game.prototype.switchPieceBoard = function(id) {
 
-  var piece;
+    var piece;
 
-  if (this.currPlayer === "player1") {
-    // get white piece
-    piece = this.getPieceWhite(id);
-  }
-  else if (this.currPlayer === "player2") {
-    // get black piece
-    piece = this.getPieceBlack(id);
-  }
+    if (this.currPlayer === "player1") {
+        // get white piece
+        piece = this.getPieceWhite(id);
+    } else if (this.currPlayer === "player2") {
+        // get black piece
+        piece = this.getPieceBlack(id);
+    }
 
-  // get array coordinates of picked cell
-  var position = this.playBoard.getPosition(id);
+    // get array coordinates of picked cell
+    var position = this.playBoard.getPosition(id);
 
-  // get picked GameCell
-  var cell = this.playBoard.cells[position[0]][position[1]];
+    // get picked GameCell
+    var cell = this.playBoard.cells[position[0]][position[1]];
 
-  // set piece absolute coordinates to match cell coordinates
-  piece.x = cell.x;
-  piece.y = cell.y;
+    // set piece absolute coordinates to match cell coordinates
+    piece.x = cell.x;
+    piece.y = cell.y;
 
-  // set tag (emptyCell, whitePiece or blackPiece)
-  cell.tag = piece.tag;
+    // set tag (emptyCell, whitePiece or blackPiece)
+    cell.tag = piece.tag;
 
-  // play animation
-  piece.startAnimation();
+    // play animation
+    piece.startAnimation();
 };
 
 Game.prototype.update = function(currTime) {
@@ -287,4 +313,6 @@ Game.prototype.update = function(currTime) {
         }
     }
 
+
+    this.scoreBoard.update(currTime);
 };

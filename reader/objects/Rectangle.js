@@ -2,7 +2,7 @@
  * rectangle
  * @constructor
  */
-function Rectangle(scene, point1,point2) {
+function Rectangle(scene, point1, point2) {
     CGFobject.call(this, scene);
     this.x1 = point1[0];
     this.y1 = point1[1];
@@ -39,10 +39,10 @@ Rectangle.prototype.initBuffers = function() {
     ];
 
     this.texCoords = [
-        this.maxS, this.maxT,
         this.minS, this.maxT,
-        this.maxS, this.minT,
-        this.minS, this.minT
+        this.maxS, this.maxT,
+        this.minS, this.minT,
+        this.maxS, this.minT
     ];
 
 
@@ -50,18 +50,18 @@ Rectangle.prototype.initBuffers = function() {
     this.initGLBuffers();
 };
 
-Rectangle.prototype.setTexturaRatio = function(s,t){
-  var ds= Math.abs((this.x2-this.x1)/s);
-  var dt= Math.abs((this.y2- this.y1)/t);
+Rectangle.prototype.setTexturaRatio = function(s, t) {
+    var ds = Math.abs((this.x2 - this.x1) / s);
+    var dt = Math.abs((this.y2 - this.y1) / t);
 
 
-  this.texCoords = [
-    ds, dt,
-    this.minS, dt,
-    ds,this.minT,
-    this.minS,this.minT
-  ];
+    this.texCoords = [
+        ds, dt,
+        this.minS, dt,
+        ds, this.minT,
+        this.minS, this.minT
+    ];
 
 
-  this.updateTexCoordsGLBuffers();
+    this.updateTexCoordsGLBuffers();
 };
