@@ -49,13 +49,9 @@ Interface.prototype.processKeyDown = function(event) {
     case 90: { // ctrl+z
       if (event.ctrlKey) {
         console.log("Ctrl+Z pressed!");
-      }
-    }
-    break;
 
-    case 122: { // ctrl+Z
-      if (event.ctrlKey) {
-        console.log("Ctrl+Z pressed!");
+        // pop play
+        this.scene.game.popPlay();
       }
     }
     break;

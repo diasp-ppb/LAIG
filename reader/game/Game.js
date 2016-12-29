@@ -24,7 +24,7 @@ function Game(scene) {
     this.currPlayer = "player1";
 
     // bot difficulty (easy, hard or none)
-    this.botDiff = "easy";
+    this.botDiff = "none";
 
     // true if it's bot's turn to play
     this.botTurn = false;
@@ -33,6 +33,8 @@ function Game(scene) {
     // call new RequestPlayBot(this) to start the game
     this.twoBots = false;
 
+    // storage for plays (class Play), used for ctrlz and game movie
+    this.plays = [];
 
     this.black = new CGFappearance(scene);
     //set emission
@@ -237,6 +239,38 @@ Game.prototype.switchTurn = function() {
   }
 };
 
+/**
+* Stores a given play for later use
+*
+* @param play Play object
+*/
+Game.prototype.storePlay = function(play) {
+
+  this.plays.push(play);
+
+};
+
+/**
+* Pops the last stored play and updates game info accordingly
+*
+* @return Play
+*/
+Game.prototype.popPlay = function() {
+
+  var lastIndex = this.plays.length - 1;
+  // splice returns array with poped element
+  var removedPlays = this.plays.splice(lastIndex, 1);
+  var play = removedPlays[0];
+
+  // update player turn
+  this.currPlayer = play.player;
+
+  // remove piece from board
+  this.removePieceBoard(play.piece);
+
+  return play;
+};
+
 
 /** id range 1 - 61*/
 Game.prototype.switchPieceBoard = function(id) {
@@ -268,6 +302,43 @@ Game.prototype.switchPieceBoard = function(id) {
   // play animation
   piece.startAnimation();
 };
+
+/** id range 1 - 61*/
+/**
+* Removes the given piece from the main board and returns it to it's color board
+*
+* @param piece Piece to remove
+*/
+Game.prototype.removePieceBoard = function(piece) {
+
+  // array coordinates of piece/cell (the same for all 3 boards)
+  var position = this.playBoard.getPosition(piece.id);
+  // cell of side color board
+  var sideCell;
+  // cell of main board
+  var mainCell = this.playBoard.cells[position[0]][position[1]];
+
+  // get cell from respective color board
+  if (piece.tag === "whitePiece") {
+    // get cell
+    sideCell = this.sideBoardWhite.cells[position[0]][position[1]];
+  }
+  else if (piece.tag === "blackPiece") {
+    // get cell
+    sideCell = this.sideBoard.cells[position[0]][position[1]];
+  }
+
+  // set piece absolute coordinates to match cell coordinates
+  piece.x = sideCell.x;
+  piece.y = sideCell.y;
+
+  // set tag
+  mainCell.tag = "emptyCell";
+
+  // play animation
+  //piece.startAnimation();
+};
+
 
 Game.prototype.update = function(currTime) {
     var n = this.piecesBlack.length;
