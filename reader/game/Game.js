@@ -257,6 +257,10 @@ Game.prototype.storePlay = function(play) {
 */
 Game.prototype.popPlay = function() {
 
+  if (this.twoBots === true) {
+    return;
+  }
+
   var lastIndex = this.plays.length - 1;
   // splice returns array with poped element
   var removedPlays;
@@ -267,6 +271,7 @@ Game.prototype.popPlay = function() {
     removedPlays = this.plays.splice(lastIndex - 1);
   }
 
+  // remove play
   var play = removedPlays[0];
 
   // update player turn
@@ -275,7 +280,16 @@ Game.prototype.popPlay = function() {
   // remove piece from board
   this.removePieceBoard(play.piece);
 
-  return play;
+  // remove other play (but don't update curr player!)
+  if (removedPlays.length === 2) {
+
+    play = removedPlays[1];
+
+    // remove piece from board
+    this.removePieceBoard(play.piece);
+  }
+
+  return removedPlays;
 };
 
 
