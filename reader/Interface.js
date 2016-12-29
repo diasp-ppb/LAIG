@@ -28,6 +28,7 @@ Interface.prototype.init = function(application) {
 
 //Process KeyDown
 Interface.prototype.processKeyDown = function(event) {
+
   switch (event.keyCode) {
     case 86: { // V
       //this.scene.setNextCamera();
@@ -42,6 +43,16 @@ Interface.prototype.processKeyDown = function(event) {
 
     case 81: { // Q
       new RequestServerQuit();
+    }
+    break;
+
+    case 90: { // ctrl+z
+      if (event.ctrlKey) {
+        console.log("Ctrl+Z pressed!");
+
+        // pop play
+        this.scene.game.popPlay();
+      }
     }
     break;
 

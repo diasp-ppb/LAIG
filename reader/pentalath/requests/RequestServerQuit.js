@@ -1,6 +1,5 @@
 /**
  * A subclass that represents a request to shutdown the server
- *
  */
 function RequestServerQuit() {
 

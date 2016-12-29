@@ -31,6 +31,9 @@ function RequestValidatePlay(game, pickId) {
         // place piece
         game.switchPieceBoard(pickId);
 
+        // store play
+        game.storePlay(new Play(game.currPlayer, pickId, game));
+
         // check for game over
         new RequestGameCheck(game);
     }

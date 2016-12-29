@@ -26,11 +26,15 @@ function RequestPlayBot(game) {
       console.log("There are no more available cells for bot to play!");
     }
     else {
-      
+
       //get id of piece played by bot (cells[y][x])
       var id = game.playBoard.cells[reply[2]][reply[0]].id;
+
       // place piece
       game.switchPieceBoard(id);
+
+      // store play
+      game.storePlay(new Play(game.currPlayer, id, game));
 
       // check for game over
       new RequestGameCheck(game);
