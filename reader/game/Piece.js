@@ -29,7 +29,7 @@ function Piece(id, scene, color, x, y, z, gameboard) {
     // last position
     var cell = gameboard.cells[p[0]][p[1]];
 
-    var midpointX = cell.x  - x;
+    var midpointX = Math.abs(cell.x  - x);
     var midpointY = cell.y;
 
 
