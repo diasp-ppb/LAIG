@@ -148,5 +148,5 @@ Menu.prototype.filmMode = function(){
 };
 
 Menu.prototype.newGame = function() {
-
+  this.scene.game = new Game(this.scene);
 };

@@ -27,6 +27,8 @@ function RequestGameCheck(game) {
     else {
       console.log("Game is Over!");
       console.log(game.currPlayer + " wins!");
+      // set game over
+      game.over = true;
       // Update scoreboard
       if(game.currPlayer == "player1")
           game.scoreBoard.winWhite();

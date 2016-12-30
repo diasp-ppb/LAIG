@@ -22,6 +22,8 @@ function Game(scene) {
 	this.piecesBlack = this.createPieces(1, 0, 0);
 	this.piecesWhite = this.createPieces(0, offsetWhiteX, 0);
 
+	// true if game is over
+	this.over = false;
 
 	// player1 or player2
 	this.currPlayer = "player1";
@@ -109,11 +111,11 @@ Game.prototype.display = function() {
 	// SCOREBOARDD
 	this.scene.pushMatrix();
 	this.scene.translate(1.5, -0.2, -7);
-	//this.scoreBoard.display();
+	this.scoreBoard.display();
 
 	this.scene.translate(0, 0, 14);
 	this.scene.rotate(3.14, 0, 1, 0);
-	//this.scoreBoard.display();
+	this.scoreBoard.display();
 	this.scene.popMatrix();
 
 	//BOARDS
@@ -140,8 +142,12 @@ Game.prototype.display = function() {
 Game.prototype.updateBoardPick = function(id) {
 	this.playBoard.updatePick(id);
 
-	// validate play (it also checks for game over!)
-	new RequestValidatePlay(this, id);
+	if (this.over !== true) {
+		// validate play (it also checks for game over!)
+		new RequestValidatePlay(this, id);
+	} else {
+		console.log("Game is over, you can't play another piece!");
+	}
 
 };
 
