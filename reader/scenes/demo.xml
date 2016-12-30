@@ -1,1 +1,359 @@
-<dsx>    <scene root="base" axis_length="20.0"/>    <views default="cam0">        <perspective id="cam0" near="0.1" far="500" angle="57">            <from x="2" y="1.3" z="2.3"/>            <to x="2" y="0" z="0.5"/>        </perspective>        <perspective id="cam1" near="0.1" far="500" angle="57">            <from x="2" y="1.3" z="-0.8"/>            <to x="2" y="0" z="0.5"/>        </perspective>    </views>    <illumination doublesided="1" local="1">        <ambient r="0.6" g="0.6" b="0.6" a="1.0"/>        <background r="0" g="0" b="0" a="1.0"/>    </illumination>    <lights>        <omni id="omni1" enabled="1">            <location x="10" y="2.8" z="-10" w="1"/>            <ambient r="0" g="0" b="0" a="1.0"/>            <diffuse r="0.6" g="0.6" b="0.6" a="1"/>            <specular r="0.4" g="0.4" b="0.4" a="1"/>        </omni>        <omni id="omni2" enabled="1">            <location x="0" y="50" z="0" w="1"/>            <ambient r="0" g="0" b="0" a="1.0"/>            <diffuse r="0.6" g="0.6" b="0.6" a="1"/>            <specular r="0.4" g="0.4" b="0.4" a="1"/>        </omni>        <spot id="umS" enabled="1" angle="10" exponent="3">            <!-- atencao, "target" e' diferente de "direction" -->            <target x="0.0" y="0.0" z="0.0"/>            <location x="20" y="200" z="15"/>            <ambient r="0.1" g="0.1" b="0.1" a="0.1"/>            <diffuse r="0.1" g="0.1" b="0.1" a="0.1"/>            <specular r="0.1" g="0.1" b="0.1" a="0.1"/>        </spot>    </lights>    <textures>        <texture id="metal" file="../resources/metal.png" length_s="10" length_t="10"/>        <texture id="grass" file="../resources/grass.png" length_s="50" length_t="50"/>        <texture id="sky" file="../resources/sky.png" length_s="100" length_t="100"/>        <texture id="wood" file="../resources/madeira-escura.jpg" length_s="20" length_t="90"/>        <texture id="woodchao" file="../resources/madeira-escura.jpg" length_s="2" length_t="2"/>    </textures>    <materials>        <material id="baco">            <emission r="0" g="0" b="0" a="1.0"/>            <ambient r="0.8" g="0.6" b="0.6" a="1.0"/>            <diffuse r="0.8" g="0.6" b="0.6" a="1.0"/>            <specular r="0" g="0" b="0" a="1.0"/>            <shininess value="100"/>        </material>        <material id="green">            <emission r="0" g="0.1" b="0" a="1.0"/>            <ambient r="0.5" g="0.5" b="0.6" a="1.0"/>            <diffuse r="0.5" g="0.6" b="0.6" a="1.0"/>            <specular r="0" g="0" b="0" a="1.0"/>            <shininess value="100"/>        </material>        <material id="metal">            <emission r="0.4" g="0.4" b="0.5" a="1.0"/>            <ambient r="0.6" g="0.6" b="0.8" a="1.0"/>            <diffuse r="0.8" g="0.6" b="0.6" a="1.0"/>            <specular r="0.5" g="0.5" b="0.7" a="1.0"/>            <shininess value="100"/>        </material>    </materials>    <transformations>        <transformation id="null">            <translate x="0" y="0" z="0"/>        </transformation>        <transformation id="base">            <translate x="0" y="0" z="0"/>        </transformation>    </transformations>    <animations>        <animation id="ani1" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="360"/>        <animation id="ani2" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="180" rotang="-360"/>        <animation id="ani3" span="0.6" type="linear">            <controlpoint xx="0" yy="0" zz="0"/>            <controlpoint xx="0" yy="0" zz="20"/>        </animation>        <animation id="ani4" span="2" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="270"/>        <animation id="ani5" span="0.6" type="linear">            <controlpoint xx="0" yy="0" zz="0"/>            <controlpoint xx="20" yy="0" zz="0"/>        </animation>        <animation id="olaaa" span="3" type="perspective" clock="1">            <perspectiveref id="cam0"/>            <perspectiveref id="cam1"/>        </animation>    </animations>    <primitives>        <primitive id="base">            <rectangle x1="-8" y1="-8" x2="8" y2="8"/>        </primitive>        <primitive id="tank">            <vehicle/>        </primitive>        <primitive id="parede">            <plane dimX="8" dimY="16" partsX="20" partsY="13"/>        </primitive>        <primitive id="fundo">            <plane dimX="100" dimY="70" partsX="13" partsY="13"/>        </primitive>    </primitives>    <components>        <component id="base">            <transformation>                <rotate axis="x" angle="-90"/>            </transformation>            <materials>                <material id="baco"/>            </materials>            <texture id="sky"/>            <children>                <componentref id="chao"/>                <componentref id="parede1"/>                <componentref id="parede2"/>                <componentref id="parede3"/>                <componentref id="parede4"/>            </children>        </component>        <component id="chao">            <transformation>                <translate x="0" y="0" z="-20.1"/>            </transformation>            <materials>                <material id="baco"/>            </materials>            <texture id="woodchao"/>            <children>                <primitiveref id="base"/>            </children>        </component>        <component id="parede1">            <transformation>                <translate x="-8" y="0" z="2"/>                <rotate axis="y" angle="90"/>            </transformation>            <materials>                <material id="baco"/>            </materials>            <texture id="wood"/>            <children>                <primitiveref id="parede"/>            </children>        </component>        <component id="parede2">            <transformation>                <translate x="8" y="0" z="2"/>                <rotate axis="y" angle="-90"/>            </transformation>            <materials>                <material id="baco"/>            </materials>            <texture id="wood"/>            <children>                <primitiveref id="parede"/>            </children>        </component>        <component id="parede3">            <transformation>                <translate x="0" y="8" z="2"/>                <rotate axis="y" angle="90"/>                <rotate axis="x" angle="90"/>            </transformation>            <materials>                <material id="baco"/>            </materials>            <texture id="wood"/>            <children>                <primitiveref id="parede"/>            </children>        </component>        <component id="parede4">            <transformation>                <translate x="0" y="-8" z="2"/>                <rotate axis="y" angle="90"/>                <rotate axis="x" angle="-90"/>            </transformation>            <materials>                <material id="baco"/>            </materials>            <texture id="wood"/>            <children>                <primitiveref id="parede"/>            </children>        </component>    </components></dsx>
+<dsx>
+    <scene root="base" axis_length="20.0"/>
+
+    <views default="cam0">
+        <perspective id="cam0" near="0.1" far="500" angle="57">
+            <from x="2" y="1.3" z="2.3"/>
+            <to x="2" y="0" z="0.5"/>
+        </perspective>
+        <perspective id="cam1" near="0.1" far="500" angle="57">
+            <from x="2" y="1.3" z="-0.8"/>
+            <to x="2" y="0" z="0.5"/>
+        </perspective>
+    </views>
+
+    <illumination doublesided="1" local="1">
+        <ambient r="0.6" g="0.6" b="0.6" a="1.0"/>
+        <background r="0" g="0" b="0" a="1.0"/>
+    </illumination>
+
+    <lights>
+        <omni id="omni1" enabled="1">
+            <location x="10" y="2.8" z="-10" w="1"/>
+            <ambient r="0" g="0" b="0" a="1.0"/>
+            <diffuse r="0.6" g="0.6" b="0.6" a="1"/>
+            <specular r="0.4" g="0.4" b="0.4" a="1"/>
+        </omni>
+
+        <omni id="omni2" enabled="1">
+            <location x="0" y="50" z="0" w="1"/>
+            <ambient r="0" g="0" b="0" a="1.0"/>
+            <diffuse r="0.6" g="0.6" b="0.6" a="1"/>
+            <specular r="0.4" g="0.4" b="0.4" a="1"/>
+        </omni>
+
+        <spot id="umS" enabled="1" angle="10" exponent="3">
+            <!-- atencao, "target" e' diferente de "direction" -->
+            <target x="0.0" y="0.0" z="0.0"/>
+            <location x="20" y="200" z="15"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="0.1"/>
+            <diffuse r="0.1" g="0.1" b="0.1" a="0.1"/>
+            <specular r="0.1" g="0.1" b="0.1" a="0.1"/>
+        </spot>
+    </lights>
+
+    <textures>
+        <texture id="metal" file="../resources/metal.png" length_s="10" length_t="10"/>
+        <texture id="grass" file="../resources/grass.png" length_s="10" length_t="10"/>
+        <texture id="sky" file="../resources/sky.png" length_s="100" length_t="100"/>
+        <texture id="wood" file="../resources/mundoImag.jpg" length_s="2" length_t="2"/>
+        <texture id="woodchao" file="../resources/woodlight.jpg" length_s="2" length_t="2"/>
+        <texture id="photo" file="../resources/edited.png" length_s="5" length_t="4"/>
+        <texture id="cowboy" file="../resources/Cowboy.jpg" length_s="5" length_t="4"/>
+        
+    </textures>
+
+    <materials>
+        <material id="baco">
+            <emission r="0" g="0" b="0" a="1.0"/>
+            <ambient r="0.8" g="0.6" b="0.6" a="1.0"/>
+            <diffuse r="0.8" g="0.6" b="0.6" a="1.0"/>
+            <specular r="0" g="0" b="0" a="1.0"/>
+            <shininess value="100"/>
+        </material>
+
+        <material id="green">
+            <emission r="0" g="0.1" b="0" a="1.0"/>
+            <ambient r="0.5" g="0.5" b="0.6" a="1.0"/>
+            <diffuse r="0.5" g="0.6" b="0.6" a="1.0"/>
+            <specular r="0" g="0" b="0" a="1.0"/>
+            <shininess value="100"/>
+        </material>
+
+        <material id="metal">
+            <emission r="0.4" g="0.4" b="0.5" a="1.0"/>
+            <ambient r="0.6" g="0.6" b="0.8" a="1.0"/>
+            <diffuse r="0.8" g="0.6" b="0.6" a="1.0"/>
+            <specular r="0.5" g="0.5" b="0.7" a="1.0"/>
+            <shininess value="100"/>
+        </material>
+
+    </materials>
+
+    <transformations>
+        <transformation id="null">
+            <translate x="0" y="0" z="0"/>
+        </transformation>
+
+        <transformation id="base">
+            <translate x="0" y="0" z="0"/>
+        </transformation>
+    </transformations>
+
+    <animations>
+        <animation id="ani1" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="360"/>
+        <animation id="ani2" span="3" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="180" rotang="-360"/>
+        <animation id="ani3" span="0.6" type="linear">
+            <controlpoint xx="0" yy="0" zz="0"/>
+            <controlpoint xx="0" yy="0" zz="20"/>
+        </animation>
+        <animation id="ani4" span="2" type="circular" centerx="0" centery="0" centerz="0" radius="20" startang="0" rotang="270"/>
+        <animation id="ani5" span="0.6" type="linear">
+            <controlpoint xx="0" yy="0" zz="0"/>
+            <controlpoint xx="20" yy="0" zz="0"/>
+        </animation>
+        <animation id="olaaa" span="3" type="perspective" clock="1">
+            <perspectiveref id="cam0"/>
+            <perspectiveref id="cam1"/>
+        </animation>
+    </animations>
+
+    <primitives>
+        <primitive id="base">
+            <rectangle x1="-8" y1="-8" x2="8" y2="8"/>
+        </primitive>
+
+        <primitive id="tank">
+            <vehicle/>
+        </primitive>
+
+        <primitive id="parede">
+            <plane dimX="8" dimY="16" partsX="20" partsY="13"/>
+        </primitive>
+
+         <primitive id="torus">
+            <torus inner="1.1" outer="1.4" slices="15" loops="15"/>
+        </primitive>
+
+
+        <primitive id="esfera">
+            <sphere radius="0.3" slices="12" stacks="12"/>
+        </primitive>
+
+       
+
+    </primitives>
+
+    <components>
+
+        <component id="base">
+            <transformation>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <componentref id="chao"/>
+                <componentref id="parede1"/>
+                <componentref id="parede2"/>
+                <componentref id="parede3"/>
+                <componentref id="parede4"/>
+                <componentref id="objects"/>
+            </children>
+        </component>
+
+
+           <component id="objects">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="none"/>
+            <children>
+               <componentref id="steellRing"/>
+               <componentref id="ball"/>
+               <componentref id="armada"/>
+            </children>
+        </component>
+
+
+
+
+
+        <component id="ball">
+            <transformation>
+             <translate x="5.5" y="5.5" z="-1.5"/>            
+            </transformation>
+            <materials>
+                <material id="metal"/>
+            </materials>
+            <texture id="metal"/>
+            <children>
+                <primitiveref id="esfera"/>
+            </children>
+        </component>
+
+        
+
+         <component id="armada">
+            <transformation>
+             <translate x="-6" y="6" z="-0.7"/>
+            <rotate axis="x" angle="90"/>
+               <scale x="0.5" y="0.5" z="0.5"/>
+            </transformation>
+            <materials>
+                <material id="metal"/>
+            </materials>
+            <texture id="metal"/>
+            <children>
+               <componentref id="tanky"/>
+               <componentref id="tanky2"/>
+               <componentref id="tanky3"/>
+            </children>
+        </component>
+
+        
+                
+
+         <component id="tanky">
+            <transformation>
+                         <rotate axis="y" angle="45"/>
+             <translate x="3" y="-2" z="3"/>
+            </transformation>
+            <materials>
+                <material id="metal"/>
+            </materials>
+            <texture id="metal"/>
+            <children>
+                <primitiveref id="tank"/>
+            </children>
+        </component>
+
+
+          <component id="tanky2">
+            <transformation>
+                         <rotate axis="y" angle="90"/>
+             <translate x="-12" y="-2" z="3"/>
+            </transformation>
+            <materials>
+                <material id="metal"/>
+            </materials>
+            <texture id="metal"/>
+            <children>
+                <primitiveref id="tank"/>
+            </children>
+        </component>
+        
+
+             <component id="tanky3">
+            <transformation>
+             
+             <translate x="6" y="-2" z="24"/>
+              <rotate axis="y" angle="120"/>
+            </transformation>
+            <materials>
+                <material id="metal"/>
+            </materials>
+            <texture id="metal"/>
+            <children>
+                <primitiveref id="tank"/>
+            </children>
+        </component>
+      
+
+
+
+         <component id="steellRing">
+            <transformation>
+             <translate x="-6" y="6" z="-0.7"/>
+            <rotate axis="x" angle="90"/>
+             <rotate axis="y" angle="45"/> 
+            </transformation>
+            <materials>
+                <material id="metal"/>
+            </materials>
+            <texture id="metal"/>
+            <children>
+                <primitiveref id="torus"/>
+            </children>
+        </component>
+
+      
+
+
+      
+
+
+        <component id="chao">
+            <transformation>
+                <translate x="0" y="0" z="-2.1"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="grass"/>
+            <children>
+                <primitiveref id="base"/>
+            </children>
+        </component>
+
+        <component id="parede1">
+            <transformation>
+                <translate x="-8" y="0" z="2"/>
+                <rotate axis="y" angle="90"/>
+                 <rotate axis="z" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="wood"/>
+            <children>
+                <primitiveref id="parede"/>
+            </children>
+        </component>
+
+        <component id="parede2">
+            <transformation>
+                <translate x="8" y="0" z="2"/>
+                <rotate axis="y" angle="-90"/>
+               
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="wood"/>
+            <children>
+                <primitiveref id="parede"/>
+            </children>
+        </component>
+
+        <component id="parede3">
+            <transformation>
+                <translate x="0" y="8" z="2"/>
+                <rotate axis="y" angle="90"/>
+                <rotate axis="x" angle="90"/>
+                 <rotate axis="z" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="wood"/>
+            <children>
+                <primitiveref id="parede"/>
+            </children>
+        </component>
+
+        <component id="parede4">
+            <transformation>
+                <translate x="0" y="-8" z="2"/>
+                <rotate axis="y" angle="90"/>
+                <rotate axis="x" angle="-90"/>
+                 <rotate axis="z" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="baco"/>
+            </materials>
+            <texture id="wood"/>
+            <children>
+                <primitiveref id="parede"/>
+            </children>
+        </component>
+
+
+
+
+    </components>
+</dsx>
