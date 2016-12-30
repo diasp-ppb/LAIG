@@ -4,7 +4,7 @@ function Menu(scene,id){
 
   this.scene = scene;
 
-  this.ids = [id,id+1,id+2,id+3,id+4,id+5];
+  this.ids = [id,id+1,id+2,id+3,id+4,id+5,id+6];
 
   this.displayer = new DisplayerString(scene,"F");
 
@@ -14,6 +14,7 @@ function Menu(scene,id){
   this.easy =" EASY ";
   this.hard =" HARD ";
   this.film =" FILM ";
+  this.newGameString = "NEW GAME";
 
    this.font = new Font(scene);
 
@@ -69,6 +70,12 @@ this.displayer.updateString(this.film);
 this.displayer.display(this.font);
 
 
+this.scene.registerForPick(this.ids[6], this);
+this.scene.translate(0,-0.6,0);
+this.displayer.updateString(this.newGameString);
+this.displayer.display(this.font);
+
+
 this.scene.setActiveShader(this.scene.defaultShader);
 this.scene.popMatrix();
 };
@@ -94,6 +101,9 @@ Menu.prototype.updateOptions = function (customId){
 
        case 67:
       this.filmMode();
+      break;
+      case 68:
+      this.newGame();
       break;
 
     default:
@@ -135,4 +145,8 @@ Menu.prototype.hardMode = function(){
 
 Menu.prototype.filmMode = function(){
   this.scene.game.playMovie();
+};
+
+Menu.prototype.newGame = function() {
+
 };
