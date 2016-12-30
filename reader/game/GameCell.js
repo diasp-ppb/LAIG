@@ -18,9 +18,9 @@ GameCell.prototype = Object.create(CGFobject.prototype);
 GameCell.prototype.constructor = GameCell;
 
 
-GameCell.prototype.display = function(materialBase, materialSelected, id, pickLock) {
+GameCell.prototype.display = function(materialBase, materialSelected, id, id2, pickLock) {
 
-    if (id == this.id) {
+    if (id == this.id || id2 == this.id) {
         materialSelected.apply();
     }
 
@@ -35,7 +35,7 @@ GameCell.prototype.display = function(materialBase, materialSelected, id, pickLo
     this.cell.display();
     this.scene.popMatrix();
 
-    if (id == this.id)
+      if (id == this.id || id2 == this.id)
         materialBase.apply();
 
 };

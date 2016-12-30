@@ -15,6 +15,8 @@ function GameBoard(scene, x, y) {
 	this.pickLock = true;
 	/** Selected cell storage */
 	this.pick = -1;
+
+    this.botpick = -1;
 	/** cells register switch */
 	//this.registerPick;
 
@@ -109,7 +111,7 @@ GameBoard.prototype.display = function() {
 	for (var i = 0; i < n; i++) {
 		var nn = this.cells[i].length;
 		for (var t = 0; t < nn; t++) {
-			this.cells[i][t].display(this.materialBase, this.materialSelected, this.pick, this.pickLock);
+			this.cells[i][t].display(this.materialBase, this.materialSelected, this.pick, this.botpick, this.pickLock);
 		}
 	}
 
