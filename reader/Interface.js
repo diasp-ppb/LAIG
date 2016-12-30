@@ -70,8 +70,12 @@ Interface.prototype.processKeyDown = function(event) {
       if (event.ctrlKey) {
         console.log("Ctrl+Z pressed!");
 
-        // pop play
-        this.scene.game.popPlay();
+        if (this.scene.game.over) {
+          console.log("Game is over, you can't press ctrl+Z!");
+        } else {
+          // pop play
+          this.scene.game.popPlay();
+        }
       }
     }
     break;

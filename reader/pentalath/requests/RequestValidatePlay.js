@@ -35,7 +35,7 @@ function RequestValidatePlay(game, pickId) {
         game.storePlay(new Play(game.currPlayer, pickId, game));
 
         // check for game over
-        new RequestGameCheck(game);
+        //new RequestGameCheck(game);
     }
     else {
       console.log("There's already a piece there, please choose a free cell!");
