@@ -46,7 +46,7 @@ XMLscene.prototype.init = function(application) {
     this.setPickEnabled(true);
 
 
-    this.game = new Game(this);
+    this.game = new Game(this,30);
     //game options selector 
     this.menu = new Menu(this,62);
 

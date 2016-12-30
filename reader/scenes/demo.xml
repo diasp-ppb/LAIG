@@ -1,5 +1,5 @@
 <dsx>
-    <scene root="base" axis_length="20.0"/>
+    <scene root="base" axis_length="0"/>
 
     <views default="cam0">
         <perspective id="cam0" near="0.1" far="500" angle="57">

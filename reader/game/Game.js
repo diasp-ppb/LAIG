@@ -1,4 +1,4 @@
-function Game(scene) {
+function Game(scene,turnTime) {
 
 	CGFobject.call(this, scene);
 
@@ -16,7 +16,7 @@ function Game(scene) {
 	this.playBoard = new GameBoard(this.scene, 2, 0);
 
 	//Results and message displayer
-	this.scoreBoard = new ScoreBoard(scene);
+	this.scoreBoard = new ScoreBoard(scene,turnTime);
 
 
 	this.piecesBlack = this.createPieces(1, 0, 0);

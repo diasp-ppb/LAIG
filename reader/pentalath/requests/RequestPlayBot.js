@@ -29,6 +29,7 @@ function RequestPlayBot(game) {
 
     if (reply === "no") {
       console.log("There are no more available cells for bot to play!");
+      game.scoreBoard.setMsg("DRAW");
     }
     else {
 
@@ -43,6 +44,9 @@ function RequestPlayBot(game) {
 
       // check for game over
       //new RequestGameCheck(game);
+
+      //reset Timer
+      game.scoreBoard.resetTimer();
     }
 
   };

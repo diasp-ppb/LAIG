@@ -25,6 +25,7 @@ function Menu(scene,id){
   this.rectangle = new  Rectangle(scene, [0, 0], [0.1, 0.2]);
 
 
+  this.turnTime = 30;
 
     this.green = new CGFappearance(scene);
     //set emission
@@ -230,19 +231,26 @@ Menu.prototype.HvB = function(){
 Menu.prototype.easyMode = function(){
   this.active[3] = true;
   this.active[4] = false;
+  this.turnTime = 30;
+   this.scene.game.scoreBoard.setTurnTime(this.turnTime);
+  
 };
 
 Menu.prototype.hardMode = function(){
    this.active[3] = false;
    this.active[4] = true;
+   this.turnTime = 15;
+   this.scene.game.scoreBoard.setTurnTime(this.turnTime);
 };
 
 Menu.prototype.filmMode = function(){
   this.scene.game.playMovie();
   this.active[5] = true;
+  this.scene.game.scoreBoard.setTurnTime(this.turnTime);
 };
 
 Menu.prototype.newGame = function() {
-  this.scene.game = new Game(this.scene);
+
+  this.scene.game = new Game(this.scene,this.turnTime);
   this.active[5] = false;
 };

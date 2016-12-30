@@ -33,11 +33,12 @@ function RequestValidatePlay(game, pickId) {
 
         // store play
         game.storePlay(new Play(game.currPlayer, pickId, game));
-
+        
         // check for game over
         //new RequestGameCheck(game);
     }
     else {
+      game.scoreBoard.setMsg("INVALID");
       console.log("There's already a piece there, please choose a free cell!");
     }
   };

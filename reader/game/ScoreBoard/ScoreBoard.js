@@ -1,10 +1,10 @@
-function ScoreBoard(scene) {
+function ScoreBoard(scene,tt) {
 
     CGFobject.call(this, scene);
 
     this.scene = scene;
     //time to a humam player play
-    this.turntime = 30;
+    this.turntime = tt;
     //Timer
     this.timer = new DisplayerNumber(scene, this.turntime);
     this.t = new DisplayerChar(scene, "T");
@@ -112,4 +112,14 @@ ScoreBoard.prototype.fault = function(currentPlayer) {
 ScoreBoard.prototype.resetTimer =function (){
  this.msg.updateString("      ");
  this.timer.value = this.turntime;
+};
+
+ScoreBoard.prototype.setTurnTime = function(time){
+this.timer.value = time;
+this.turntime = time;
+};
+
+
+ScoreBoard.prototype.setMsg = function(mensagem){
+ this.msg.updateString(mensagem);
 };
