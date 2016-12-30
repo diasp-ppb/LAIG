@@ -32,9 +32,9 @@ ScoreBoard.prototype.constructor = ScoreBoard;
 
 ScoreBoard.prototype.display = function() {
 
-    this.font.material.apply();
+   
     this.scene.setActiveShader(this.font.shader);
-
+    this.font.material.apply();
 
 
     this.scene.pushMatrix();

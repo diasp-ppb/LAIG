@@ -560,6 +560,6 @@ Game.prototype.update = function(currTime) {
   if (currTime - this.playBoard.lastPickUpdate > 1000) {
     this.playBoard.pick = -1;
   }
-
+  if(!this.over)
 	this.scoreBoard.update(currTime, this.currPlayer);
 };

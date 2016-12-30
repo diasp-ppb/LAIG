@@ -31,6 +31,7 @@ DisplayerNumber.prototype.convertValueToString = function() {
     var d = Math.floor(this.value / 10);
     var u = Math.floor(this.value % 10);
 
+    
     this.n1 = d.toString();
     this.n2 = u.toString();
 }
