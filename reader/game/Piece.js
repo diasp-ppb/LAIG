@@ -56,6 +56,9 @@ function Piece(id, scene, color, x, y, z, gameboard) {
     this.animation = new KeyFrameAnimation(5, positions, angle, slopes, scales);
     this.reverseAnimation = new KeyFrameAnimation(5,[positions[2],positions[1],positions[0]],angle,slopes,scales);
 
+    // a queue for animating this object.
+    this.animationQ = [];
+
 }
 
 Piece.prototype = Object.create(CGFobject.prototype);
@@ -100,6 +103,60 @@ Piece.prototype.display = function(materialWhite, materialBlack, materialBase) {
 
 Piece.prototype.update = function(currtime) {
 
+  // true if there's a need to reset animation
+  var reset = false;
+
+  // "animation" or "reverse-animation"
+  var anim = this.animationQ[0];
+
+  if (anim === "animation") {
+    // if animation is on-going
+    if (!this.animation.end) {
+      this.animation.active = true;
+      // set cell color
+      this.scene.game.playBoard.botpick = this.id;
+    }
+    // if animation is over
+    else {
+      // remove cell color
+      this.scene.game.playBoard.botpick = -1;
+      // remove anim from Q
+      this.animationQ.splice(0, 1);
+      // update animation holder
+      anim = this.animationQ[0];
+      // state there's a need to reset
+      reset = true;
+    }
+  }
+  else if (anim === "reverse-animation") {
+    // if animation is on-going
+    if (!this.reverseAnimation.end) {
+      this.reverseAnimation.active = true;
+    }
+    // if animation is over
+    else {
+      // remove anim from Q
+      this.animationQ.splice(0, 1);
+      // update animation holder
+      anim = this.animationQ[0];
+      // state there's a need to reset
+      reset = true;
+    }
+  }
+
+  if (reset === true) {
+    if (anim === "animation") {
+      this.animation.reset();
+      this.animation.active = true;
+    }
+    else if (anim === "reverse-animation") {
+      this.reverseAnimation.reset();
+      this.reverseAnimation.active = true;
+    }
+  }
+
+
+
     if (this.animation.active) {
         this.animation.update(currtime);
         var newpos = this.animation.getPosition();
@@ -118,14 +175,41 @@ Piece.prototype.update = function(currtime) {
 }
 
 Piece.prototype.startAnimation = function() {
-    if (!this.animation.end)
+
+  // queue animation
+  this.animationQ.push("animation");
+  // if there were no animations in Q before this one
+  if (this.animationQ.length === 1) {
+    this.animation.reset();
+    this.animation.active = true;
+  }
+
+    /*if (!this.animation.end)
         this.animation.active = true;
+    else {
+      this.animation.reset();
+      this.animation.active = true;
+
+    }*/
 }
 
 
 Piece.prototype.startReverseAnimation = function() {
-      if (!this.reverseAnimation.end)
+
+  // queue animation
+  this.animationQ.push("reverse-animation");
+  // if there were no animations in Q before this one
+  if (this.animationQ.length === 1) {
+    this.reverseAnimation.reset();
+    this.reverseAnimation.active = true;
+  }
+
+      /*if (!this.reverseAnimation.end)
         this.reverseAnimation.active = true
+      else {
+        this.reverseAnimation.reset();
+        this.reverseAnimation.active = true;
+      }*/
 
 
 };
@@ -133,4 +217,14 @@ Piece.prototype.startReverseAnimation = function() {
 Piece.prototype.resetAnimations = function(){
     this.animation.reset();
     this.reverseAnimation.reset();
+};
+
+/**
+* Check if both animations for this piece are over
+*
+* @return True if animations are over, false otherwise
+*/
+Piece.prototype.checkAnimationDone = function(){
+
+  return (this.animation.end && this.reverseAnimation.end);
 };
