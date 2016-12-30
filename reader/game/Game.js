@@ -527,6 +527,8 @@ Game.prototype.update = function(currTime) {
 
 			if (piece.animation.end === true) {
 				this.pieceAnimsQ.splice(0, 1);
+				// do it here, in orde to avoid bot vs bot going too fast
+				new RequestGameCheck(this);
 
         // update delay for popAll
         if (this.popAllDelay > 0) {
