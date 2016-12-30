@@ -6,6 +6,11 @@
  */
 function RequestPlayBot(game) {
 
+  if (game.over) {
+    console.log("Game is over, bot can't play!");
+    return;
+  }
+
   // request type
   var type = "playBot";
 
@@ -32,7 +37,7 @@ function RequestPlayBot(game) {
 
       // place piece
       game.switchPieceBoard(id);
-      
+
       // store play
       game.storePlay(new Play(game.currPlayer, id, game));
 
