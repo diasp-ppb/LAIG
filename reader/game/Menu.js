@@ -18,7 +18,7 @@ function Menu(scene,id){
 
    this.font = new Font(scene);
 
-};
+}
 
 
 Menu.prototype = Object.create(CGFobject.prototype);
@@ -104,7 +104,7 @@ Menu.prototype.updateOptions = function (customId){
       break;
       case 68:
       this.newGame();
-      break; 
+      break;
 
     default:
       break;
@@ -114,17 +114,25 @@ Menu.prototype.updateOptions = function (customId){
 
 //BOT BOT
 Menu.prototype.BvB = function(){
-
+  this.scene.game.botDiff = "easy";
+  this.scene.game.botTurn = true;
+  this.scene.game.twoBots = true;
+  new RequestPlayBot(this.scene.game);
 };
 
 //HUMAN HUMAN
 Menu.prototype.HvH = function(){
-
+  this.scene.game.botDiff = "none";
+  this.scene.game.botTurn = false;
+  this.scene.game.twoBots = false;
 };
 
 //HUMAN BOT
 Menu.prototype.HvB = function(){
-
+  this.scene.game.botDiff = "easy";
+  this.scene.game.botTurn = true;
+  this.scene.game.twoBots = false;
+  new RequestPlayBot(this.scene.game);
 };
 
 Menu.prototype.easyMode = function(){
@@ -136,7 +144,7 @@ Menu.prototype.hardMode = function(){
 };
 
 Menu.prototype.filmMode = function(){
-
+  this.scene.game.playMovie();
 };
 
 Menu.prototype.newGame = function() {
