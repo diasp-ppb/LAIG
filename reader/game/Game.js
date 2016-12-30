@@ -15,16 +15,14 @@ function Game(scene) {
 
     this.playBoard = new GameBoard(this.scene, 2, 0);
 
-
+    //Results and message displayer
     this.scoreBoard = new ScoreBoard(scene);
 
 
     this.piecesBlack = this.createPieces(1, 0, 0);
     this.piecesWhite = this.createPieces(0, offsetWhiteX, 0);
 
-
-
-
+   
     // player1 or player2
     this.currPlayer = "player1";
 
@@ -98,7 +96,7 @@ Game.prototype.display = function() {
 
  // SCOREBOARDD
     this.scene.pushMatrix();
-    this.scene.translate(1.5, 0, -7);
+    this.scene.translate(1.5, -0.2, -7);
     this.scoreBoard.display();
 
     this.scene.translate(0, 0, 14);
@@ -106,7 +104,7 @@ Game.prototype.display = function() {
     this.scoreBoard.display();
     this.scene.popMatrix();
 
-//BOARDS
+   //BOARDS
     this.scene.pushMatrix();
 
     this.scene.rotate(-1.57, 1, 0, 0);
@@ -117,7 +115,7 @@ Game.prototype.display = function() {
     this.sideBoardWhite.display();
 
 
-
+    // object with picking  
     this.playBoard.display();
 
     this.scene.popMatrix();

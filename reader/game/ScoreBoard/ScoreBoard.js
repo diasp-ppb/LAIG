@@ -20,7 +20,7 @@ function ScoreBoard(scene) {
     //  this.backTimer = new Rectangle(scene,[0,0],[2,4]);
 
     this.font = new Font(scene);
-
+    
 };
 
 
@@ -110,6 +110,6 @@ ScoreBoard.prototype.fault = function(currentPlayer) {
 
 
 ScoreBoard.prototype.resetTimer =function (){
- this.msg.updateString("     ");
+ this.msg.updateString("      ");
  this.timer.value = this.turntime;
 };

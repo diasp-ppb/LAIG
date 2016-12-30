@@ -47,6 +47,9 @@ XMLscene.prototype.init = function(application) {
 
 
     this.game = new Game(this);
+    //game options selector 
+    this.menu = new Menu(this,62);
+
 
 };
 
@@ -130,6 +133,8 @@ XMLscene.prototype.display = function() {
 
 
         this.game.display();
+        
+        this.menu.display();
 
 
     }
@@ -253,9 +258,15 @@ XMLscene.prototype.logPicking = function() {
                 var obj = this.pickResults[i][0];
                 if (obj) {
                     var customId = this.pickResults[i][1];
+                    if(customId < 62){
                     this.game.updateBoardPick(customId);
                     console.log(this.game.playBoard.getPosition(customId));
                     console.log(customId);
+                    }
+                    else{
+                        console.log(customId);
+                        this.menu.updateOptions(customId);
+                    }
                 }
             }
             this.pickResults.splice(0, this.pickResults.length);
