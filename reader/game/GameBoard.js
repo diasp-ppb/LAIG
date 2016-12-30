@@ -85,6 +85,10 @@ function GameBoard(scene, x, y) {
     this.border = new Torus(scene, 0.8, 0.9, 6, 4);
     this.conector = new Cylinder(scene, 6, 3, 0.06, 0.06, 1.99);
 
+    // time of last pick update
+    this.lastPickUpdate = 0;
+    // true when picking was just updated
+    this.pickUpdated = false;
 
 
 }
@@ -175,6 +179,7 @@ GameBoard.prototype.createCells = function() {
 
 GameBoard.prototype.updatePick = function(id) {
 	this.pick = id;
+  this.pickUpdated = true;
 	this.lockCell(id);
 };
 

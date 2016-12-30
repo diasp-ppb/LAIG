@@ -32,7 +32,7 @@ function RequestPlayBot(game) {
 
       // place piece
       game.switchPieceBoard(id);
-      game.playBoard.botpick = id;
+      
       // store play
       game.storePlay(new Play(game.currPlayer, id, game));
 

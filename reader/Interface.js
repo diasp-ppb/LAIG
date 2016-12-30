@@ -60,6 +60,12 @@ Interface.prototype.processKeyDown = function(event) {
     }
     break;
 
+    case 87: { // W
+      console.log("Play movie!");
+      this.scene.game.playMovie();
+    }
+    break;
+
     case 90: { // ctrl+z
       if (event.ctrlKey) {
         console.log("Ctrl+Z pressed!");
