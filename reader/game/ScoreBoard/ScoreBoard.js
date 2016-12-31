@@ -109,7 +109,8 @@ ScoreBoard.prototype.fault = function(currentPlayer) {
 };  
 
 
-ScoreBoard.prototype.resetTimer =function (){
+ScoreBoard.prototype.resetTimer =function (bool){
+if(!bool)
  this.msg.updateString("      ");
  this.timer.value = this.turntime;
 };

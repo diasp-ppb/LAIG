@@ -293,7 +293,7 @@ Game.prototype.switchTurn = function() {
 	}
 
 	//reset timer
-	this.scoreBoard.resetTimer();
+	this.scoreBoard.resetTimer(this.twoBots);
 };
 
 /**
@@ -335,7 +335,7 @@ Game.prototype.popPlay = function() {
 	// update player turn
 	this.currPlayer = play.player;
 	//reset timer
-	this.scoreBoard.resetTimer();
+	this.scoreBoard.resetTimer(this.twoBots);
 
 	// remove piece from board
 	this.removePieceBoard(play.piece);
@@ -535,7 +535,7 @@ Game.prototype.update = function(currTime) {
 			if (piece.animation.end === true) {
 				this.pieceAnimsQ.splice(0, 1);
 				 //reset Timer
-      this.scoreBoard.resetTimer();
+  			    this.scoreBoard.resetTimer(this.twoBots);
         // update delay for popAll
         if (this.popAllDelay > 0) {
           this.popAllDelay--;
