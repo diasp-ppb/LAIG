@@ -200,6 +200,7 @@ Menu.prototype.updateOptions = function (customId){
 Menu.prototype.BvB = function(){
   if (this.scene.game.pieceAnimsQ.length !== 0)
   {
+    this.scene.game.scoreBoard.setMsg("WAIT QUEUED ACTIONS TO FINISH");
     console.log("You need to wait for all queued actions to finish before switching game mode!");
     return;
   }

@@ -315,6 +315,7 @@ Game.prototype.storePlay = function(play) {
 Game.prototype.popPlay = function() {
 
 	if (this.twoBots === true || this.plays.length === 0) {
+		this.scoreBoard.setMsg("NO PLAYS TO UNDO");
     console.log("No plays to undo! Ctrl+Z doesn't work in bot vs bot mode!");
 		return;
 	}
@@ -430,11 +431,13 @@ Game.prototype.playMovie = function() {
 
   // only allows one movie at a time
   if (this.popAllList.length > 0) {
+		this.scoreBoard.setMsg("MOVIE IN PROGRESS OR QUEUED");
     console.log("Movie already in progress!");
     return;
   }
 
   if (this.twoBots === true) {
+		this.scoreBoard.setMsg("NO MOVIE TO SHOW");
     console.log("This feature is disabled for bot vs bot!");
     return;
   }
