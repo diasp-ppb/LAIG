@@ -33,9 +33,9 @@ function RequestValidatePlay(game, pickId) {
 
         // store play
         game.storePlay(new Play(game.currPlayer, pickId, game));
-        
+
         // check for game over
-        //new RequestGameCheck(game);
+        new RequestGameCheck(game);
     }
     else {
       game.scoreBoard.setMsg("INVALID");

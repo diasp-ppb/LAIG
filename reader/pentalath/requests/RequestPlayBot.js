@@ -43,7 +43,7 @@ function RequestPlayBot(game) {
       game.storePlay(new Play(game.currPlayer, id, game));
 
       // check for game over
-      //new RequestGameCheck(game);
+      new RequestGameCheck(game);
 
       //reset Timer
       game.scoreBoard.resetTimer();

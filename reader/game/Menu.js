@@ -198,6 +198,11 @@ Menu.prototype.updateOptions = function (customId){
 
 //BOT BOT
 Menu.prototype.BvB = function(){
+  if (this.scene.game.pieceAnimsQ.length !== 0)
+  {
+    console.log("You need to wait for all queued actions to finish before switching game mode!");
+    return;
+  }
   this.scene.game.botDiff = "easy";
   this.scene.game.botTurn = true;
   this.scene.game.twoBots = true;
@@ -233,7 +238,7 @@ Menu.prototype.easyMode = function(){
   this.active[4] = false;
   this.turnTime = 30;
    this.scene.game.scoreBoard.setTurnTime(this.turnTime);
-  
+
 };
 
 Menu.prototype.hardMode = function(){

@@ -355,37 +355,14 @@ Game.prototype.popPlay = function() {
 /** id range 1 - 61*/
 Game.prototype.switchPieceBoard = function(id) {
 
-	var swap;
-	if (this.pieceAnimsQ.length % 2 !== 0) {
-		swap = true;
-	}
-	else {
-		swap = false;
-	}
-
-	if (this.pieceAnimsQ.length === 0)
-	{
-		swap = false;
-	}
-
 	var piece;
 
 	if (this.currPlayer === "player1") {
-		if (swap) {
-			// get black piece
-			piece = this.getPieceBlack(id);
-		} else {
 			// get white piece
 			piece = this.getPieceWhite(id);
-		}
 	} else if (this.currPlayer === "player2") {
-			if (swap) {
-			// get black piece
-			piece = this.getPieceWhite(id);
-		} else {
 			// get black piece
 			piece = this.getPieceBlack(id);
-		}
 	}
 
 	// get array coordinates of picked cell
@@ -554,8 +531,6 @@ Game.prototype.update = function(currTime) {
 
 			if (piece.animation.end === true) {
 				this.pieceAnimsQ.splice(0, 1);
-				// do it here, in orde to avoid bot vs bot going too fast
-				new RequestGameCheck(this);
 
         // update delay for popAll
         if (this.popAllDelay > 0) {
