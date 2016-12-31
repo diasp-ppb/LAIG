@@ -45,8 +45,7 @@ function RequestPlayBot(game) {
       // check for game over
       new RequestGameCheck(game);
 
-      //reset Timer
-      game.scoreBoard.resetTimer();
+     
     }
 
   };

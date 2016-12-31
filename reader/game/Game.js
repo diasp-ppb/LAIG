@@ -534,7 +534,8 @@ Game.prototype.update = function(currTime) {
 
 			if (piece.animation.end === true) {
 				this.pieceAnimsQ.splice(0, 1);
-
+				 //reset Timer
+      this.scoreBoard.resetTimer();
         // update delay for popAll
         if (this.popAllDelay > 0) {
           this.popAllDelay--;
